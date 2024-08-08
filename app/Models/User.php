@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,11 +10,6 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'cpf',
@@ -22,26 +18,16 @@ class User extends Authenticatable
         'sexo',
         'data_nascimento',
         'endereco',
-        'cargo', // Cargo do usuário (admin, professor, recepcionista)
+        'cargo', // Cargo do usuário (Professor, Recepcionista, Administrador)
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
@@ -51,8 +37,11 @@ class User extends Authenticatable
     /**
      * Check if the user has a specific cargo.
      *
-     * @param string|array $cargo
+     * @param string $cargo
      * @return bool
      */
-
+    public function hasCargo($cargo): bool
+    {
+        return $this->cargo === $cargo;
+    }
 }

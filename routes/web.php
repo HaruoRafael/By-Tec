@@ -1,12 +1,12 @@
 <?php
+
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\ExercicioController;
 use App\Http\Controllers\AvaliacaoController;
-use App\Http\Controllers\TreinoController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Middleware\CheckRole;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,28 +30,24 @@ Route::middleware('auth')->group(function () {
     Route::resource('avaliacoes', AvaliacaoController::class);
     Route::get('/alunos/{aluno}/avaliacoes/create', [AvaliacaoController::class, 'create'])->name('avaliacao.create');
     Route::post('/alunos/{aluno}/avaliacoes', [AvaliacaoController::class, 'store'])->name('avaliacao.store');
-    Route::get('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'show'])->name('avaliacao.show'); // Adicionando a rota de show
-
-
-    Route::get('/alunos/{aluno}/avaliacao/create', [AvaliacaoController::class, 'create'])->name('avaliacao.create');
-    Route::post('/alunos/{aluno}/avaliacao', [AvaliacaoController::class, 'store'])->name('avaliacao.store');
     Route::get('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'show'])->name('avaliacao.show');
     Route::get('/avaliacoes/{avaliacao}/edit', [AvaliacaoController::class, 'edit'])->name('avaliacao.edit');
     Route::put('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'update'])->name('avaliacao.update');
     Route::delete('/avaliacoes/{id}', [AvaliacaoController::class, 'destroy'])->name('avaliacao.destroy');
 
-    Route::get('/funcionarios', [ProfileController::class, 'index'])->name('funcionarios.index');
-    Route::get('/funcionarios/create', function () {
-        return view('funcionarios.create');
-    })->name('funcionarios.create');
-    Route::get('/funcionarios/{user}', [ProfileController::class, 'show'])->name('funcionarios.show');
-    Route::post('/funcionarios', [RegisteredUserController::class, 'store'])->name('funcionarios.store');
-    Route::put('/funcionarios/{user}', [ProfileController::class, 'update'])->name('funcionarios.update');
-
-
-
+    Route::middleware(['auth', CheckRole::class.':Administrador'])->group(function () {
+        Route::get('/funcionarios', [ProfileController::class, 'index'])->name('funcionarios.index');
+        Route::get('/funcionarios/create', function () {
+            return view('funcionarios.create');
+        })->name('funcionarios.create');
+        Route::get('/funcionarios/{user}', [ProfileController::class, 'show'])->name('funcionarios.show');
+        Route::post('/funcionarios', [RegisteredUserController::class, 'store'])->name('funcionarios.store');
+        Route::put('/funcionarios/{user}', [ProfileController::class, 'update'])->name('funcionarios.update');
+    });
 });
 
-
+Route::get('/access-denied', function () {
+    return view('access-denied');
+})->name('access.denied');
 
 require __DIR__.'/auth.php';

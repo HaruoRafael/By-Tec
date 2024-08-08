@@ -45,12 +45,12 @@
                                 </thead>
                                 <tbody>
                                     @foreach($alunos as $aluno)
-                                        <tr class="bg-[#3d3d3d] {{ $aluno->status == 'Removido' ? 'bg-red-500' : '' }}">
-                                            <td class="px-5 py-4 text-yellow-500 whitespace-nowrap">{{ $aluno->nome }}</td>
-                                            <td class="px-5 py-4 text-yellow-500 whitespace-nowrap">{{ $aluno->idade }}</td>
-                                            <td class="px-5 py-4 text-yellow-500 whitespace-nowrap">{{ $aluno->sexo }}</td>
-                                            <td class="px-5 py-4 text-yellow-500 whitespace-nowrap">{{ $aluno->status }}</td>
-                                            <td class="px-5 py-4 text-yellow-500 whitespace-nowrap">
+                                        <tr class="bg-[#3d3d3d] {{ $aluno->status == 'Removido' ? 'text-red-500' : 'text-yellow-500' }}">
+                                            <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->nome }}</td>
+                                            <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->idade }}</td>
+                                            <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->sexo }}</td>
+                                            <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->status }}</td>
+                                            <td class="px-5 py-4 whitespace-nowrap">
                                                 <a href="{{ route('alunos.show', $aluno->id) }}" class="text-blue-500 hover:text-blue-700">Ver</a>
                                             </td>
                                         </tr>

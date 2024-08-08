@@ -103,6 +103,38 @@
                             <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">Cancelar</button>
                         </div>
                     </form>
+
+                    <!-- Formulário de atualização de senha -->
+                    <h2 class="text-2xl font-bold mt-8 mb-4">Atualizar Senha</h2>
+                    <form action="{{ route('password.update') }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-4">
+                            <label for="current_password" class="block text-sm font-medium text-yellow-500">Senha Atual</label>
+                            <input type="password" id="current_password" name="current_password" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 bg-white" required>
+                            @error('current_password', 'updatePassword')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="block text-sm font-medium text-yellow-500">Nova Senha</label>
+                            <input type="password" id="password" name="password" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 bg-white" required>
+                            @error('password', 'updatePassword')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password_confirmation" class="block text-sm font-medium text-yellow-500">Confirmar Nova Senha</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 bg-white" required>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">Atualizar Senha</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

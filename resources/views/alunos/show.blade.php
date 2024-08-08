@@ -267,7 +267,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($aluno->avaliacoes as $avaliacao)
-                                        <tr id="avaliacao-{{ $avaliacao->id }}" class="bg-gray-700">
+                                        <tr id="avaliacao-{{ $avaliacao->id }}" class="bg-[#2d2d2d]">
                                             <td class="border px-4 py-2 text-yellow-500">{{ $avaliacao->data }}</td>
                                             <td class="border px-4 py-2 text-yellow-500">{{ $avaliacao->avaliador }}</td>
                                             <td class="border px-4 py-2 text-yellow-500">
