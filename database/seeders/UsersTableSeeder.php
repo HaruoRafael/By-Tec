@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -22,6 +21,7 @@ class UsersTableSeeder extends Seeder
                 'cargo' => 'Administrador',
                 'email' => 'admin@example.com',
                 'password' => Hash::make('password'),
+                'status' => 'Ativo', // Adicionando o campo status
             ],
             [
                 'name' => 'Professor Example',
@@ -34,6 +34,7 @@ class UsersTableSeeder extends Seeder
                 'cargo' => 'Professor',
                 'email' => 'professor@example.com',
                 'password' => Hash::make('password'),
+                'status' => 'Ativo', // Adicionando o campo status
             ],
             [
                 'name' => 'Recepcionista Example',
@@ -46,6 +47,7 @@ class UsersTableSeeder extends Seeder
                 'cargo' => 'Recepcionista',
                 'email' => 'recepcionista@example.com',
                 'password' => Hash::make('password'),
+                'status' => 'Ativo', // Adicionando o campo status
             ],
         ]);
     }

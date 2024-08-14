@@ -18,9 +18,10 @@ class User extends Authenticatable
         'sexo',
         'data_nascimento',
         'endereco',
-        'cargo', // Cargo do usuário (Professor, Recepcionista, Administrador)
+        'cargo',
         'email',
         'password',
+        'status',  // Adicione isto
     ];
 
     protected $hidden = [

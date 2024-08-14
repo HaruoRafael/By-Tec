@@ -13,3 +13,6 @@ tela de treino show
 arrumar o style do avalição e otimizar as paginas
 
 -------------------------
+
+
+php artisan migrate:fresh --seed

@@ -26,11 +26,18 @@ class ProfileController extends Controller
             $query->where('cpf', 'LIKE', "%{$cpf}%");
         }
 
+        if ($request->has('status')) {
+            $status = $request->input('status');
+            $query->whereIn('status', $status);
+        } else {
+            // Se nenhum status for selecionado, exibir apenas funcionários ativos
+            $query->where('status', 'Ativo');
+        }
+
         $funcionarios = $query->orderBy('name')->get();
 
         return view('funcionarios.index', compact('funcionarios'));
     }
-
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -51,6 +58,7 @@ class ProfileController extends Controller
             'cargo' => ['required', 'string', 'in:Professor,Recepcionista,Administrador'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'status' => ['required', 'in:Ativo,Desativado'], // Validação do status
         ]);
 
         if ($validator->fails()) {
@@ -74,22 +82,14 @@ class ProfileController extends Controller
         return Redirect::route('funcionarios.show', $user->id)->with('status', 'profile-updated');
     }
 
-    public function destroy(Request $request): RedirectResponse
+    public function destroy($id): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        $user = User::findOrFail($id);
 
-        $user = $request->user();
+        $user->status = 'Desativado';
+        $user->save();
 
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return Redirect::route('funcionarios.index')->with('success', 'Funcionário desativado com sucesso.');
     }
 
     public function show(User $user): View
@@ -98,4 +98,23 @@ class ProfileController extends Controller
             'user' => $user,
         ]);
     }
+    public function remove(User $user): RedirectResponse
+    {
+        // Atualiza o status do usuário para 'Desativado'
+        $user->status = 'Desativado';
+        $user->save();
+
+        // Redireciona de volta para a lista de funcionários com uma mensagem de sucesso
+        return Redirect::route('funcionarios.index')->with('success', 'Funcionário desativado com sucesso.');
+    }
+    public function reativar(User $user): RedirectResponse
+{
+    // Atualiza o status do usuário para 'Ativo'
+    $user->status = 'Ativo';
+    $user->save();
+
+    // Redireciona de volta para a página de detalhes do funcionário com uma mensagem de sucesso
+    return Redirect::route('funcionarios.show', $user->id)->with('success', 'Funcionário reativado com sucesso.');
+}
+
 }

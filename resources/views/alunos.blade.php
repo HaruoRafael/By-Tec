@@ -50,6 +50,6 @@
             <p>Nenhum aluno encontrado.</p>
         @endif
     </div>
-    
+
 </body>
 </html>

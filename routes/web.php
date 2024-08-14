@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AlunoController;
@@ -33,9 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'show'])->name('avaliacao.show');
     Route::get('/avaliacoes/{avaliacao}/edit', [AvaliacaoController::class, 'edit'])->name('avaliacao.edit');
     Route::put('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'update'])->name('avaliacao.update');
-    Route::delete('/avaliacoes/{id}', [AvaliacaoController::class, 'destroy'])->name('avaliacao.destroy');
+    Route::delete('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'destroy'])->name('avaliacao.destroy');
 
-    Route::middleware(['auth', CheckRole::class.':Administrador'])->group(function () {
+    Route::middleware([CheckRole::class.':Administrador'])->group(function () {
         Route::get('/funcionarios', [ProfileController::class, 'index'])->name('funcionarios.index');
         Route::get('/funcionarios/create', function () {
             return view('funcionarios.create');
@@ -43,6 +42,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/funcionarios/{user}', [ProfileController::class, 'show'])->name('funcionarios.show');
         Route::post('/funcionarios', [RegisteredUserController::class, 'store'])->name('funcionarios.store');
         Route::put('/funcionarios/{user}', [ProfileController::class, 'update'])->name('funcionarios.update');
+        Route::delete('/funcionarios/{user}', [ProfileController::class, 'remove'])->name('funcionarios.remove'); // Adicionando rota de remoção
+        Route::post('/funcionarios/{user}/reativar', [ProfileController::class, 'reativar'])->name('funcionarios.reativar');
     });
 });
 

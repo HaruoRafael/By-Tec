@@ -104,7 +104,6 @@
                         </div>
                     </form>
 
-                    <!-- Formulário de atualização de senha -->
                     <h2 class="text-2xl font-bold mt-8 mb-4">Atualizar Senha</h2>
                     <form action="{{ route('password.update') }}" method="POST">
                         @csrf
@@ -135,34 +134,85 @@
                             <button type="submit" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">Atualizar Senha</button>
                         </div>
                     </form>
+
+                    @if($user->status === 'Desativado')
+                        <form id="formReativarFuncionario" action="{{ route('funcionarios.reativar', $user->id) }}" method="POST" class="mt-10">
+                            @csrf
+                            <button type="button" id="btnReativar" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700" onclick="mostrarConfirmacaoReativacao()">Reativar</button>
+                        </form>
+                    @else
+                        <form id="formRemoverFuncionario" action="{{ route('funcionarios.remove', $user->id) }}" method="POST" class="mt-10">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" id="btnRemover" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700" onclick="mostrarConfirmacao()">Remover</button>
+                        </form>
+                    @endif
+
+                    <div id="confirmacaoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+                        <div class="bg-black bg-opacity-50 absolute inset-0"></div>
+                        <div class="bg-[#2d2d2d] p-6 rounded-md shadow-lg z-10">
+                            <h3 class="text-lg text-yellow-500">Tem certeza que deseja remover este funcionário?</h3>
+                            <div class="flex justify-end mt-4">
+                                <button class="px-4 py-2 bg-gray-500 text-white rounded-md mr-2 hover:bg-gray-600" onclick="esconderConfirmacao()">Cancelar</button>
+                                <button type="submit" form="formRemoverFuncionario" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remover</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="confirmacaoReativacaoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+                        <div class="bg-black bg-opacity-50 absolute inset-0"></div>
+                        <div class="bg-[#2d2d2d] p-6 rounded-md shadow-lg z-10">
+                            <h3 class="text-lg text-yellow-500">Tem certeza que deseja reativar este funcionário?</h3>
+                            <div class="flex justify-end mt-4">
+                                <button class="px-4 py-2 bg-gray-500 text-white rounded-md mr-2 hover:bg-gray-600" onclick="esconderConfirmacaoReativacao()">Cancelar</button>
+                                <button type="submit" form="formReativarFuncionario" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Reativar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function mostrarConfirmacao() {
+                            document.getElementById('confirmacaoModal').classList.remove('hidden');
+                        }
+
+                        function esconderConfirmacao() {
+                            document.getElementById('confirmacaoModal').classList.add('hidden');
+                        }
+
+                        function mostrarConfirmacaoReativacao() {
+                            document.getElementById('confirmacaoReativacaoModal').classList.remove('hidden');
+                        }
+
+                        function esconderConfirmacaoReativacao() {
+                            document.getElementById('confirmacaoReativacaoModal').classList.add('hidden');
+                        }
+
+                        var valoresOriginais = {};
+
+                        function habilitarEdicao() {
+                            var campos = document.querySelectorAll('input, select, textarea');
+                            campos.forEach(function(campo) {
+                                valoresOriginais[campo.name] = campo.value;
+                                campo.removeAttribute('readonly');
+                                campo.removeAttribute('disabled');
+                            });
+                            document.getElementById('btnSalvar').style.display = 'block';
+                            document.getElementById('btnCancelar').style.display = 'inline-block';
+                        }
+
+                        function cancelarEdicao() {
+                            var campos = document.querySelectorAll('input, select, textarea');
+                            campos.forEach(function(campo) {
+                                campo.value = valoresOriginais[campo.name] || '';
+                                campo.setAttribute('readonly', true);
+                                campo.setAttribute('disabled', true);
+                            });
+                            document.getElementById('btnSalvar').style.display = 'none';
+                            document.getElementById('btnCancelar').style.display = 'none';
+                        }
+                    </script>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        var valoresOriginais = {};
-
-        function habilitarEdicao() {
-            var campos = document.querySelectorAll('input, select, textarea');
-            campos.forEach(function(campo) {
-                valoresOriginais[campo.name] = campo.value;
-                campo.removeAttribute('readonly');
-                campo.removeAttribute('disabled');
-            });
-            document.getElementById('btnSalvar').style.display = 'block';
-            document.getElementById('btnCancelar').style.display = 'inline-block';
-        }
-
-        function cancelarEdicao() {
-            var campos = document.querySelectorAll('input, select, textarea');
-            campos.forEach(function(campo) {
-                campo.value = valoresOriginais[campo.name] || '';
-                campo.setAttribute('readonly', true);
-                campo.setAttribute('disabled', true);
-            });
-            document.getElementById('btnSalvar').style.display = 'none';
-            document.getElementById('btnCancelar').style.display = 'none';
-        }
-    </script>
 </x-app-layout>
