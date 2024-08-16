@@ -124,16 +124,18 @@
                             </div>
 
                             <div class="flex justify-end space-x-2">
-                                <button type="button" onclick="habilitarEdicao()"
-                                    class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Editar</button>
-                                <button type="submit" id="btnSalvar" style="display: none;"
-                                    class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">Salvar</button>
-                                <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()"
-                                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">Cancelar</button>
+                                @if(Auth::user()->cargo !== 'Professor')
+                                    <button type="button" onclick="habilitarEdicao()"
+                                        class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Editar</button>
+                                    <button type="submit" id="btnSalvar" style="display: none;"
+                                        class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">Salvar</button>
+                                    <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()"
+                                        class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">Cancelar</button>
+                                @endif
                             </div>
                         </form>
 
-                        @if($aluno->status !== 'Removido')
+                        @if($aluno->status !== 'Removido' && Auth::user()->cargo !== 'Professor')
                             <form id="formRemoverAluno" action="{{ route('alunos.remove', $aluno->id) }}" method="POST"
                                 class="mt-10">
                                 @csrf
@@ -275,9 +277,11 @@
                                                     class="text-blue-500 hover:underline">Ver detalhes</a>
                                             </td>
                                             <td class="border px-4 py-2 text-yellow-500">
-                                                <button type="button"
-                                                    class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
-                                                    onclick="removerAvaliacao({{ $avaliacao->id }})">Remover</button>
+                                                @if(Auth::user()->cargo !== 'Professor')
+                                                    <button type="button"
+                                                        class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
+                                                        onclick="removerAvaliacao({{ $avaliacao->id }})">Remover</button>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

@@ -49,6 +49,16 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Verifica se o usuário está desativado
+        $user = Auth::user();
+        if ($user->status === 'Desativado') {
+            Auth::logout(); // Desloga o usuário
+
+            throw ValidationException::withMessages([
+                'email' => 'Sua conta foi desativada. Por favor, contate o administrador.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

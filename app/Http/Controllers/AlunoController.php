@@ -3,17 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Aluno;
 use App\Rules\CPF;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class AlunoController extends Controller
 {
-
-
-
     public function index(Request $request)
     {
         $query = Aluno::query();
@@ -56,7 +53,6 @@ class AlunoController extends Controller
         return view('alunos.create');
     }
 
-
     public function store(Request $request)
     {
         $request->validate([
@@ -88,20 +84,29 @@ class AlunoController extends Controller
         return redirect()->route('alunos.index')->with('success', 'Aluno cadastrado com sucesso.');
     }
 
-
     public function show(Aluno $aluno)
     {
         return view('alunos.show', compact('aluno'));
     }
 
-
     public function edit(string $id)
     {
-    }
+        // Verificação do cargo para impedir a edição
+        if (Auth::user()->cargo === 'Professor') {
+            return redirect()->route('alunos.show', $id)->with('error', 'Você não tem permissão para editar o perfil do aluno.');
+        }
 
+        $aluno = Aluno::findOrFail($id);
+        return view('alunos.edit', compact('aluno'));
+    }
 
     public function update(Request $request, string $id)
     {
+        // Verificação do cargo para impedir a edição
+        if (Auth::user()->cargo === 'Professor') {
+            return redirect()->route('alunos.show', $id)->with('error', 'Você não tem permissão para editar o perfil do aluno.');
+        }
+
         $request->validate([
             'nome' => 'required|string|max:255',
             'cpf' => ['required', new CPF],
@@ -136,8 +141,13 @@ class AlunoController extends Controller
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Perfil do aluno atualizado com sucesso.');
     }
 
-      public function destroy($id)
+    public function destroy($id)
     {
+        // Verificação do cargo para impedir a remoção
+        if (Auth::user()->cargo === 'Professor') {
+            return redirect()->route('alunos.show', $id)->with('error', 'Você não tem permissão para remover alunos.');
+        }
+
         $aluno = Aluno::findOrFail($id);
 
         $aluno->status = 'Removido';
@@ -145,10 +155,14 @@ class AlunoController extends Controller
 
         return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso.');
     }
-
 
     public function remove($id)
     {
+        // Verificação do cargo para impedir a remoção
+        if (Auth::user()->cargo === 'Professor') {
+            return redirect()->route('alunos.show', $id)->with('error', 'Você não tem permissão para remover alunos.');
+        }
+
         $aluno = Aluno::findOrFail($id);
 
         $aluno->status = 'Removido';
@@ -156,7 +170,6 @@ class AlunoController extends Controller
 
         return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso.');
     }
-
 
     public function search(Request $request)
     {
