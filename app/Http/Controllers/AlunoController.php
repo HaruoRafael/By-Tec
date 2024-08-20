@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Treino;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Aluno;
@@ -36,8 +36,6 @@ class AlunoController extends Controller
         if (!in_array('Removido', $request->input('status', []))) {
             $query->where('status', '!=', 'Removido');
         }
-
-        $query->with('status');
 
         $alunos = $query->orderBy('nome')->get();
 
@@ -91,7 +89,6 @@ class AlunoController extends Controller
 
     public function edit(string $id)
     {
-        // Verificação do cargo para impedir a edição
         if (Auth::user()->cargo === 'Professor') {
             return redirect()->route('alunos.show', $id)->with('error', 'Você não tem permissão para editar o perfil do aluno.');
         }
@@ -102,7 +99,6 @@ class AlunoController extends Controller
 
     public function update(Request $request, string $id)
     {
-        // Verificação do cargo para impedir a edição
         if (Auth::user()->cargo === 'Professor') {
             return redirect()->route('alunos.show', $id)->with('error', 'Você não tem permissão para editar o perfil do aluno.');
         }
@@ -125,60 +121,54 @@ class AlunoController extends Controller
         ]);
 
         $aluno = Aluno::findOrFail($id);
-
-        $aluno->nome = $request->input('nome');
-        $aluno->cpf = $request->input('cpf');
-        $aluno->rg = $request->input('rg');
-        $aluno->telefone = $request->input('telefone');
-        $aluno->sexo = $request->input('sexo');
-        $aluno->data_nascimento = Carbon::parse($request->input('data_nascimento'));
-        $aluno->endereco = $request->input('endereco');
-        $aluno->status = $request->input('status');
-
-        // Salva as alterações no banco de dados
-        $aluno->save();
+        $aluno->update($request->all());
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Perfil do aluno atualizado com sucesso.');
     }
 
     public function destroy($id)
     {
-        // Verificação do cargo para impedir a remoção
         if (Auth::user()->cargo === 'Professor') {
             return redirect()->route('alunos.show', $id)->with('error', 'Você não tem permissão para remover alunos.');
         }
 
         $aluno = Aluno::findOrFail($id);
-
-        $aluno->status = 'Removido';
-        $aluno->save();
+        $aluno->update(['status' => 'Removido']);
 
         return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso.');
     }
 
     public function remove($id)
     {
-        // Verificação do cargo para impedir a remoção
-        if (Auth::user()->cargo === 'Professor') {
-            return redirect()->route('alunos.show', $id)->with('error', 'Você não tem permissão para remover alunos.');
-        }
-
-        $aluno = Aluno::findOrFail($id);
-
-        $aluno->status = 'Removido';
-        $aluno->save();
-
-        return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso.');
+        return $this->destroy($id);
     }
 
     public function search(Request $request)
     {
-        $termo = $request->input('termo');
+        $termo = strtolower($request->input('termo'));
 
-        $termoMinusculo = strtolower($termo);
-
-        $alunos = Aluno::whereRaw('LOWER(nome) LIKE ?', ["%{$termoMinusculo}%"])->get();
+        $alunos = Aluno::whereRaw('LOWER(nome) LIKE ?', ["%{$termo}%"])->get();
 
         return view('alunos.parcial.lista_alunos', compact('alunos'));
+    }
+
+    public function addTreino(Request $request, Aluno $aluno)
+    {
+        $request->validate([
+            'treino_id' => 'required|exists:treinos,id',
+        ]);
+
+        $treino = Treino::find($request->treino_id);
+
+        // Verifique se o treino já está associado ao aluno
+        if ($aluno->treinos->contains($treino)) {
+            return redirect()->route('alunos.show', $aluno->id)
+                ->with('warning', 'Este treino já está associado ao aluno.');
+        }
+
+        $aluno->treinos()->save($treino);
+
+        return redirect()->route('alunos.show', $aluno->id)
+            ->with('success', 'Treino adicionado ao aluno com sucesso.');
     }
 }

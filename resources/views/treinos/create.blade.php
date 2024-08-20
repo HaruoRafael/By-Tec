@@ -1,0 +1,118 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-yellow-500 dark:text-yellow-500 leading-tight">
+            {{ __('Criar Novo Treino de 3 Dias') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-[#2d2d2d] overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-yellow-500 dark:text-yellow-500">
+                    <h2 class="text-2xl font-bold mb-4">Informações do Treino</h2>
+                    <form action="{{ route('treinos.store') }}" method="POST">
+                        @csrf
+
+                        <div class="form-group flex flex-wrap mb-4">
+                            <div class="w-full sm:w-1/2 px-2">
+                                <label for="nome" class="block text-sm font-medium text-yellow-500">Nome do
+                                    Treino*</label>
+                                <input type="text" id="nome" name="nome" value="{{ old('nome') }}"
+                                    class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                @error('nome')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="w-full sm:w-1/2 px-2">
+                                <label for="tipo" class="block text-sm font-medium text-yellow-500">Tipo do
+                                    Treino*</label>
+                                <select id="tipo" name="tipo"
+                                    class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                    <option value="iniciante">Iniciante</option>
+                                    <option value="intermediário">Intermediário</option>
+                                    <option value="avançado">Avançado</option>
+                                </select>
+                                @error('tipo')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        @foreach(['1', '2', '3'] as $dia)
+                            <h3 class="text-xl font-semibold mb-4">Dia {{ $dia }}</h3>
+                            <div class="form-group flex flex-wrap mb-4">
+                                @for ($i = 1; $i <= 6; $i++)
+                                    <div class="w-full flex items-center space-x-4 mb-4">
+                                        <div class="w-full sm:w-1/2">
+                                            <label for="dia{{ $dia }}_exercicio{{ $i }}"
+                                                class="block text-sm font-medium text-yellow-500">Exercício {{ $i }}*</label>
+                                            <select id="dia{{ $dia }}_exercicio{{ $i }}" name="dia{{ $dia }}_exercicios[]"
+                                                class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                                @foreach ($exercicios as $exercicio)
+                                                    <option value="{{ $exercicio->id }}">{{ $exercicio->nome }} -
+                                                        {{ $exercicio->grupo_muscular }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('dia{{ $dia }}_exercicios.' . ($i - 1))
+                                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="w-1/4">
+                                            <label for="dia{{ $dia }}_series{{ $i }}"
+                                                class="block text-sm font-medium text-yellow-500">Séries*</label>
+                                            <input type="number" id="dia{{ $dia }}_series{{ $i }}" name="dia{{ $dia }}_series[]"
+                                                value="{{ old('dia' . $dia . '_series.' . ($i - 1)) }}"
+                                                class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                            @error('dia{{ $dia }}_series.' . ($i - 1))
+                                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                        <div class="w-1/4">
+                                            <label for="dia{{ $dia }}_repeticoes{{ $i }}"
+                                                class="block text-sm font-medium text-yellow-500">Repetições*</label>
+                                            <input type="number" id="dia{{ $dia }}_repeticoes{{ $i }}"
+                                                name="dia{{ $dia }}_repeticoes[]"
+                                                value="{{ old('dia' . $dia . '_repeticoes.' . ($i - 1)) }}"
+                                                class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                            @error('dia{{ $dia }}_repeticoes.' . ($i - 1))
+                                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                @endfor
+                            </div>
+                        @endforeach
+
+                        <div class="form-group flex flex-wrap mb-4">
+                            <div class="w-full px-2">
+                                <button type="submit"
+                                    class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">Salvar
+                                    Treino</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Incluindo as bibliotecas jQuery e jQuery UI para autocompletar -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(function () {
+            var exercicios = [
+                @foreach($exercicios as $exercicio)
+                    "{{ $exercicio->nome }} - {{ $exercicio->grupo_muscular }}",
+                @endforeach
+            ];
+
+            $(".exercicio-autocomplete").autocomplete({
+                source: exercicios,
+                minLength: 2, // começa a sugerir após digitar 2 caracteres
+            });
+        });
+    </script>
+</x-app-layout>

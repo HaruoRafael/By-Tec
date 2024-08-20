@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AlunoController;
 use App\Http\Controllers\ExercicioController;
 use App\Http\Controllers\AvaliacaoController;
+use App\Http\Controllers\TreinoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckRole;
 use App\Http\Middleware\CheckUserStatus;
@@ -35,6 +36,14 @@ Route::middleware('auth')->group(function () {
     Route::put('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'update'])->name('avaliacao.update');
     Route::delete('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'destroy'])->name('avaliacao.destroy');
 
+    // Adicionando as rotas para TreinoController e TreinoCreationController
+    Route::get('treinos/create', [TreinoController::class, 'create'])->name('treinos.create');
+    Route::post('treinos', [TreinoController::class, 'store'])->name('treinos.store');
+    Route::get('treinos/{treino}', [TreinoController::class, 'show'])->name('treinos.show');
+    Route::put('treinos/{treino}', [TreinoController::class, 'update'])->name('treinos.update');
+    Route::delete('treinos/{treino}', [TreinoController::class, 'destroy'])->name('treinos.destroy');
+    Route::get('treinos', [TreinoController::class, 'index'])->name('treinos.index');
+
     Route::middleware([CheckRole::class.':Administrador'])->group(function () {
         Route::get('/funcionarios', [ProfileController::class, 'index'])->name('funcionarios.index');
         Route::get('/funcionarios/create', function () {
@@ -43,7 +52,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/funcionarios/{user}', [ProfileController::class, 'show'])->name('funcionarios.show');
         Route::post('/funcionarios', [RegisteredUserController::class, 'store'])->name('funcionarios.store');
         Route::put('/funcionarios/{user}', [ProfileController::class, 'update'])->name('funcionarios.update');
-        Route::delete('/funcionarios/{user}', [ProfileController::class, 'remove'])->name('funcionarios.remove'); // Adicionando rota de remoção
+        Route::delete('/funcionarios/{user}', [ProfileController::class, 'remove'])->name('funcionarios.remove');
         Route::post('/funcionarios/{user}/reativar', [ProfileController::class, 'reativar'])->name('funcionarios.reativar');
     });
 });

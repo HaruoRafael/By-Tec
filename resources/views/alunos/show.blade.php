@@ -159,6 +159,7 @@
                             </div>
                         </div>
 
+
                         <script>
                             document.addEventListener('DOMContentLoaded', function () {
                                 new Cleave('#cpf', {
@@ -239,6 +240,7 @@
             </div>
         </div>
 
+        <!-- Seção para Avaliações -->
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-[#2d2d2d] overflow-hidden shadow-sm sm:rounded-lg">
@@ -292,8 +294,30 @@
                 </div>
             </div>
         </div>
-    </div>
 
+        <!-- Seção para Treinos -->
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-[#2d2d2d] overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-yellow-500 dark:text-yellow-500">
+                        <h2 class="font-semibold text-xl text-yellow-500 dark:text-yellow-500 leading-tight">
+                            {{ __('Treinos') }}
+                        </h2>
+
+                        <!-- Botão para adicionar novo treino -->
+                        <button class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
+                            Adicionar Treino
+                        </button>
+
+                        <!-- Aqui pode estar a tabela ou outro conteúdo que você precisar -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         function removerAvaliacao(id) {
@@ -304,6 +328,18 @@
                     })
                     .catch(error => {
                         console.error('Erro ao remover avaliação:', error);
+                    });
+            }
+        }
+
+        function removerTreino(id) {
+            if (confirm('Tem certeza que deseja remover este treino?')) {
+                axios.delete(`/treinos/${id}`)
+                    .then(response => {
+                        location.reload(); // Recarrega a página após excluir
+                    })
+                    .catch(error => {
+                        console.error('Erro ao remover treino:', error);
                     });
             }
         }
