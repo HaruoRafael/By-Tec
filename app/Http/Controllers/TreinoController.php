@@ -102,4 +102,11 @@ class TreinoController extends Controller
         $treino->delete();
         return redirect()->route('treinos.index');
     }
+    public function search(Request $request)
+{
+    $termo = $request->input('query');
+    $treinos = Treino::where('nome', 'LIKE', "%{$termo}%")->pluck('nome'); // Retorna apenas os nomes dos treinos
+
+    return response()->json($treinos);
+}
 }

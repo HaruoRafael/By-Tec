@@ -17,7 +17,15 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'cpf' => ['required', 'string', 'max:14', Rule::unique(User::class)->ignore($this->route('user')->id)],
+            'rg' => ['nullable', 'string', 'max:12', Rule::unique(User::class)->ignore($this->route('user')->id)],
+            'telefone' => ['nullable', 'string', 'max:15'],
+            'sexo' => ['nullable', 'string', 'in:masculino,feminino,outro'],
+            'data_nascimento' => ['nullable', 'date'],
+            'endereco' => ['nullable', 'string', 'max:255'],
+            'cargo' => ['nullable', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->route('user')->id)],
+            'status' => ['nullable', 'boolean'],
         ];
     }
 }

@@ -21,7 +21,7 @@ class User extends Authenticatable
         'cargo',
         'email',
         'password',
-        'status',  // Adicione isto
+        'status',  
     ];
 
     protected $hidden = [

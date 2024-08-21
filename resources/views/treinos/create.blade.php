@@ -101,18 +101,4 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <script>
-        $(function () {
-            var exercicios = [
-                @foreach($exercicios as $exercicio)
-                    "{{ $exercicio->nome }} - {{ $exercicio->grupo_muscular }}",
-                @endforeach
-            ];
-
-            $(".exercicio-autocomplete").autocomplete({
-                source: exercicios,
-                minLength: 2, // começa a sugerir após digitar 2 caracteres
-            });
-        });
-    </script>
-</x-app-layout>
+   </x-app-layout>

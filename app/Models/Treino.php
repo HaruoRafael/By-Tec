@@ -20,9 +20,9 @@ class Treino extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function aluno()
+    public function alunos()
     {
-        return $this->belongsTo(Aluno::class);
+        return $this->belongsToMany(Aluno::class);
     }
 }
 

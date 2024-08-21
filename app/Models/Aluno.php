@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Carbon\Carbon;
@@ -42,6 +43,6 @@ class Aluno extends Model
 
     public function treinos()
     {
-        return $this->hasMany(Treino::class);
+        return $this->belongsToMany(Treino::class);
     }
 }

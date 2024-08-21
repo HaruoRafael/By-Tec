@@ -25,6 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('alunos', AlunoController::class);
     Route::get('/alunos/search', [AlunoController::class, 'search'])->name('alunos.search');
     Route::delete('/alunos/{id}', [AlunoController::class, 'remove'])->name('alunos.remove');
+    Route::post('/alunos/{aluno}/add-treino', [AlunoController::class, 'addTreino'])->name('alunos.addTreino');
+    Route::delete('/alunos/{aluno}/remove-treino/{treino}', [AlunoController::class, 'removeTreino'])->name('alunos.removeTreino');
 
     Route::resource('exercicios', ExercicioController::class);
 
@@ -43,6 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::put('treinos/{treino}', [TreinoController::class, 'update'])->name('treinos.update');
     Route::delete('treinos/{treino}', [TreinoController::class, 'destroy'])->name('treinos.destroy');
     Route::get('treinos', [TreinoController::class, 'index'])->name('treinos.index');
+    Route::get('/treinos/search', [TreinoController::class, 'search'])->name('treinos.search');
+
 
     Route::middleware([CheckRole::class.':Administrador'])->group(function () {
         Route::get('/funcionarios', [ProfileController::class, 'index'])->name('funcionarios.index');
@@ -55,6 +59,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('/funcionarios/{user}', [ProfileController::class, 'remove'])->name('funcionarios.remove');
         Route::post('/funcionarios/{user}/reativar', [ProfileController::class, 'reativar'])->name('funcionarios.reativar');
     });
+
+    
 });
 
 Route::get('/access-denied', function () {

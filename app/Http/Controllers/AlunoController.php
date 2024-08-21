@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Treino;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -84,7 +85,9 @@ class AlunoController extends Controller
 
     public function show(Aluno $aluno)
     {
-        return view('alunos.show', compact('aluno'));
+        $treinosDisponiveis = Treino::all(); // Recupera todos os treinos disponíveis
+
+        return view('alunos.show', compact('aluno', 'treinosDisponiveis'));
     }
 
     public function edit(string $id)
@@ -158,17 +161,17 @@ class AlunoController extends Controller
             'treino_id' => 'required|exists:treinos,id',
         ]);
 
-        $treino = Treino::find($request->treino_id);
+        // Associa o treino ao aluno
+        $aluno->treinos()->attach($request->input('treino_id'));
 
-        // Verifique se o treino já está associado ao aluno
-        if ($aluno->treinos->contains($treino)) {
-            return redirect()->route('alunos.show', $aluno->id)
-                ->with('warning', 'Este treino já está associado ao aluno.');
-        }
-
-        $aluno->treinos()->save($treino);
-
-        return redirect()->route('alunos.show', $aluno->id)
-            ->with('success', 'Treino adicionado ao aluno com sucesso.');
+        return redirect()->route('alunos.show', $aluno->id)->with('success', 'Treino adicionado com sucesso.');
     }
+
+    public function removeTreino(Aluno $aluno, Treino $treino)
+{
+    // Remove a associação entre o aluno e o treino
+    $aluno->treinos()->detach($treino->id);
+
+    return redirect()->route('alunos.show', $aluno->id)->with('success', 'Treino removido do perfil do aluno com sucesso.');
+}
 }
