@@ -1,24 +1,25 @@
-tela de user index
-tela de perfil user show
-tela de criar user create
-
+avalição
+OK ?
+Deijar mais bonito como fica o contorno da avalição
+Validar os campos
+Mensagens de erro
 -------------------------
-
-tela de treino index
-tela de treino show
-
+Funcionario
+Validar dados
+arrumar todas as rotas dos Funcionario
+Mensagens de erro
 -------------------------
-
-
-arrumar o style do avalição e otimizar as paginas
-
+Exercicio
+Deletar Exercicio
+Arurmar a pesquisa
+Deijar mais bonito como fica o contorno da avalição
+Mensagens de erro
+Deletar treino
 -------------------------
-
 
 php artisan migrate:fresh --seed
 
-
-
+-----------------------------------
 4 caso de uso
 primeiro caso de uso descrição B2
 

@@ -52,7 +52,7 @@
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="sexo" class="block text-sm font-medium text-yellow-500">Sexo</label>
-                                <select id="sexo" name="sexo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 bg-white">
+                                <select id="sexo" name="sexo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 bg-white" readonly disabled>
                                     <option value="masculino" {{ $user->sexo == 'masculino' ? 'selected' : '' }}>Masculino</option>
                                     <option value="feminino" {{ $user->sexo == 'feminino' ? 'selected' : '' }}>Feminino</option>
                                     <option value="outro" {{ $user->sexo == 'outro' ? 'selected' : '' }}>Outro</option>
