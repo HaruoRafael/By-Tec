@@ -1,5 +1,3 @@
-<!-- resources/views/funcionarios/create.blade.php -->
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-yellow-500 dark:text-yellow-500 leading-tight">
@@ -17,7 +15,7 @@
 
                         <div class="mb-4">
                             <label for="nome" class="block text-sm font-medium text-yellow-500">Nome Completo*</label>
-                            <input type="text" id="nome" name="nome" value="{{ old('nome') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                            <input type="text" id="nome" name="nome" value="{{ old('nome') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                             @error('nome')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -26,14 +24,14 @@
                         <div class="flex flex-wrap -mx-2 mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                                 <label for="cpf" class="block text-sm font-medium text-yellow-500">CPF*</label>
-                                <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="123.456.789-00" value="{{ old('cpf') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                <input type="text" id="cpf" name="cpf" maxlength="14" placeholder="123.456.789-00" value="{{ old('cpf') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                                 @error('cpf')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="rg" class="block text-sm font-medium text-yellow-500">RG</label>
-                                <input type="text" id="rg" name="rg" value="{{ old('rg') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                <input type="text" id="rg" name="rg" value="{{ old('rg') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                                 @error('rg')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -43,14 +41,14 @@
                         <div class="flex flex-wrap -mx-2 mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                                 <label for="telefone" class="block text-sm font-medium text-yellow-500">Telefone</label>
-                                <input type="text" id="telefone" name="telefone" value="{{ old('telefone') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                <input type="text" id="telefone" name="telefone" value="{{ old('telefone') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                                 @error('telefone')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="sexo" class="block text-sm font-medium text-yellow-500">Sexo</label>
-                                <select id="sexo" name="sexo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                <select id="sexo" name="sexo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                                     <option value="M" {{ old('sexo') == 'M' ? 'selected' : '' }}>Masculino</option>
                                     <option value="F" {{ old('sexo') == 'F' ? 'selected' : '' }}>Feminino</option>
                                     <option value="Outro" {{ old('sexo') == 'Outro' ? 'selected' : '' }}>Outro</option>
@@ -64,14 +62,14 @@
                         <div class="flex flex-wrap -mx-2 mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                                 <label for="data_nascimento" class="block text-sm font-medium text-yellow-500">Data de Nascimento*</label>
-                                <input type="date" id="data_nascimento" name="data_nascimento" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" max="{{ date('Y-m-d') }}" value="{{ old('data_nascimento') }}">
+                                <input type="date" id="data_nascimento" name="data_nascimento" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" max="{{ date('Y-m-d') }}" value="{{ old('data_nascimento') }}">
                                 @error('data_nascimento')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="endereco" class="block text-sm font-medium text-yellow-500">Endereço</label>
-                                <input type="text" id="endereco" name="endereco" value="{{ old('endereco') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                <input type="text" id="endereco" name="endereco" value="{{ old('endereco') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                                 @error('endereco')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -80,7 +78,7 @@
 
                         <div class="mb-4">
                             <label for="cargo" class="block text-sm font-medium text-yellow-500">Cargo*</label>
-                            <select id="cargo" name="cargo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                            <select id="cargo" name="cargo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                                 <option value="Professor" {{ old('cargo') == 'Professor' ? 'selected' : '' }}>Professor</option>
                                 <option value="Recepcionista" {{ old('cargo') == 'Recepcionista' ? 'selected' : '' }}>Recepcionista</option>
                                 <option value="Administrador" {{ old('cargo') == 'Administrador' ? 'selected' : '' }}>Administrador</option>
@@ -92,7 +90,7 @@
 
                         <div class="mb-4">
                             <label for="email" class="block text-sm font-medium text-yellow-500">Email*</label>
-                            <input type="email" id="email" name="email" value="{{ old('email') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                             @error('email')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -101,14 +99,14 @@
                         <div class="flex flex-wrap -mx-2 mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                                 <label for="password" class="block text-sm font-medium text-yellow-500">Senha*</label>
-                                <input type="password" id="password" name="password" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                <input type="password" id="password" name="password" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                                 @error('password')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="password_confirmation" class="block text-sm font-medium text-yellow-500">Confirmar Senha*</label>
-                                <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50">
                                 @error('password_confirmation')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror

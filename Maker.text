@@ -5,16 +5,14 @@ Validar os campos
 Mensagens de erro
 -------------------------
 Funcionario
-Validar dados
+Validar os campos
 arrumar todas as rotas dos Funcionario
 Mensagens de erro
 -------------------------
 Exercicio
-Deletar Exercicio
 Arurmar a pesquisa
 Deijar mais bonito como fica o contorno da avalição
 Mensagens de erro
-Deletar treino
 -------------------------
 
 php artisan migrate:fresh --seed

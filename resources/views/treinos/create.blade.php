@@ -28,9 +28,9 @@
                                     Treino*</label>
                                 <select id="tipo" name="tipo"
                                     class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
-                                    <option value="iniciante">Iniciante</option>
-                                    <option value="intermediário">Intermediário</option>
-                                    <option value="avançado">Avançado</option>
+                                    <option value="iniciante" {{ old('tipo') == 'iniciante' ? 'selected' : '' }}>Iniciante</option>
+                                    <option value="intermediário" {{ old('tipo') == 'intermediário' ? 'selected' : '' }}>Intermediário</option>
+                                    <option value="avançado" {{ old('tipo') == 'avançado' ? 'selected' : '' }}>Avançado</option>
                                 </select>
                                 @error('tipo')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -49,11 +49,11 @@
                                             <select id="dia{{ $dia }}_exercicio{{ $i }}" name="dia{{ $dia }}_exercicios[]"
                                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
                                                 @foreach ($exercicios as $exercicio)
-                                                    <option value="{{ $exercicio->id }}">{{ $exercicio->nome }} -
+                                                    <option value="{{ $exercicio->id }}" {{ old("dia{$dia}_exercicios.$i") == $exercicio->id ? 'selected' : '' }}>{{ $exercicio->nome }} -
                                                         {{ $exercicio->grupo_muscular }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('dia{{ $dia }}_exercicios.' . ($i - 1))
+                                            @error("dia{$dia}_exercicios." . ($i - 1))
                                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -63,7 +63,7 @@
                                             <input type="number" id="dia{{ $dia }}_series{{ $i }}" name="dia{{ $dia }}_series[]"
                                                 value="{{ old('dia' . $dia . '_series.' . ($i - 1)) }}"
                                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
-                                            @error('dia{{ $dia }}_series.' . ($i - 1))
+                                            @error("dia{$dia}_series." . ($i - 1))
                                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -74,7 +74,7 @@
                                                 name="dia{{ $dia }}_repeticoes[]"
                                                 value="{{ old('dia' . $dia . '_repeticoes.' . ($i - 1)) }}"
                                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
-                                            @error('dia{{ $dia }}_repeticoes.' . ($i - 1))
+                                            @error("dia{$dia}_repeticoes." . ($i - 1))
                                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -100,5 +100,4 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-   </x-app-layout>
+</x-app-layout>

@@ -54,6 +54,14 @@
                             <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">Cancelar</button>
                         </div>
                     </form>
+                    <form action="{{ route('exercicios.destroy', $exercicio->id) }}" method="POST" class="mt-4">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600"
+                            onclick="return confirm('Tem certeza que deseja excluir este exercício?')">
+                            Excluir Exercício
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -41,18 +41,28 @@ class ExercicioController extends Controller
 
     // Armazenar um novo exercício
     public function store(Request $request)
-    {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'grupo_muscular' => 'required|string|max:255',
-            'dificuldade' => 'required|in:easy,normal,hard',
-            'observacoes' => 'nullable|string',
-        ]);
+{
+    $request->validate([
+        'nome' => 'required|string|max:255',
+        'grupo_muscular' => 'required|string|max:255',
+        'dificuldade' => 'required|in:easy,normal,hard',
+        'observacoes' => 'nullable|string',
+    ], [
+        'nome.required' => 'O campo nome é obrigatório.',
+        'nome.string' => 'O campo nome deve ser um texto válido.',
+        'nome.max' => 'O campo nome não pode ter mais que 255 caracteres.',
+        'grupo_muscular.required' => 'O campo grupo muscular é obrigatório.',
+        'grupo_muscular.string' => 'O campo grupo muscular deve ser um texto válido.',
+        'grupo_muscular.max' => 'O campo grupo muscular não pode ter mais que 255 caracteres.',
+        'dificuldade.required' => 'O campo dificuldade é obrigatório.',
+        'dificuldade.in' => 'A dificuldade deve ser uma das seguintes opções: easy, normal, hard.',
+        'observacoes.string' => 'O campo observações deve ser um texto válido.',
+    ]);
 
-        Exercicio::create($request->all());
+    Exercicio::create($request->all());
 
-        return redirect()->route('exercicios.index')->with('success', 'Exercício criado com sucesso!');
-    }
+    return redirect()->route('exercicios.index')->with('success', 'Exercício criado com sucesso!');
+}
 
     // Exibir um exercício específico
     public function show(Exercicio $exercicio)
@@ -68,18 +78,28 @@ class ExercicioController extends Controller
 
     // Atualizar um exercício
     public function update(Request $request, Exercicio $exercicio)
-    {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'grupo_muscular' => 'required|string|max:255',
-            'dificuldade' => 'required|in:easy,normal,hard',
-            'observacoes' => 'nullable|string',
-        ]);
+{
+    $request->validate([
+        'nome' => 'required|string|max:255',
+        'grupo_muscular' => 'required|string|max:255',
+        'dificuldade' => 'required|in:easy,normal,hard',
+        'observacoes' => 'nullable|string',
+    ], [
+        'nome.required' => 'O campo nome é obrigatório.',
+        'nome.string' => 'O campo nome deve ser um texto válido.',
+        'nome.max' => 'O campo nome não pode ter mais que 255 caracteres.',
+        'grupo_muscular.required' => 'O campo grupo muscular é obrigatório.',
+        'grupo_muscular.string' => 'O campo grupo muscular deve ser um texto válido.',
+        'grupo_muscular.max' => 'O campo grupo muscular não pode ter mais que 255 caracteres.',
+        'dificuldade.required' => 'O campo dificuldade é obrigatório.',
+        'dificuldade.in' => 'A dificuldade deve ser uma das seguintes opções: easy, normal, hard.',
+        'observacoes.string' => 'O campo observações deve ser um texto válido.',
+    ]);
 
-        $exercicio->update($request->all());
+    $exercicio->update($request->all());
 
-        return redirect()->route('exercicios.index')->with('success', 'Exercício atualizado com sucesso!');
-    }
+    return redirect()->route('exercicios.index')->with('success', 'Exercício atualizado com sucesso!');
+}
 
     // Excluir um exercício
     public function destroy(Exercicio $exercicio)
