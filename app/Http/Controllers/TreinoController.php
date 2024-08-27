@@ -153,10 +153,7 @@ class TreinoController extends Controller
             'dia3_repeticoes.*.min' => 'O número de repetições para o dia 3 deve ser pelo menos 1.',
         ]);
 
-        $treino->update([
-            'nome' => $request->nome,
-            'tipo' => $request->tipo,
-            'user_id' => auth()->id(),
+        $treino->update(['nome' => $request->nome,'tipo' => $request->tipo,'user_id' => auth()->id()
         ]);
 
         ExercicioTreino::where('treino_id', $treino->id)->delete(); // Remove todas as associações atuais
@@ -172,7 +169,7 @@ class TreinoController extends Controller
             }
         }
 
-        return redirect()->route('treinos.index');
+        return redirect()->route('treinos.show', $treino->id);
     }
 
     public function destroy(Treino $treino)

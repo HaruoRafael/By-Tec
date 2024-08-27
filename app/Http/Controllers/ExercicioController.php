@@ -98,7 +98,7 @@ class ExercicioController extends Controller
 
     $exercicio->update($request->all());
 
-    return redirect()->route('exercicios.index')->with('success', 'Exercício atualizado com sucesso!');
+    return redirect()->route('exercicios.show', $exercicio->id)->with('success', 'Exercício atualizado com sucesso!');
 }
 
     // Excluir um exercício
