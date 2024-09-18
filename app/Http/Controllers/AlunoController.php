@@ -6,12 +6,38 @@ use App\Models\Treino;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Aluno;
+use App\Models\Venda; // Importar o modelo Venda
 use App\Rules\CPF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class AlunoController extends Controller
 {
+    // Função para atualizar o status do aluno baseado nos planos ativos
+    public function atualizarStatusAluno(Aluno $aluno)
+{
+    // Verifica se o aluno tem algum plano com status 'Ativo'
+    $planoAtivo = $aluno->vendas()->where('status', 'Ativo')->exists();
+
+    if ($planoAtivo) {
+        // Se o aluno tiver um plano ativo, o status do aluno será 'Ativo'
+        $aluno->status = 'Ativo';
+    } else {
+        // Caso todos os planos estejam finalizados ou cancelados, o status do aluno será 'Inativo'
+        $planoFinalizadoOuCancelado = $aluno->vendas()->whereIn('status', ['Finalizado', 'Cancelado'])->exists();
+
+        if ($planoFinalizadoOuCancelado) {
+            $aluno->status = 'Inativo';
+        } else {
+            // Caso o aluno não tenha nenhum plano ativo ou finalizado, o status será 'Inativo'
+            $aluno->status = 'Inativo';
+        }
+    }
+
+    // Salva as mudanças no status do aluno
+    $aluno->save();
+}
+
     public function index(Request $request)
     {
         $query = Aluno::query();
@@ -70,7 +96,7 @@ class AlunoController extends Controller
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
         ]);
 
-        Aluno::create([
+        $aluno = Aluno::create([
             'nome' => $request->input('nome'),
             'cpf' => $request->input('cpf'),
             'rg' => $request->input('rg'),
@@ -80,13 +106,15 @@ class AlunoController extends Controller
             'endereco' => $request->input('endereco'),
         ]);
 
+        // Atualiza o status do aluno ao criar
+        $this->atualizarStatusAluno($aluno);
+
         return redirect()->route('alunos.index')->with('success', 'Aluno cadastrado com sucesso.');
     }
 
     public function show(Aluno $aluno)
     {
         $treinosDisponiveis = Treino::all(); // Recupera todos os treinos disponíveis
-
         return view('alunos.show', compact('aluno', 'treinosDisponiveis'));
     }
 
@@ -126,6 +154,8 @@ class AlunoController extends Controller
         $aluno = Aluno::findOrFail($id);
         $aluno->update($request->all());
 
+        // Atualiza o status do aluno após a edição
+
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Perfil do aluno atualizado com sucesso.');
     }
 
@@ -136,14 +166,30 @@ class AlunoController extends Controller
         }
 
         $aluno = Aluno::findOrFail($id);
+        $aluno->vendas()->where('status', 'Ativo')->update(['status' => 'Cancelado']);
         $aluno->update(['status' => 'Removido']);
-
         return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso.');
     }
 
     public function remove($id)
     {
-        return $this->destroy($id);
+        $aluno = Aluno::findOrFail($id);
+        $aluno->vendas()->where('status', 'Ativo')->update(['status' => 'Cancelado']);
+        $aluno->status = 'Removido';
+        $aluno->save();
+        return redirect()->route('alunos.index')->with('success', 'Aluno removido com sucesso.');
+    }
+
+    public function reativar($id)
+    {
+        $aluno = Aluno::findOrFail($id);
+
+        $aluno->status = 'Inativo';
+        $aluno->save();
+
+        $this->atualizarStatusAluno($aluno);
+
+        return redirect()->route('alunos.index')->with('success', 'Aluno reativado com sucesso.');
     }
 
     public function search(Request $request)
@@ -168,10 +214,10 @@ class AlunoController extends Controller
     }
 
     public function removeTreino(Aluno $aluno, Treino $treino)
-{
-    // Remove a associação entre o aluno e o treino
-    $aluno->treinos()->detach($treino->id);
+    {
+        // Remove a associação entre o aluno e o treino
+        $aluno->treinos()->detach($treino->id);
 
-    return redirect()->route('alunos.show', $aluno->id)->with('success', 'Treino removido do perfil do aluno com sucesso.');
-}
+        return redirect()->route('alunos.show', $aluno->id)->with('success', 'Treino removido do perfil do aluno com sucesso.');
+    }
 }

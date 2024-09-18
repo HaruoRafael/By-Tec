@@ -12,37 +12,42 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-yellow-500 hover:text-yellow-400">
-        {{ __('Dashboard') }}
-    </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-yellow-500 hover:text-yellow-400">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
 
-    @if (Auth::user()->hasCargo('Administrador') || Auth::user()->hasCargo('Recepcionista'))
-        <x-nav-link :href="route('alunos.create')" :active="request()->routeIs('alunos.create')" class="text-yellow-500 hover:text-yellow-400">
-            {{ __('Criar Conta') }}
-        </x-nav-link>
-    @endif
+                    @if (Auth::user()->hasCargo('Administrador') || Auth::user()->hasCargo('Recepcionista'))
+                        <x-nav-link :href="route('alunos.create')" :active="request()->routeIs('alunos.create')" class="text-yellow-500 hover:text-yellow-400">
+                            {{ __('Criar Conta') }}
+                        </x-nav-link>
+                    @endif
 
-    @if (Auth::user()->hasCargo('Administrador') || Auth::user()->hasCargo('Professor') || Auth::user()->hasCargo('Recepcionista'))
-        <x-nav-link :href="route('alunos.index')" :active="request()->routeIs('alunos.index')" class="text-yellow-500 hover:text-yellow-400">
-            {{ __('Alunos') }}
-        </x-nav-link>
+                    @if (Auth::user()->hasCargo('Administrador') || Auth::user()->hasCargo('Professor') || Auth::user()->hasCargo('Recepcionista'))
+                        <x-nav-link :href="route('alunos.index')" :active="request()->routeIs('alunos.index')" class="text-yellow-500 hover:text-yellow-400">
+                            {{ __('Alunos') }}
+                        </x-nav-link>
 
-        <x-nav-link :href="route('exercicios.index')" :active="request()->routeIs('exercicios.index')" class="text-yellow-500 hover:text-yellow-400">
-            {{ __('Exercícios') }}
-        </x-nav-link>
+                        <x-nav-link :href="route('exercicios.index')" :active="request()->routeIs('exercicios.index')" class="text-yellow-500 hover:text-yellow-400">
+                            {{ __('Exercícios') }}
+                        </x-nav-link>
 
-        <!-- Novo Link para Treinos -->
-        <x-nav-link :href="route('treinos.index')" :active="request()->routeIs('treinos.index')" class="text-yellow-500 hover:text-yellow-400">
-            {{ __('Treinos') }}
-        </x-nav-link>
-    @endif
+                        <!-- Novo Link para Treinos -->
+                        <x-nav-link :href="route('treinos.index')" :active="request()->routeIs('treinos.index')" class="text-yellow-500 hover:text-yellow-400">
+                            {{ __('Treinos') }}
+                        </x-nav-link>
+                    @endif
 
-    @if (Auth::user()->hasCargo('Administrador'))
-        <x-nav-link :href="route('funcionarios.index')" :active="request()->routeIs('funcionarios.index')" class="text-yellow-500 hover:text-yellow-400">
-            {{ __('Funcionários') }}
-        </x-nav-link>
-    @endif
-</div>
+                    @if (Auth::user()->hasCargo('Administrador'))
+                        <x-nav-link :href="route('funcionarios.index')" :active="request()->routeIs('funcionarios.index')" class="text-yellow-500 hover:text-yellow-400">
+                            {{ __('Funcionários') }}
+                        </x-nav-link>
+
+                        <!-- Link para Planos, apenas para Administradores -->
+                        <x-nav-link :href="route('planos.index')" :active="request()->routeIs('planos.index')" class="text-yellow-500 hover:text-yellow-400">
+                            {{ __('Planos') }}
+                        </x-nav-link>
+                    @endif
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -112,6 +117,11 @@
             @if (Auth::user()->hasCargo('Administrador'))
                 <x-responsive-nav-link :href="route('funcionarios.index')" :active="request()->routeIs('funcionarios.index')" class="text-yellow-500 hover:text-yellow-400">
                     {{ __('Funcionários') }}
+                </x-responsive-nav-link>
+
+                <!-- Link para Planos, apenas para Administradores -->
+                <x-responsive-nav-link :href="route('planos.index')" :active="request()->routeIs('planos.index')" class="text-yellow-500 hover:text-yellow-400">
+                    {{ __('Planos') }}
                 </x-responsive-nav-link>
             @endif
         </div>

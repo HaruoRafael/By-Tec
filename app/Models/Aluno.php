@@ -18,7 +18,7 @@ class Aluno extends Model
         'sexo',
         'data_nascimento',
         'endereco',
-        'status_id'
+        'status'
     ];
 
     protected $dates = ['data_nascimento'];
@@ -44,5 +44,15 @@ class Aluno extends Model
     public function treinos()
     {
         return $this->belongsToMany(Treino::class);
+    }
+
+    public function vendas()
+    {
+        return $this->hasMany(Venda::class);
+    }
+
+    public function planos()
+    {
+        return $this->hasManyThrough(Plano::class, Venda::class);
     }
 }

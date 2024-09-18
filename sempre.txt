@@ -13,7 +13,7 @@ APP_NAME=Laravel
 APP_ENV=local
 APP_KEY=base64:NiIhk25cpqLWgbVDSsM+04wsb/8nY3PWrvQslAbLd0I=
 APP_DEBUG=true
-APP_TIMEZONE=UTC
+APP_TIMEZONE=America/Sao_Paulo
 APP_URL=http://localhost
 
 APP_LOCALE=en
