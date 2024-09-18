@@ -63,9 +63,11 @@
                     <div class="form-group flex flex-wrap mb-4">
                         <div class="w-full sm:w-1/2 px-2">
                             <label for="sexo" class="block text-sm font-medium text-yellow-500">Sexo</label>
-                            <input type="text" id="sexo" name="sexo" value="{{ old('sexo', $aluno->sexo) }}"
-                                class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
-                                readonly disabled>
+                            <select id="sexo" name="sexo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
+                                <option value="Masculino" {{ old('sexo', $aluno->sexo) == 'Masculino' ? 'selected' : '' }}>Masculino</option>
+                                <option value="Feminino" {{ old('sexo', $aluno->sexo) == 'Feminino' ? 'selected' : '' }}>Feminino</option>
+                                <option value="Outro" {{ old('sexo', $aluno->sexo) == 'Outro' ? 'selected' : '' }}>Outro</option>
+                            </select>
                             @error('sexo')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
@@ -96,6 +98,8 @@
                             @enderror
                         </div>
                     </div>
+
+
 
                     <div class="flex justify-end space-x-2">
                         @if(Auth::user()->cargo !== 'Professor')

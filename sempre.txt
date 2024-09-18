@@ -73,3 +73,8 @@ AWS_BUCKET=
 AWS_USE_PATH_STYLE_ENDPOINT=false
 
 VITE_APP_NAME="${APP_NAME}"
+
+
+Corrigir o Aluno q n esta atualizando os dados dele 
+Finalizar o desing do realizar venda
+Fazer o caixa

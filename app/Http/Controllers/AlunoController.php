@@ -15,28 +15,25 @@ class AlunoController extends Controller
 {
     // Função para atualizar o status do aluno baseado nos planos ativos
     public function atualizarStatusAluno(Aluno $aluno)
-{
-    // Verifica se o aluno tem algum plano com status 'Ativo'
-    $planoAtivo = $aluno->vendas()->where('status', 'Ativo')->exists();
+    {
+        // Verifica se o aluno tem algum plano ativo
+        $planoAtivo = $aluno->vendas()->where('status', 'Ativo')->exists();
 
-    if ($planoAtivo) {
-        // Se o aluno tiver um plano ativo, o status do aluno será 'Ativo'
-        $aluno->status = 'Ativo';
-    } else {
-        // Caso todos os planos estejam finalizados ou cancelados, o status do aluno será 'Inativo'
-        $planoFinalizadoOuCancelado = $aluno->vendas()->whereIn('status', ['Finalizado', 'Cancelado'])->exists();
-
-        if ($planoFinalizadoOuCancelado) {
-            $aluno->status = 'Inativo';
+        if ($planoAtivo) {
+            $aluno->status = 'Ativo';
         } else {
-            // Caso o aluno não tenha nenhum plano ativo ou finalizado, o status será 'Inativo'
-            $aluno->status = 'Inativo';
+            // Se não houver plano ativo, o status será Inativo ou Cancelado
+            $ultimoPlano = $aluno->vendas()->latest('data_expiracao')->first();
+            if ($ultimoPlano && $ultimoPlano->status === 'Cancelado') {
+                $aluno->status = 'Cancelado';
+            } else {
+                $aluno->status = 'Inativo';
+            }
         }
-    }
 
-    // Salva as mudanças no status do aluno
-    $aluno->save();
-}
+        // Salva o status atualizado
+        $aluno->save();
+    }
 
     public function index(Request $request)
     {
@@ -82,26 +79,26 @@ class AlunoController extends Controller
     {
         $request->validate([
             'nome' => 'required|string|max:255',
-            'cpf' => ['required', 'string', 'unique:alunos,cpf', new CPF],
+            'cpf' => ['required', new CPF],
             'rg' => 'nullable|string|max:255',
             'telefone' => 'nullable|string|max:20',
-            'sexo' => 'required|in:M,F,Outro',
+            'sexo' => 'required|in:Masculino,Feminino,Outro',
             'data_nascimento' => 'required|date',
             'endereco' => 'nullable|string',
         ], [
             'nome.required' => 'O campo nome é obrigatório.',
             'cpf.required' => 'O campo CPF é obrigatório.',
-            'cpf.unique' => 'Já existe uma conta cadastrada com este CPF.',
             'sexo.required' => 'O campo sexo é obrigatório.',
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
         ]);
 
+        // Criação do aluno
         $aluno = Aluno::create([
             'nome' => $request->input('nome'),
             'cpf' => $request->input('cpf'),
             'rg' => $request->input('rg'),
             'telefone' => $request->input('telefone'),
-            'sexo' => $request->input('sexo'),
+            'sexo' => $request->input('sexo'), // Valor selecionado do select
             'data_nascimento' => $request->input('data_nascimento'),
             'endereco' => $request->input('endereco'),
         ]);
@@ -139,14 +136,12 @@ class AlunoController extends Controller
             'cpf' => ['required', new CPF],
             'rg' => 'nullable|string|max:255',
             'telefone' => 'nullable|string|max:20',
-            'sexo' => 'required|in:M,F,Outro',
+            'sexo' => 'required|in:Masculino,Feminino,Outro', // Aceitar os valores completos
             'data_nascimento' => 'required|date',
             'endereco' => 'nullable|string',
-            'status' => 'required|in:Ativo,Inativo,Pendente,Removido',
         ], [
             'nome.required' => 'O campo nome é obrigatório.',
             'cpf.required' => 'O campo CPF é obrigatório.',
-            'cpf.unique' => 'Já existe uma conta cadastrada com este CPF.',
             'sexo.required' => 'O campo sexo é obrigatório.',
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
         ]);
@@ -154,7 +149,8 @@ class AlunoController extends Controller
         $aluno = Aluno::findOrFail($id);
         $aluno->update($request->all());
 
-        // Atualiza o status do aluno após a edição
+        // Atualiza o status do aluno após a edição, se necessário
+        $this->atualizarStatusAluno($aluno);
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Perfil do aluno atualizado com sucesso.');
     }
