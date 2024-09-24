@@ -45,4 +45,20 @@ class User extends Authenticatable
     {
         return $this->cargo === $cargo;
     }
+
+    /**
+     * Relacionamento com os caixas que o usuário abriu.
+     */
+    public function caixas()
+    {
+        return $this->hasMany(Caixa::class);
+    }
+
+    /**
+     * Relacionamento com as vendas feitas pelo usuário.
+     */
+    public function vendas()
+    {
+        return $this->hasMany(Venda::class);
+    }
 }

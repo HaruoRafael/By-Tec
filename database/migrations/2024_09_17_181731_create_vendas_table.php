@@ -16,8 +16,9 @@ class CreateVendasTable extends Migration
             $table->string('forma_pagamento');  // Forma de pagamento
             $table->decimal('desconto', 5, 2)->default(0);  // Desconto
             $table->foreignId('user_id')->constrained()->onDelete('cascade');  // Relaciona com a tabela `users`
-            $table->foreignId('aluno_id')->constrained()->onDelete('cascade');
-            $table->foreignId('plano_id')->constrained()->onDelete('cascade');
+            $table->foreignId('aluno_id')->constrained()->onDelete('cascade');  // Relaciona com a tabela `alunos`
+            $table->foreignId('plano_id')->constrained()->onDelete('cascade');  // Relaciona com a tabela `planos`
+            $table->foreignId('caixa_id')->constrained()->onDelete('cascade');  // Relaciona com a tabela `caixas`
             $table->date('data_expiracao');  // Campo para armazenar a data de expiração do plano
             $table->enum('status', ['Ativo', 'Finalizado', 'Cancelado'])->default('Ativo');  // Campo de status
             $table->timestamps();

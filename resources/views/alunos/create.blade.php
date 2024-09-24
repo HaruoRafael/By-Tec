@@ -3,6 +3,9 @@
         <h2 class="font-semibold text-xl text-yellow-500 dark:text-yellow-500 leading-tight">
             {{ __('Criar Conta') }}
         </h2>
+        <button onclick="history.back()" class="text-yellow-500 hover:text-yellow-400">
+            Voltar
+        </button>
     </x-slot>
 
     <div class="py-12">

@@ -55,4 +55,6 @@ class Aluno extends Model
     {
         return $this->hasManyThrough(Plano::class, Venda::class);
     }
+
+    
 }

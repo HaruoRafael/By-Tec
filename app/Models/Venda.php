@@ -10,7 +10,7 @@ class Venda extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['descricao', 'data', 'valor', 'situacao', 'forma_pagamento', 'desconto', 'aluno_id', 'plano_id', 'user_id'];
+    protected $fillable = ['descricao', 'data', 'valor', 'situacao', 'forma_pagamento', 'desconto', 'aluno_id', 'plano_id', 'user_id', 'caixa_id'];
 
     public function aluno()
     {
@@ -25,5 +25,9 @@ class Venda extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function caixa()
+    {
+        return $this->belongsTo(Caixa::class);
     }
 }

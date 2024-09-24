@@ -25,7 +25,7 @@ class AlunoController extends Controller
             // Se não houver plano ativo, o status será Inativo ou Cancelado
             $ultimoPlano = $aluno->vendas()->latest('data_expiracao')->first();
             if ($ultimoPlano && $ultimoPlano->status === 'Cancelado') {
-                $aluno->status = 'Cancelado';
+                $aluno->status = 'Inativo';
             } else {
                 $aluno->status = 'Inativo';
             }
@@ -146,10 +146,21 @@ class AlunoController extends Controller
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
         ]);
 
+        // Encontra o aluno
         $aluno = Aluno::findOrFail($id);
-        $aluno->update($request->all());
 
-        // Atualiza o status do aluno após a edição, se necessário
+        // Atualiza as informações do aluno primeiro
+        $aluno->update([
+            'nome' => $request->input('nome'),
+            'cpf' => $request->input('cpf'),
+            'rg' => $request->input('rg'),
+            'telefone' => $request->input('telefone'),
+            'sexo' => $request->input('sexo'),
+            'data_nascimento' => $request->input('data_nascimento'),
+            'endereco' => $request->input('endereco'),
+        ]);
+
+        // Atualiza o status do aluno após salvar as informações
         $this->atualizarStatusAluno($aluno);
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Perfil do aluno atualizado com sucesso.');
