@@ -137,4 +137,45 @@ class VendaController extends Controller
 
         $aluno->save();
     }
+
+    public function reembolsar($id)
+    {
+        // Recupera a venda que será reembolsada
+        $venda = Venda::findOrFail($id);
+
+        // Verifica se a venda já foi finalizada ou cancelada
+        if ($venda->status === 'Finalizado' || $venda->status === 'Cancelado') {
+            return redirect()->back()->with('error', 'Esta venda já foi finalizada ou cancelada e não pode ser reembolsada.');
+        }
+
+        // Recupera o caixa relacionado à venda
+        $caixa = Caixa::findOrFail($venda->caixa_id);
+
+        // Verifica se o caixa está aberto
+        if ($caixa->status !== 'aberto') {
+            return redirect()->back()->with('error', 'O caixa já está fechado.');
+        }
+
+        // Atualiza o saldo do caixa subtraindo o valor da venda reembolsada
+        $caixa->saldo_final -= $venda->valor;
+        $caixa->save();
+
+        // Marca a venda como "Reembolsada"
+        $venda->status = 'Reembolsada';
+        $venda->save();
+
+        // Atualiza o status do aluno
+        $this->atualizarStatusAluno($venda->aluno_id);
+
+        return redirect()->route('caixas.show', $caixa->id)->with('success', 'Venda reembolsada e saldo do caixa atualizado com sucesso.');
+    }
+
+    public function showVenda($id)
+    {
+        // Recupera a venda pelo ID
+        $venda = Venda::with('aluno', 'plano')->findOrFail($id);
+
+        // Retorna a view com os detalhes da venda
+        return view('vendas.show', compact('venda'));
+    }
 }

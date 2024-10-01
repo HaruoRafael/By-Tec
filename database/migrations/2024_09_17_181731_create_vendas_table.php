@@ -20,7 +20,7 @@ class CreateVendasTable extends Migration
             $table->foreignId('plano_id')->constrained()->onDelete('cascade');  // Relaciona com a tabela `planos`
             $table->foreignId('caixa_id')->constrained()->onDelete('cascade');  // Relaciona com a tabela `caixas`
             $table->date('data_expiracao');  // Campo para armazenar a data de expiração do plano
-            $table->enum('status', ['Ativo', 'Finalizado', 'Cancelado'])->default('Ativo');  // Campo de status
+            $table->enum('status', ['Ativo', 'Finalizado', 'Cancelado', 'Reembolsada'])->default('Ativo');
             $table->timestamps();
         });
     }

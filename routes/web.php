@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('caixas', CaixaController::class)->only(['index', 'create', 'show', 'store']); // Adiciona o método 'create'
     Route::get('caixas/create', [CaixaController::class, 'create'])->name('caixas.create');
     Route::post('/caixas/{caixa}/fechar', [CaixaController::class, 'fechar'])->name('caixas.fechar'); // Rota para fechar um caixa existente
+    
 
     Route::middleware([CheckRole::class . ':Administrador'])->group(function () {
         Route::get('/funcionarios', [ProfileController::class, 'index'])->name('funcionarios.index');
@@ -78,8 +79,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/vendas', [VendaController::class, 'store'])->name('vendas.store');
     Route::post('/vendas/{id}/finalizar', [VendaController::class, 'finalizar'])->name('vendas.finalizar');
     Route::delete('/vendas/{id}/cancelar', [VendaController::class, 'cancelar'])->name('vendas.cancelar');
-});
-
+    route::post('/vendas/{id}/reembolsar', [VendaController::class, 'reembolsar'])->name('vendas.reembolsar');});
+    route::get('/vendas/{id}', [VendaController::class, 'showVenda'])->name('vendas.show');        
 Route::get('/access-denied', function () {
     return view('access-denied');
 })->name('access.denied');
