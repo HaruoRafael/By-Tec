@@ -24,15 +24,15 @@
                         </thead>
                         <tbody>
                             @foreach($caixas as $caixa)
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $caixa->id }}</td>
-                                    <td class="border px-4 py-2">{{ $caixa->data_abertura }}</td>
-                                    <td class="border px-4 py-2">{{ $caixa->data_fechamento ?? 'Em aberto' }}</td>
-                                    <td class="border px-4 py-2">{{ $caixa->status }}</td>
-                                    <td class="border px-4 py-2">
-                                        <a href="{{ route('caixas.show', $caixa->id) }}" class="text-blue-500 hover:underline">Ver</a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="border px-4 py-2">{{ $caixa->id }}</td>
+                                <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($caixa->data_abertura)->format('d/m/Y H:i') }}</td>
+                                <td class="border px-4 py-2">{{ $caixa->data_fechamento ? \Carbon\Carbon::parse($caixa->data_fechamento)->format('d/m/Y H:i') : 'Em aberto' }}</td>
+                                <td class="border px-4 py-2">{{ $caixa->status }}</td>
+                                <td class="border px-4 py-2">
+                                    <a href="{{ route('caixas.show', $caixa->id) }}" class="text-blue-500 hover:underline">Ver</a>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>

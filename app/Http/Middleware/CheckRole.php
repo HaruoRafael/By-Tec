@@ -3,9 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User; // Importação correta
 
 class CheckRole
 {
@@ -14,16 +12,19 @@ class CheckRole
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string  $role
+     * @param  string[]  ...$roles
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle($request, Closure $next, ...$roles)
     {
-        if (Auth::check() && Auth::user()->hasCargo($role)) {
+        $user = Auth::user();
+
+        // Verifica se o usuário está autenticado e se seu cargo está na lista permitida
+        if ($user && in_array($user->cargo, $roles)) {
             return $next($request);
         }
 
-        // Redirecionar para a página de erro personalizada
+        // Redireciona para a página de acesso negado se o usuário não tiver permissão
         return redirect()->route('access.denied');
     }
 }
