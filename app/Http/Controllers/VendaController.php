@@ -104,7 +104,7 @@ class VendaController extends Controller
         }
 
         // Diminui o valor da venda do saldo inicial do caixa
-        $caixa->saldo_inicial -= $venda->valor;
+        $caixa->saldo_final -= $venda->valor;
 
         // Atualiza o saldo inicial no banco de dados
         $caixa->save();

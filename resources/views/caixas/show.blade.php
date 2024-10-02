@@ -14,13 +14,13 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <p class="flex items-center"><strong class="mr-2">Data de Abertura:</strong> 
+                                <p class="flex items-center"><strong class="mr-2">Data de Abertura:</strong>
                                     <span class="ml-auto">{{ \Carbon\Carbon::parse($caixa->data_abertura)->format('d/m/Y H:i') }}</span>
                                 </p>
                             </div>
 
                             <div>
-                                <p class="flex items-center"><strong class="mr-2">Data de Fechamento:</strong> 
+                                <p class="flex items-center"><strong class="mr-2">Data de Fechamento:</strong>
                                     <span class="ml-auto">
                                         {{ $caixa->data_fechamento ? \Carbon\Carbon::parse($caixa->data_fechamento)->format('d/m/Y H:i') : 'Em aberto' }}
                                     </span>
@@ -28,13 +28,13 @@
                             </div>
 
                             <div>
-                                <p class="flex items-center"><strong class="mr-2">Status:</strong> 
+                                <p class="flex items-center"><strong class="mr-2">Status:</strong>
                                     <span class="ml-auto">{{ ucfirst($caixa->status) }}</span>
                                 </p>
                             </div>
 
                             <div>
-                                <p class="flex items-center"><strong class="mr-2">Saldo Inicial:</strong> 
+                                <p class="flex items-center"><strong class="mr-2">Saldo Inicial:</strong>
                                     <span class="ml-auto">R$ {{ number_format($caixa->saldo_inicial, 2, ',', '.') }}</span>
                                 </p>
                             </div>
