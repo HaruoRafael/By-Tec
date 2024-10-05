@@ -11,7 +11,8 @@ class CreateVendasTable extends Migration
         Schema::create('vendas', function (Blueprint $table) {
             $table->id();
             $table->string('descricao');
-            $table->date('data');
+            $table->date('data');  // Data da venda
+            $table->date('data_inicio');  // Data de início do plano
             $table->decimal('valor', 10, 2);  // Valor final com desconto
             $table->string('forma_pagamento');  // Forma de pagamento
             $table->decimal('desconto', 5, 2)->default(0);  // Desconto

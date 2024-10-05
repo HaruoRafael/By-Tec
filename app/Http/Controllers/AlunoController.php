@@ -35,8 +35,37 @@ class AlunoController extends Controller
         $aluno->save();
     }
 
+    // Verificação de expiração de planos para todos os alunos
+    public function verificarExpiracaoPlanos()
+    {
+        try {
+            // Buscar todas as vendas ativas cuja data de expiração já passou
+            $vendasExpiradas = Venda::where('status', 'Ativo')
+                ->whereDate('data_expiracao', '<', Carbon::now())
+                ->get();
+
+            if ($vendasExpiradas->isEmpty()) {
+                return;
+            }
+
+            // Atualiza o status das vendas expiradas e alunos relacionados
+            foreach ($vendasExpiradas as $venda) {
+                $venda->status = 'Finalizado';
+                $venda->save();
+
+                // Atualiza o status do aluno após finalizar a venda
+                $this->atualizarStatusAluno($venda->aluno);
+            }
+        } catch (\Exception $e) {
+            return;
+        }
+    }
+
     public function index(Request $request)
     {
+        // Verificar planos expirados antes de listar os alunos
+        $this->verificarExpiracaoPlanos();
+
         $query = Aluno::query();
 
         if ($request->has('termo')) {
@@ -98,7 +127,7 @@ class AlunoController extends Controller
             'cpf' => $request->input('cpf'),
             'rg' => $request->input('rg'),
             'telefone' => $request->input('telefone'),
-            'sexo' => $request->input('sexo'), // Valor selecionado do select
+            'sexo' => $request->input('sexo'),
             'data_nascimento' => $request->input('data_nascimento'),
             'endereco' => $request->input('endereco'),
         ]);
@@ -136,7 +165,7 @@ class AlunoController extends Controller
             'cpf' => ['required', new CPF],
             'rg' => 'nullable|string|max:255',
             'telefone' => 'nullable|string|max:20',
-            'sexo' => 'required|in:Masculino,Feminino,Outro', // Aceitar os valores completos
+            'sexo' => 'required|in:Masculino,Feminino,Outro',
             'data_nascimento' => 'required|date',
             'endereco' => 'nullable|string',
         ], [

@@ -2,7 +2,6 @@
     <h3 class="text-lg font-semibold">Histórico de Contratos</h3>
 
     @php
-    // Carrega os contratos (vendas) diretamente do modelo Aluno, ordenados por ordem de criação
     $contratos = $aluno->vendas()->orderBy('created_at', 'desc')->get();
     @endphp
 
@@ -23,7 +22,7 @@
         <tbody>
             @foreach($contratos as $contrato)
             @php
-            $data_inicio = \Carbon\Carbon::parse($contrato->data);
+            $data_inicio = \Carbon\Carbon::parse($contrato->data_inicio);
             $data_expiracao = \Carbon\Carbon::parse($contrato->data_expiracao);
             @endphp
             <tr>

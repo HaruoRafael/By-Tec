@@ -12,21 +12,27 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-[#2d2d2d] overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-yellow-500 dark:text-yellow-500">
+                    @if(session('error'))
+                    <div class="bg-red-500 text-white p-4 rounded mb-4">
+                        {{ session('error') }}
+                    </div>
+                    @endif
                     <h2 class="text-2xl font-bold mb-4">Vender Plano</h2>
                     <form action="{{ route('vendas.store') }}" method="POST" id="vendaForm">
                         @csrf
                         <input type="hidden" name="aluno_id" value="{{ $aluno->id }}">
 
-                        <!-- Descrição e Data -->
+                        <!-- Descrição e Data de Venda -->
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="descricao" class="block text-sm font-medium text-yellow-500">Descrição</label>
                                 <input type="text" id="descricao" name="descricao" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" required>
                             </div>
 
+                            <!-- Data de Início do Plano -->
                             <div class="w-full sm:w-1/2 px-2">
-                                <label for="data" class="block text-sm font-medium text-yellow-500">Data</label>
-                                <input type="date" id="data" name="data" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" value="{{ date('Y-m-d') }}" required>
+                                <label for="data_inicio" class="block text-sm font-medium text-yellow-500">Data de Início do Plano</label>
+                                <input type="date" id="data_inicio" name="data_inicio" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" value="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
 
@@ -49,9 +55,8 @@
                             </div>
                         </div>
 
-                        <!-- Plano e Finalizar Venda em duas colunas -->
+                        <!-- Plano e Valor Final -->
                         <div class="form-group flex flex-wrap mb-4">
-                            <!-- Coluna do Plano -->
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="plano" class="block text-sm font-medium text-yellow-500">Plano</label>
                                 <select id="plano" name="plano_id" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" required onchange="calcularValorFinal()">
@@ -61,14 +66,12 @@
                                 </select>
                             </div>
 
-
-
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="valor_final" class="block text-sm font-medium text-yellow-500">Valor Final (R$)</label>
                                 <input type="text" id="valor_final" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" readonly>
                             </div>
-
                         </div>
+
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full px-2">
                                 <button type="submit" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">
@@ -77,7 +80,6 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>

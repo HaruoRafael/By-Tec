@@ -13,10 +13,10 @@
                         <form action="{{ route('alunos.index') }}" method="GET" class="flex flex-col sm:flex-row sm:space-x-4">
                             <div class="flex items-center mb-4 sm:mb-0">
                                 @foreach(['Ativo', 'Inativo', 'Pendente', 'Removido'] as $status)
-                                    <div class="flex items-center mr-4">
-                                        <input type="checkbox" id="{{ strtolower($status) }}" name="status[]" value="{{ $status }}" {{ in_array($status, Request::input('status', [])) ? 'checked' : '' }} class="text-yellow-500 border-gray-300 rounded focus:ring-yellow-500">
-                                        <label for="{{ strtolower($status) }}" class="ml-2 text-sm text-yellow-500">{{ $status }}</label>
-                                    </div>
+                                <div class="flex items-center mr-4">
+                                    <input type="checkbox" id="{{ strtolower($status) }}" name="status[]" value="{{ $status }}" {{ in_array($status, Request::input('status', [])) ? 'checked' : '' }} class="text-yellow-500 border-gray-300 rounded focus:ring-yellow-500">
+                                    <label for="{{ strtolower($status) }}" class="ml-2 text-sm text-yellow-500">{{ $status }}</label>
+                                </div>
                                 @endforeach
                             </div>
                             <div class="flex flex-wrap sm:flex-nowrap sm:space-x-4">
@@ -26,55 +26,44 @@
                             <div class="flex flex-wrap w-full sm:w-auto">
                                 <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 mb-2 sm:mb-0 sm:mr-2">Pesquisar</button>
                                 <a href="{{ route('alunos.index') }}" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600 mb-2 sm:mb-0">Limpar Pesquisa</a>
+                               
                             </div>
                         </form>
                     </div>
 
                     @if(isset($alunos) && $alunos->count() > 0)
-                        <div id="listaAlunosContainer">
-                            <h2 class="text-xl font-semibold text-yellow-500 mb-4">Lista de Alunos</h2>
-                            <table class="min-w-full bg-[#3d3d3d]">
-                                <thead>
-                                    <tr>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Nome</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Idade</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Sexo</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Status</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($alunos as $aluno)
-                                        <tr class="bg-[#3d3d3d] {{ $aluno->status == 'Removido' ? 'text-red-500' : 'text-yellow-500' }}">
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->nome }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->idade }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->sexo }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->status }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">
-                                                <a href="{{ route('alunos.show', $aluno->id) }}" class="text-blue-500 hover:text-blue-700">Ver</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                    <div id="listaAlunosContainer">
+                        <h2 class="text-xl font-semibold text-yellow-500 mb-4">Lista de Alunos</h2>
+                        <table class="min-w-full bg-[#3d3d3d]">
+                            <thead>
+                                <tr>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Nome</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Idade</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Sexo</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($alunos as $aluno)
+                                <tr class="bg-[#3d3d3d] {{ $aluno->status == 'Removido' ? 'text-red-500' : 'text-yellow-500' }}">
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->nome }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->idade }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->sexo }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $aluno->status }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">
+                                        <a href="{{ route('alunos.show', $aluno->id) }}" class="text-blue-500 hover:text-blue-700">Ver</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     @else
-                        <p class="text-yellow-500">Nenhum aluno encontrado.</p>
+                    <p class="text-yellow-500">Nenhum aluno encontrado.</p>
                     @endif
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Script para formatação de campos e validações -->
-    <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            new Cleave('#cpfPesquisa', {
-                delimiters: ['.', '.', '-'],
-                blocks: [3, 3, 3, 2],
-                numericOnly: true
-            });
-        });
-    </script>
 </x-app-layout>

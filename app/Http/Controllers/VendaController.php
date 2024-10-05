@@ -14,7 +14,10 @@ class VendaController extends Controller
 {
     public function create(Request $request)
     {
+        // Buscar o aluno baseado no ID fornecido
         $aluno = Aluno::find($request->input('aluno_id'));
+
+        // Buscar todos os planos
         $planos = Plano::all();
 
         // Verifica se o aluno já tem um plano ativo
@@ -26,6 +29,16 @@ class VendaController extends Controller
                 ->with('error', 'O aluno já possui um plano ativo. Não é possível realizar outra venda.');
         }
 
+        // Verifica se existe um caixa aberto
+        $caixaAberto = Caixa::where('status', 'aberto')->first();
+
+        if (!$caixaAberto) {
+            // Se não houver caixa aberto, redireciona com mensagem de erro
+            return redirect()->route('alunos.show', $aluno->id)
+                ->with('error', 'Não há nenhum caixa aberto no momento. Por favor, abra um caixa para realizar a venda.');
+        }
+
+        // Se tudo estiver correto, exibe o formulário de venda
         return view('vendas.create', compact('aluno', 'planos'));
     }
 
@@ -46,8 +59,8 @@ class VendaController extends Controller
         $desconto = $request->input('desconto', 0);
         $valor_final = $valor_original * (1 - ($desconto / 100));
 
-        // Define a data de início como hoje
-        $data_inicio = Carbon::today();
+        // Recupera a data de início selecionada no formulário
+        $data_inicio = Carbon::parse($request->input('data_inicio'));
 
         // Calcula a data de expiração com base na duração do plano
         $data_expiracao = $data_inicio->copy()->addMonths($plano->duracao);
@@ -55,12 +68,13 @@ class VendaController extends Controller
         // Cria a venda e associa o usuário logado e o caixa aberto
         $venda = new Venda();
         $venda->descricao = $request->input('descricao');
-        $venda->data = $data_inicio;
+        $venda->data = Carbon::now();  // Data da venda
         $venda->valor = $valor_final;
         $venda->forma_pagamento = $request->input('forma_pagamento');
         $venda->aluno_id = $request->input('aluno_id');
         $venda->plano_id = $request->input('plano_id');
         $venda->user_id = Auth::id();
+        $venda->data_inicio = $data_inicio;  // Data de início do plano
         $venda->data_expiracao = $data_expiracao;
         $venda->caixa_id = $caixa->id;  // Associa a venda ao caixa aberto
         $venda->save();
@@ -74,23 +88,40 @@ class VendaController extends Controller
     public function show($id)
     {
         $aluno = Aluno::findOrFail($id);
-        $contratos = $aluno->vendas()->orderBy('data', 'desc')->get();
+        $vendas = $aluno->vendas;
 
-        return view('alunos.show', compact('aluno', 'contratos'));
+        foreach ($vendas as $venda) {
+            // Verifica se o plano expirou
+            if ($venda->status === 'Ativo' && Carbon::now()->greaterThan($venda->data_expiracao)) {
+                // Se expirou, atualiza o status para "Finalizado"
+                $venda->status = 'Finalizado';
+                $venda->save();
+            }
+        }
+
+        return view('alunos.show', compact('aluno', 'vendas'));
     }
 
     public function finalizar($id)
     {
+        // Recupera a venda que será finalizada
         $venda = Venda::findOrFail($id);
+
+        // Verifica se a venda já está finalizada
+        if ($venda->status === 'Finalizado') {
+            return redirect()->back()->with('error', 'Esta venda já foi finalizada.');
+        }
+
+        // Atualiza o status da venda para "Finalizado"
         $venda->status = 'Finalizado';
         $venda->save();
 
-        // Atualiza o status do aluno para "Inativo" se não houver mais planos ativos
+        // Atualiza o status do aluno para verificar se ele tem algum plano ativo
         $this->atualizarStatusAluno($venda->aluno_id);
 
-        return redirect()->route('alunos.show', $venda->aluno_id)->with('success', 'Plano finalizado com sucesso!');
+        // Redireciona com uma mensagem de sucesso
+        return redirect()->route('alunos.show', $venda->aluno_id)->with('success', 'Venda finalizada com sucesso!');
     }
-
     public function cancelar($id)
     {
         $venda = Venda::findOrFail($id);
@@ -143,10 +174,6 @@ class VendaController extends Controller
         // Recupera a venda que será reembolsada
         $venda = Venda::findOrFail($id);
 
-        // Verifica se a venda já foi finalizada ou cancelada
-        if ($venda->status === 'Finalizado' || $venda->status === 'Cancelado') {
-            return redirect()->back()->with('error', 'Esta venda já foi finalizada ou cancelada e não pode ser reembolsada.');
-        }
 
         // Recupera o caixa relacionado à venda
         $caixa = Caixa::findOrFail($venda->caixa_id);
@@ -178,4 +205,33 @@ class VendaController extends Controller
         // Retorna a view com os detalhes da venda
         return view('vendas.show', compact('venda'));
     }
+
+
+    public function verificarExpiracao()
+    {
+        try {
+            // Buscar apenas vendas ativas cuja data de expiração já passou
+            $vendasExpiradas = Venda::where('status', 'Ativo')
+                ->whereDate('data_expiracao', '<', Carbon::now()) // Verifica se já expirou
+                ->get();
+
+            // Se não houver vendas expiradas, retorna uma mensagem informativa
+            if ($vendasExpiradas->isEmpty()) {
+                return redirect()->back()->with('info', 'Nenhuma venda expirou.');
+            }
+
+            // Para cada venda expirada, chamamos a função finalizar
+            foreach ($vendasExpiradas as $venda) {
+                $this->finalizar($venda->id); // Chama a função finalizar
+            }
+
+            // Retorna mensagem de sucesso
+            return redirect()->back()->with('success', 'Planos expirados foram verificados e atualizados com sucesso.');
+        } catch (\Exception $e) {
+            // Captura erros e redireciona com mensagem de erro
+            return redirect()->back()->with('error', 'Erro ao verificar as vendas expiradas.');
+        }
+    }
+
+    
 }

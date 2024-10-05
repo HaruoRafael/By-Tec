@@ -1,7 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-yellow-500 dark:text-yellow-500 leading-tight">
-            {{ __('Perfil do Aluno: ') }} {{ $aluno->nome }} <p>Status do Aluno: <strong>{{ $aluno->status }}</strong></p>
+            {{ __('Perfil do Aluno: ') }} {{ $aluno->nome }}
+            <p>Status do Aluno: <strong>{{ $aluno->status }}</strong></p>
 
         </h2>
     </x-slot>
@@ -20,6 +21,8 @@
                 {{ session('error') }}
             </div>
             @endif
+
+         
 
             <!-- Navegação das Abas -->
             <nav class="flex mb-4">

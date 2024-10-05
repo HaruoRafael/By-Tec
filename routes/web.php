@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 // Dashboard, disponível para usuários autenticados e verificados
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -41,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/alunos/{id}/vendas', [AlunoController::class, 'vendas'])->name('aluno.vendas');
     Route::get('/alunos/{id}/contratos', [AlunoController::class, 'contratos'])->name('aluno.contratos');
     Route::get('/alunos/{id}/financeiro', [AlunoController::class, 'financeiro'])->name('aluno.financeiro');
+    Route::post('/alunos/verificar-expiracao', [AlunoController::class, 'verificarExpiracaoAlunos'])->name('alunos.verificarExpiracao');
 
     // Rotas para exercícios
     Route::resource('exercicios', ExercicioController::class);
@@ -73,8 +75,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/vendas/{id}/cancelar', [VendaController::class, 'cancelar'])->name('vendas.cancelar');
         Route::post('/vendas/{id}/reembolsar', [VendaController::class, 'reembolsar'])->name('vendas.reembolsar');
         Route::get('/vendas/{id}', [VendaController::class, 'showVenda'])->name('vendas.show');
-    
-   
+        Route::post('/verificar-expiracao', [VendaController::class, 'verificarExpiracao'])->name('verificar-expiracao');
+
+        
     });
 
     // Grupo de rotas restritas a Administradores

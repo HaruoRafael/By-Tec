@@ -5,7 +5,7 @@
     @php
     // Pega a última venda realizada (pode estar ativa, finalizada, cancelada ou reembolsada)
     $venda_atual = $aluno->vendas->last();
-    $data_inicio = \Carbon\Carbon::parse($venda_atual->data);
+    $data_inicio = \Carbon\Carbon::parse($venda_atual->data_inicio);
     $data_expiracao = \Carbon\Carbon::parse($venda_atual->data_expiracao);
     @endphp
 
@@ -41,9 +41,6 @@
         <form action="{{ route('vendas.cancelar', $venda_atual->id) }}" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">
-                Cancelar Plano
-            </button>
         </form>
     </div>
     @endif
