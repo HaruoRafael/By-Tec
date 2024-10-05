@@ -68,34 +68,38 @@ class AlunoController extends Controller
 
         $query = Aluno::query();
 
+        // Filtro por nome (termo)
         if ($request->has('termo')) {
             $termo = strtolower($request->input('termo'));
             $query->where(DB::raw('LOWER(nome)'), 'LIKE', "%{$termo}%");
         }
 
+        // Filtro por CPF
         if ($request->has('cpf')) {
             $cpf = $request->input('cpf');
             $query->where('cpf', 'LIKE', "%{$cpf}%");
         }
 
-        if ($request->has('status')) {
-            $status = $request->input('status');
-
-            if (!in_array('Removido', $status)) {
-                $query->whereIn('status', $status);
-            }
+        // Filtro por status
+        $status = $request->input('status', []);
+        if (!empty($status)) {
+            $query->whereIn('status', $status);
         }
 
-        if (!in_array('Removido', $request->input('status', []))) {
+        // Excluir status "Removido" caso não esteja nos filtros
+        if (!in_array('Removido', $status)) {
             $query->where('status', '!=', 'Removido');
         }
 
-        $alunos = $query->orderBy('nome')->get();
+        // Paginação de 10 alunos por página
+        $alunos = $query->orderBy('nome')->paginate(10);
 
+        // Cálculo da idade
         $alunos->each(function ($aluno) {
             $aluno->idade = $aluno->data_nascimento ? Carbon::parse($aluno->data_nascimento)->age : 'N/A';
         });
 
+        // Retornar a view com os alunos paginados
         return view('alunos.index', compact('alunos'));
     }
 
