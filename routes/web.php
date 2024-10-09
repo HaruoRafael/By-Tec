@@ -11,13 +11,15 @@ use App\Http\Controllers\CaixaController;
 use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckRole;
-
+use App\Http\Controllers\DashboardController;
 // Página inicial
 Route::get('/', function () {
     return view('welcome');
+}); 
+
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
 });
-
-
 // Dashboard, disponível para usuários autenticados e verificados
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,6 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
     // Rotas para alunos
     Route::resource('alunos', AlunoController::class);
@@ -68,6 +71,8 @@ Route::middleware('auth')->group(function () {
         // Rotas para caixas (Apenas Administradores e Recepcionistas)
         Route::resource('caixas', CaixaController::class)->only(['index', 'create', 'show', 'store']);
         Route::post('/caixas/{caixa}/fechar', [CaixaController::class, 'fechar'])->name('caixas.fechar');
+        Route::get('/caixas', [CaixaController::class, 'index'])->name('caixas.index');
+
    
         Route::get('/vendas/create', [VendaController::class, 'create'])->name('vendas.create');
         Route::post('/vendas', [VendaController::class, 'store'])->name('vendas.store');

@@ -16,15 +16,15 @@
                         @csrf
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
-                                <label for="nome" class="block text-sm font-medium text-yellow-500">Nome</label>
+                                <label for="nome" class="block text-sm font-medium text-yellow-500">Nome*</label>
                                 <input type="text" name="nome" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" required>
                                 @error('nome')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
-                                <label for="valor" class="block text-sm font-medium text-yellow-500">Valor (R$)</label>
-                                <input type="number" step="0.01" name="valor" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" required>
+                                <label for="valor" class="block text-sm font-medium text-yellow-500">Valor* (R$)</label>
+                                <input type="text" id="valor" name="valor" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" required>
                                 @error('valor')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -32,7 +32,7 @@
                         </div>
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2">
-                                <label for="duracao" class="block text-sm font-medium text-yellow-500">Duração (meses)</label>
+                                <label for="duracao" class="block text-sm font-medium text-yellow-500">Duração* (meses)</label>
                                 <input type="number" name="duracao" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" required>
                                 @error('duracao')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -47,4 +47,29 @@
             </div>
         </div>
     </div>
+
+    <!-- Adicionando o JavaScript para formatação do valor -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const valorInput = document.getElementById('valor');
+
+            // Formata o valor do campo ao digitar
+            valorInput.addEventListener('input', function(e) {
+                let value = e.target.value;
+
+                // Remove qualquer caractere que não seja número
+                value = value.replace(/\D/g, "");
+
+                // Insere vírgula para os dois últimos dígitos (centavos)
+                if (value.length > 2) {
+                    value = value.slice(0, value.length - 2) + '.' + value.slice(value.length - 2);
+                }
+
+                e.target.value = value;
+            });
+
+            // Define um valor padrão para o campo de valor ao carregar
+            valorInput.value = '0.00';
+        });
+    </script>
 </x-app-layout>

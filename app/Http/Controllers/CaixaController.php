@@ -13,12 +13,24 @@ class CaixaController extends Controller
     /**
      * Exibe a lista de caixas (abertos e fechados).
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Lista de caixas
-        $caixas = Caixa::orderBy('data_abertura', 'desc')->get();
+        // Recupera o valor do filtro de status da requisição (pode ser 'aberto' ou 'fechado')
+        $status = $request->input('status');
 
-        return view('caixas.index', compact('caixas'));
+        // Inicia a query básica
+        $query = Caixa::orderBy('data_abertura', 'desc');
+
+        // Se o status for informado, aplica o filtro na query
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        // Executa a query e obtém os resultados
+        $caixas = $query->get();
+
+        // Retorna a view com a lista de caixas filtrada
+        return view('caixas.index', compact('caixas', 'status'));
     }
 
     /**

@@ -17,39 +17,39 @@
                     </x-nav-link>
 
                     @if (Auth::user()->hasCargo('Administrador') || Auth::user()->hasCargo('Recepcionista'))
-                        <x-nav-link :href="route('alunos.create')" :active="request()->routeIs('alunos.create')" class="text-yellow-500 hover:text-yellow-400">
-                            {{ __('Criar Conta') }}
-                        </x-nav-link>
+                    <x-nav-link :href="route('alunos.create')" :active="request()->routeIs('alunos.create')" class="text-yellow-500 hover:text-yellow-400">
+                        {{ __('Criar Conta') }}
+                    </x-nav-link>
 
-                        <x-nav-link :href="route('caixas.index')" :active="request()->routeIs('caixas.index')" class="text-yellow-500 hover:text-yellow-400">
-                            {{ __('Caixas') }}
-                        </x-nav-link>
+                    <x-nav-link :href="route('caixas.index')" :active="request()->routeIs('caixas.index')" class="text-yellow-500 hover:text-yellow-400">
+                        {{ __('Caixas') }}
+                    </x-nav-link>
                     @endif
 
                     @if (Auth::user()->hasCargo('Administrador') || Auth::user()->hasCargo('Professor') || Auth::user()->hasCargo('Recepcionista'))
-                        <x-nav-link :href="route('alunos.index')" :active="request()->routeIs('alunos.index')" class="text-yellow-500 hover:text-yellow-400">
-                            {{ __('Alunos') }}
-                        </x-nav-link>
+                    <x-nav-link :href="route('alunos.index')" :active="request()->routeIs('alunos.index')" class="text-yellow-500 hover:text-yellow-400">
+                        {{ __('Alunos') }}
+                    </x-nav-link>
 
-                        <x-nav-link :href="route('exercicios.index')" :active="request()->routeIs('exercicios.index')" class="text-yellow-500 hover:text-yellow-400">
-                            {{ __('Exercícios') }}
-                        </x-nav-link>
+                    <x-nav-link :href="route('exercicios.index')" :active="request()->routeIs('exercicios.index')" class="text-yellow-500 hover:text-yellow-400">
+                        {{ __('Exercícios') }}
+                    </x-nav-link>
 
-                        <!-- Link para Treinos -->
-                        <x-nav-link :href="route('treinos.index')" :active="request()->routeIs('treinos.index')" class="text-yellow-500 hover:text-yellow-400">
-                            {{ __('Treinos') }}
-                        </x-nav-link>
+                    <!-- Link para Treinos -->
+                    <x-nav-link :href="route('treinos.index')" :active="request()->routeIs('treinos.index')" class="text-yellow-500 hover:text-yellow-400">
+                        {{ __('Treinos') }}
+                    </x-nav-link>
                     @endif
 
                     @if (Auth::user()->hasCargo('Administrador'))
-                        <x-nav-link :href="route('funcionarios.index')" :active="request()->routeIs('funcionarios.index')" class="text-yellow-500 hover:text-yellow-400">
-                            {{ __('Funcionários') }}
-                        </x-nav-link>
+                    <x-nav-link :href="route('funcionarios.index')" :active="request()->routeIs('funcionarios.index')" class="text-yellow-500 hover:text-yellow-400">
+                        {{ __('Funcionários') }}
+                    </x-nav-link>
 
-                        <!-- Link para Planos -->
-                        <x-nav-link :href="route('planos.index')" :active="request()->routeIs('planos.index')" class="text-yellow-500 hover:text-yellow-400">
-                            {{ __('Planos') }}
-                        </x-nav-link>
+                    <!-- Link para Planos -->
+                    <x-nav-link :href="route('planos.index')" :active="request()->routeIs('planos.index')" class="text-yellow-500 hover:text-yellow-400">
+                        {{ __('Planos') }}
+                    </x-nav-link>
                     @endif
                 </div>
             </div>
@@ -72,9 +72,10 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')" class="text-black hover:bg-gray-200"
-                                             onclick="event.preventDefault();
-                                                      this.closest('form').submit();">
+                            <x-dropdown-link :href="route('logout')"
+                                class="text-yellow-500 bg-transparent hover:bg-gray-700 hover:text-yellow-400 border-none rounded-md px-4 py-2"
+                                onclick="event.preventDefault();
+                 this.closest('form').submit();">
                                 {{ __('Sair') }}
                             </x-dropdown-link>
                         </form>
@@ -102,38 +103,38 @@
             </x-responsive-nav-link>
 
             @if (Auth::user()->hasCargo('Administrador') || Auth::user()->hasCargo('Recepcionista'))
-                <x-responsive-nav-link :href="route('alunos.create')" :active="request()->routeIs('alunos.create')" class="text-yellow-500 hover:text-yellow-400">
-                    {{ __('Criar Conta') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('alunos.create')" :active="request()->routeIs('alunos.create')" class="text-yellow-500 hover:text-yellow-400">
+                {{ __('Criar Conta') }}
+            </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('caixas.index')" :active="request()->routeIs('caixas.index')" class="text-yellow-500 hover:text-yellow-400">
-                    {{ __('Caixas') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('caixas.index')" :active="request()->routeIs('caixas.index')" class="text-yellow-500 hover:text-yellow-400">
+                {{ __('Caixas') }}
+            </x-responsive-nav-link>
             @endif
 
             @if (Auth::user()->hasCargo('Administrador') || Auth::user()->hasCargo('Professor') || Auth::user()->hasCargo('Recepcionista'))
-                <x-responsive-nav-link :href="route('alunos.index')" :active="request()->routeIs('alunos.index')" class="text-yellow-500 hover:text-yellow-400">
-                    {{ __('Alunos') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('alunos.index')" :active="request()->routeIs('alunos.index')" class="text-yellow-500 hover:text-yellow-400">
+                {{ __('Alunos') }}
+            </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('exercicios.index')" :active="request()->routeIs('exercicios.index')" class="text-yellow-500 hover:text-yellow-400">
-                    {{ __('Exercícios') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('exercicios.index')" :active="request()->routeIs('exercicios.index')" class="text-yellow-500 hover:text-yellow-400">
+                {{ __('Exercícios') }}
+            </x-responsive-nav-link>
 
-                <!-- Link para Treinos -->
-                <x-responsive-nav-link :href="route('treinos.index')" :active="request()->routeIs('treinos.index')" class="text-yellow-500 hover:text-yellow-400">
-                    {{ __('Treinos') }}
-                </x-responsive-nav-link>
+            <!-- Link para Treinos -->
+            <x-responsive-nav-link :href="route('treinos.index')" :active="request()->routeIs('treinos.index')" class="text-yellow-500 hover:text-yellow-400">
+                {{ __('Treinos') }}
+            </x-responsive-nav-link>
             @endif
 
             @if (Auth::user()->hasCargo('Administrador'))
-                <x-responsive-nav-link :href="route('funcionarios.index')" :active="request()->routeIs('funcionarios.index')" class="text-yellow-500 hover:text-yellow-400">
-                    {{ __('Funcionários') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('funcionarios.index')" :active="request()->routeIs('funcionarios.index')" class="text-yellow-500 hover:text-yellow-400">
+                {{ __('Funcionários') }}
+            </x-responsive-nav-link>
 
-                <x-responsive-nav-link :href="route('planos.index')" :active="request()->routeIs('planos.index')" class="text-yellow-500 hover:text-yellow-400">
-                    {{ __('Planos') }}
-                </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('planos.index')" :active="request()->routeIs('planos.index')" class="text-yellow-500 hover:text-yellow-400">
+                {{ __('Planos') }}
+            </x-responsive-nav-link>
             @endif
         </div>
 
@@ -148,10 +149,10 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-responsive-nav-link :href="route('logout')" class="text-yellow-500 hover:text-yellow-400"
-                                           onclick="event.preventDefault();
-                                                    this.closest('form').submit();">
+                    <x-responsive-nav-link :href="route('logout')"
+                        class="text-yellow-500 bg-transparent hover:bg-gray-700 hover:text-yellow-400 rounded-md px-4 py-2"
+                        onclick="event.preventDefault();
+                         this.closest('form').submit();">
                         {{ __('Sair') }}
                     </x-responsive-nav-link>
                 </form>

@@ -14,14 +14,14 @@
                         @method('PUT')
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
-                                <label for="nome" class="block text-sm font-medium text-yellow-500">Nome</label>
+                                <label for="nome" class="block text-sm font-medium text-yellow-500">Nome*</label>
                                 <input type="text" name="nome" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" value="{{ $plano->nome }}" required readonly disabled>
                                 @error('nome')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
-                                <label for="valor" class="block text-sm font-medium text-yellow-500">Valor (R$)</label>
+                                <label for="valor" class="block text-sm font-medium text-yellow-500">Valor* (R$)</label>
                                 <input type="number" step="0.01" name="valor" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" value="{{ $plano->valor }}" required readonly disabled>
                                 @error('valor')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
-                                <label for="duracao" class="block text-sm font-medium text-yellow-500">Duração (meses)</label>
+                                <label for="duracao" class="block text-sm font-medium text-yellow-500">Duração* (meses)</label>
                                 <input type="number" name="duracao" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" value="{{ $plano->duracao }}" required readonly disabled>
                                 @error('duracao')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>

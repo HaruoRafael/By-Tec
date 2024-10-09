@@ -11,6 +11,18 @@
                 <div class="p-6 text-yellow-500 dark:text-yellow-500">
                     <h2 class="text-2xl font-bold mb-4">Lista de Caixas</h2>
 
+                    <!-- Filtro por Status -->
+                    <form action="{{ route('caixas.index') }}" method="GET" class="mb-4">
+                        <label for="status" class="mr-2">Filtrar por Status:</label>
+                        <select name="status" id="status" class="border p-3 rounded-md bg-[#2d2d2d] text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                            <option value="" class="text-gray-500">Todos</option>
+                            <option value="aberto" {{ request('status') == 'aberto' ? 'selected' : '' }}>Aberto</option>
+                            <option value="fechado" {{ request('status') == 'fechado' ? 'selected' : '' }}>Fechado</option>
+                        </select>
+
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded ml-2">Pesquisar</button>
+                    </form>
+
                     <!-- Exibe os caixas -->
                     <table class="min-w-full bg-[#2d2d2d]">
                         <thead>

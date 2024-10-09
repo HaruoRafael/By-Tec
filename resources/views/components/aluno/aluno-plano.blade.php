@@ -25,8 +25,8 @@
     <p>Status: <span class="text-yellow-500">Reembolsado</span></p>
     @endif
 
-    <!-- Mostrar os botões apenas se o status for Ativo -->
-    @if($venda_atual->status === 'Ativo')
+    <!-- Mostrar os botões apenas se o status for Ativo e o usuário não for Professor -->
+    @if($venda_atual->status === 'Ativo' && Auth::user()->cargo !== 'Professor')
     <div class="mt-4 flex space-x-4">
         <!-- Formulário para Finalizar o Plano -->
         <form action="{{ route('vendas.finalizar', $venda_atual->id) }}" method="POST">
@@ -37,11 +37,6 @@
             </button>
         </form>
 
-        <!-- Formulário para Cancelar o Plano -->
-        <form action="{{ route('vendas.cancelar', $venda_atual->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-        </form>
     </div>
     @endif
 
