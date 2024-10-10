@@ -39,14 +39,14 @@
 
                 // Insere vírgula para os dois últimos dígitos (centavos)
                 if (value.length > 2) {
-                    value = value.slice(0, value.length - 2) + ',' + value.slice(value.length - 2);
+                    value = value.slice(0, value.length - 2) + '.' + value.slice(value.length - 2);
                 }
 
                 e.target.value = value;
             });
 
             // Define um valor padrão para o campo de saldo inicial
-            saldoInicialInput.value = '0,00'; // Padrão ao carregar a página
+            saldoInicialInput.value = '0.00'; // Padrão ao carregar a página
         });
     </script>
 </x-app-layout>

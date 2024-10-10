@@ -43,6 +43,15 @@
                             <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">Cancelar</button>
                         </div>
                     </form>
+
+                    <!-- Botão de exclusão -->
+                    <form action="{{ route('planos.destroy', $plano->id) }}" method="POST" class="mt-4">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600" onclick="return confirm('Tem certeza que deseja excluir este plano?')">
+                            Excluir Plano
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

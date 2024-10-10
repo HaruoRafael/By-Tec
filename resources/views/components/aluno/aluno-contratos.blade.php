@@ -1,22 +1,22 @@
-<div class="p-4 bg-white shadow-md rounded-md">
-    <h3 class="text-lg font-semibold">Histórico de Contratos</h3>
+<div class="p-4 bg-[#2d2d2d] shadow-md rounded-md">
+    <h3 class="text-lg font-semibold text-yellow-500">Histórico de Contratos</h3>
 
     @php
     $contratos = $aluno->vendas()->orderBy('created_at', 'desc')->get();
     @endphp
 
     @if($contratos->isEmpty())
-    <p>O aluno não possui nenhum contrato registrado.</p>
+    <p class="text-yellow-500">O aluno não possui nenhum contrato registrado.</p>
     @else
     <table class="table-auto w-full">
         <thead>
-            <tr>
-                <th class="px-4 py-2">Plano</th>
-                <th class="px-4 py-2">Data de Início</th>
-                <th class="px-4 py-2">Data de Expiração</th>
-                <th class="px-4 py-2">Valor</th>
-                <th class="px-4 py-2">Status</th>
-                <th class="px-4 py-2">Ações</th> <!-- Nova coluna para Ações -->
+            <tr class="bg-[#2d2d2d]">
+                <th class="px-4 py-2 text-left text-yellow-500">Plano</th>
+                <th class="px-4 py-2 text-left text-yellow-500">Data de Início</th>
+                <th class="px-4 py-2 text-left text-yellow-500">Data de Expiração</th>
+                <th class="px-4 py-2 text-left text-yellow-500">Valor</th>
+                <th class="px-4 py-2 text-left text-yellow-500">Status</th>
+                <th class="px-4 py-2 text-left text-yellow-500">Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -25,11 +25,11 @@
             $data_inicio = \Carbon\Carbon::parse($contrato->data_inicio);
             $data_expiracao = \Carbon\Carbon::parse($contrato->data_expiracao);
             @endphp
-            <tr>
-                <td class="border px-4 py-2">{{ $contrato->plano->nome }}</td>
-                <td class="border px-4 py-2">{{ $data_inicio->format('d/m/Y') }}</td>
-                <td class="border px-4 py-2">{{ $data_expiracao->format('d/m/Y') }}</td>
-                <td class="border px-4 py-2">R$ {{ number_format($contrato->valor, 2, ',', '.') }}</td>
+            <tr class="bg-[#2d2d2d]">
+                <td class="border px-4 py-2 text-yellow-500">{{ $contrato->plano->nome }}</td>
+                <td class="border px-4 py-2 text-yellow-500">{{ $data_inicio->format('d/m/Y') }}</td>
+                <td class="border px-4 py-2 text-yellow-500">{{ $data_expiracao->format('d/m/Y') }}</td>
+                <td class="border px-4 py-2 text-yellow-500">R$ {{ number_format($contrato->valor, 2, ',', '.') }}</td>
                 <td class="border px-4 py-2">
                     @if($contrato->status === 'Ativo')
                     <span class="text-green-500">Ativo</span>
@@ -42,7 +42,6 @@
                     @endif
                 </td>
                 <td class="border px-4 py-2">
-                    <!-- Link para o detalhe da venda -->
                     <a href="{{ route('vendas.show', $contrato->id) }}" class="text-blue-500 hover:underline">
                         Ver Detalhes
                     </a>
