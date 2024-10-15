@@ -37,7 +37,7 @@ class Aluno extends Model
     }
 
     public function avaliacoes()
-    {
+    {   
         return $this->hasMany(Avaliacao::class);
     }
 

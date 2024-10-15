@@ -40,17 +40,35 @@
                                         <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">
                                             Duração (meses)</th>
                                         <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">
+                                            Status</th>
+                                        <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">
                                             Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($planos as $plano)
-                                        <tr class="bg-[#3d3d3d]">
-                                            <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ $plano->nome }}</td>
-                                            <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ number_format($plano->valor, 2, ',', '.') }}</td>
-                                            <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ $plano->duracao }}</td>
-                                            <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">
+                                        <tr class="bg-[#3d3d3d] {{ !$plano->ativo ? 'text-red-500' : 'text-yellow-500' }}">
+                                            <td class="px-4 py-4 whitespace-nowrap">{{ $plano->nome }}</td>
+                                            <td class="px-4 py-4 whitespace-nowrap">{{ number_format($plano->valor, 2, ',', '.') }}</td>
+                                            <td class="px-4 py-4 whitespace-nowrap">{{ $plano->duracao }}</td>
+                                            <td class="px-4 py-4 whitespace-nowrap">
+                                                {{ $plano->ativo ? 'Ativo' : 'Inativo' }}
+                                            </td>
+                                            <td class="px-4 py-4 whitespace-nowrap">
                                                 <a href="{{ route('planos.show', $plano->id) }}" class="text-blue-500 hover:text-blue-700">Ver</a>
+                                                @if($plano->ativo)
+                                                    <form action="{{ route('planos.remove', $plano->id) }}" method="POST" class="inline-block">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="text-red-500 hover:text-red-700 ml-2">Ocultar</button>
+                                                    </form>
+                                                @else
+                                                    <form action="{{ route('planos.reativar', $plano->id) }}" method="POST" class="inline-block">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" class="text-green-500 hover:text-green-700 ml-2">Reativar</button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

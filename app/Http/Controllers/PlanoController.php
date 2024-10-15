@@ -4,12 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Plano;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PlanoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $planos = Plano::all();
+        // Inicia a consulta no modelo Plano
+        $query = Plano::query();
+
+        // Filtro por nome (termo de pesquisa)
+        if ($request->has('termo')) {
+            $termo = strtolower($request->input('termo'));
+            $query->where(DB::raw('LOWER(nome)'), 'LIKE', "%{$termo}%");
+        }
+
+        
+        // Filtro por duração
+        if ($request->has('duracao')) {
+            $duracao = $request->input('duracao');
+            $query->where('duracao', '=', $duracao);
+        }
+
+        // Filtro por status ativo/inativo
+
+
+        // Paginação de 10 planos por página
+        $planos = $query->orderBy('nome')->paginate(10);
+
         return view('planos.index', compact('planos'));
     }
 
@@ -49,10 +71,23 @@ class PlanoController extends Controller
         return redirect()->route('planos.index')->with('success', 'Plano atualizado com sucesso!');
     }
 
-    public function destroy(Plano $plano)
+    public function remove($id)
     {
-        $plano->delete();
+        $plano = Plano::findOrFail($id);
+        // Aqui, em vez de "Removido", usamos 'ativo' como false
+        $plano->ativo = false;
+        $plano->save();
 
-        return redirect()->route('planos.index')->with('success', 'Plano excluído com sucesso!');
+        return redirect()->route('planos.index')->with('success', 'Plano ocultado com sucesso.');
+    }
+
+    public function reativar($id)
+    {
+        $plano = Plano::findOrFail($id);
+        // Atualizamos o status 'ativo' para true
+        $plano->ativo = true;
+        $plano->save();
+
+        return redirect()->route('planos.index')->with('success', 'Plano reativado com sucesso.');
     }
 }

@@ -3,6 +3,10 @@
         <h2 class="font-semibold text-xl text-yellow-500 dark:text-yellow-500 leading-tight">
             {{ __('Detalhes do Exercício') }}
         </h2>
+        <x-nav-link :href="route('exercicios.index')" :active="request()->routeIs('exercicios.index')"
+            class="text-yellow-500 hover:text-yellow-400">
+            {{ __('Exercicios') }}
+        </x-nav-link>
     </x-slot>
 
     <div class="py-12">

@@ -28,8 +28,8 @@ class ExercicioController extends Controller
             $query->whereIn('dificuldade', $dificuldade);
         }
 
-        $exercicios = $query->orderBy('nome')->get();
-
+        $exercicios = $query->orderBy('nome')->paginate(10);
+        
         return view('exercicios.index', compact('exercicios'));
     }
 

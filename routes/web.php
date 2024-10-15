@@ -15,7 +15,7 @@ use App\Http\Controllers\DashboardController;
 // Página inicial
 Route::get('/', function () {
     return view('welcome');
-}); 
+});
 
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
@@ -73,7 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/caixas/{caixa}/fechar', [CaixaController::class, 'fechar'])->name('caixas.fechar');
         Route::get('/caixas', [CaixaController::class, 'index'])->name('caixas.index');
 
-   
+
         Route::get('/vendas/create', [VendaController::class, 'create'])->name('vendas.create');
         Route::post('/vendas', [VendaController::class, 'store'])->name('vendas.store');
         Route::post('/vendas/{id}/finalizar', [VendaController::class, 'finalizar'])->name('vendas.finalizar');
@@ -81,8 +81,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/vendas/{id}/reembolsar', [VendaController::class, 'reembolsar'])->name('vendas.reembolsar');
         Route::get('/vendas/{id}', [VendaController::class, 'showVenda'])->name('vendas.show');
         Route::post('/verificar-expiracao', [VendaController::class, 'verificarExpiracao'])->name('verificar-expiracao');
-
-        
     });
 
     // Grupo de rotas restritas a Administradores
@@ -101,6 +99,8 @@ Route::middleware('auth')->group(function () {
 
         // Rotas para planos (apenas administrador pode gerenciar planos)
         Route::resource('planos', PlanoController::class);
+        Route::patch('/planos/{plano}/ocultar', [PlanoController::class, 'remove'])->name('planos.remove');
+        Route::patch('/planos/{plano}/reativar', [PlanoController::class, 'reativar'])->name('planos.reativar');
     });
 });
 

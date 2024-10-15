@@ -26,33 +26,40 @@
                     </div>
 
                     @if($treinos->isNotEmpty())
-                        <div id="listaTreinosContainer">
-                            <h2 class="text-xl font-bold mb-4">Lista de Treinos</h2>
-                            <table class="min-w-full bg-[#3d3d3d]">
-                                <thead>
-                                    <tr>
-                                        <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Nome</th>
-                                        <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Tipo</th>
-                                        <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Criado por</th>
-                                        <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($treinos as $treino)
-                                        <tr class="bg-[#3d3d3d]">
-                                            <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ $treino->nome }}</td>
-                                            <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ ucfirst($treino->tipo) }}</td>
-                                            <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ $treino->user->name }}</td>
-                                            <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">
-                                                <a href="{{ route('treinos.show', $treino->id) }}" class="text-blue-500 hover:text-blue-700">Ver</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                    <div id="listaTreinosContainer">
+                        <h2 class="text-xl font-bold mb-4">Lista de Treinos</h2>
+                        <table class="min-w-full bg-[#3d3d3d]">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Nome</th>
+                                    <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Tipo</th>
+                                    <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Criado por</th>
+                                    <th class="px-4 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($treinos as $treino)
+                                <tr class="bg-[#3d3d3d]">
+                                    <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ $treino->nome }}</td>
+                                    <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ ucfirst($treino->tipo) }}</td>
+                                    <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">{{ $treino->user->name }}</td>
+                                    <td class="px-4 py-4 text-yellow-500 whitespace-nowrap">
+                                        <a href="{{ route('treinos.show', $treino->id) }}" class="text-blue-500 hover:text-blue-700">Ver</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <!-- Paginação -->
+                        <div class="mt-6">
+                            <nav role="navigation" aria-label="Pagination Navigation" class="inline-flex rounded-md shadow">
+                                {{ $treinos->appends(request()->query())->links('pagination::tailwind') }}
+                            </nav>
                         </div>
+                    </div>
                     @else
-                        <p class="text-yellow-500">Nenhum treino encontrado.</p>
+                    <p class="text-yellow-500">Nenhum treino encontrado.</p>
                     @endif
                 </div>
             </div>

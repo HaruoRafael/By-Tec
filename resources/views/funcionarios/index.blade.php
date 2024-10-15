@@ -17,10 +17,10 @@
                         <form action="{{ route('funcionarios.index') }}" method="GET" class="flex flex-col sm:flex-row sm:space-x-4">
                             <div class="flex items-center mb-4 sm:mb-0">
                                 @foreach(['Ativo', 'Desativado'] as $status)
-                                    <div class="flex items-center mr-4">
-                                        <input type="checkbox" id="{{ strtolower($status) }}" name="status[]" value="{{ $status }}" {{ in_array($status, Request::input('status', [])) ? 'checked' : '' }} class="text-yellow-500 border-gray-300 rounded focus:ring-yellow-500">
-                                        <label for="{{ strtolower($status) }}" class="ml-2 text-sm text-yellow-500">{{ $status }}</label>
-                                    </div>
+                                <div class="flex items-center mr-4">
+                                    <input type="checkbox" id="{{ strtolower($status) }}" name="status[]" value="{{ $status }}" {{ in_array($status, Request::input('status', [])) ? 'checked' : '' }} class="text-yellow-500 border-gray-300 rounded focus:ring-yellow-500">
+                                    <label for="{{ strtolower($status) }}" class="ml-2 text-sm text-yellow-500">{{ $status }}</label>
+                                </div>
                                 @endforeach
                             </div>
                             <div class="flex flex-wrap sm:flex-nowrap sm:space-x-4">
@@ -35,37 +35,44 @@
                     </div>
 
                     @if(isset($funcionarios) && $funcionarios->count() > 0)
-                        <div id="listaFuncionariosContainer">
-                            <h2 class="text-xl font-semibold text-yellow-500 mb-4">Lista de Funcionários</h2>
-                            <table class="min-w-full bg-[#3d3d3d]">
-                                <thead>
-                                    <tr>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Nome</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Cargo</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Idade</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Sexo</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Status</th>
-                                        <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($funcionarios as $funcionario)
-                                        <tr class="bg-[#3d3d3d] {{ $funcionario->status == 'Desativado' ? 'text-red-500' : 'text-yellow-500' }}">
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->name }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->cargo }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->data_nascimento ? \Carbon\Carbon::parse($funcionario->data_nascimento)->age : 'N/A' }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->sexo }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->status }}</td>
-                                            <td class="px-5 py-4 whitespace-nowrap">
-                                                <a href="{{ route('funcionarios.show', $funcionario->id) }}" class="text-blue-500 hover:text-blue-700">Ver</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                    <div id="listaFuncionariosContainer">
+                        <h2 class="text-xl font-semibold text-yellow-500 mb-4">Lista de Funcionários</h2>
+                        <table class="min-w-full bg-[#3d3d3d]">
+                            <thead>
+                                <tr>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Nome</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Cargo</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Idade</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Sexo</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-5 py-3 text-left text-xs text-yellow-500 uppercase tracking-wider">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($funcionarios as $funcionario)
+                                <tr class="bg-[#3d3d3d] {{ $funcionario->status == 'Desativado' ? 'text-red-500' : 'text-yellow-500' }}">
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->name }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->cargo }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->data_nascimento ? \Carbon\Carbon::parse($funcionario->data_nascimento)->age : 'N/A' }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->sexo }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">{{ $funcionario->status }}</td>
+                                    <td class="px-5 py-4 whitespace-nowrap">
+                                        <a href="{{ route('funcionarios.show', $funcionario->id) }}" class="text-blue-500 hover:text-blue-700">Ver</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <!-- Paginação -->
+                        <div class="mt-6">
+                            <nav role="navigation" aria-label="Pagination Navigation" class="inline-flex rounded-md shadow">
+                                {{ $funcionarios->appends(request()->query())->links('pagination::tailwind') }}
+                            </nav>
                         </div>
+                    </div>
                     @else
-                        <p class="text-yellow-500">Nenhum funcionário encontrado.</p>
+                    <p class="text-yellow-500">Nenhum funcionário encontrado.</p>
                     @endif
                 </div>
             </div>
@@ -75,7 +82,7 @@
     <!-- Script para formatação de campos e validações -->
     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             new Cleave('#cpfPesquisa', {
                 delimiters: ['.', '.', '-'],
                 blocks: [3, 3, 3, 2],

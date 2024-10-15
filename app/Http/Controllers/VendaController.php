@@ -16,28 +16,28 @@ class VendaController extends Controller
     {
         // Buscar o aluno baseado no ID fornecido
         $aluno = Aluno::find($request->input('aluno_id'));
-
-        // Buscar todos os planos
-        $planos = Plano::all();
-
+    
+        // Listar apenas planos ativos
+        $planos = Plano::where('ativo', true)->get();
+    
         // Verifica se o aluno já tem um plano ativo
         $venda_atual = $aluno->vendas()->where('status', 'Ativo')->first();
-
+    
         if ($venda_atual) {
             // Se o aluno tiver um plano ativo, redireciona com uma mensagem de erro
             return redirect()->route('alunos.show', $aluno->id)
                 ->with('error', 'O aluno já possui um plano ativo. Não é possível realizar outra venda.');
         }
-
+    
         // Verifica se existe um caixa aberto
         $caixaAberto = Caixa::where('status', 'aberto')->first();
-
+    
         if (!$caixaAberto) {
             // Se não houver caixa aberto, redireciona com mensagem de erro
             return redirect()->route('alunos.show', $aluno->id)
                 ->with('error', 'Não há nenhum caixa aberto no momento. Por favor, abra um caixa para realizar a venda.');
         }
-
+    
         // Se tudo estiver correto, exibe o formulário de venda
         return view('vendas.create', compact('aluno', 'planos'));
     }

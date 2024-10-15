@@ -1,22 +1,32 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Treino;
 use App\Models\Exercicio;
 use App\Models\ExercicioTreino;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TreinoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $treinos = Treino::with('exercicios')->get();
+        $query = Treino::with('user');
+
+        if ($request->has('termo')) {
+            $termo = strtolower($request->input('termo'));
+            $query->where(DB::raw('LOWER(nome)'), 'LIKE', "%{$termo}%");
+        }
+
+        // Paginação de 10 treinos por página
+        $treinos = $query->orderBy('nome')->paginate(10);
+
         return view('treinos.index', compact('treinos'));
     }
-
     public function create()
     {
-        $exercicios = Exercicio::all();
+        $exercicios = Exercicio::orderBy('nome')->get();
         return view('treinos.create', compact('exercicios'));
     }
 
@@ -153,7 +163,10 @@ class TreinoController extends Controller
             'dia3_repeticoes.*.min' => 'O número de repetições para o dia 3 deve ser pelo menos 1.',
         ]);
 
-        $treino->update(['nome' => $request->nome,'tipo' => $request->tipo,'user_id' => auth()->id()
+        $treino->update([
+            'nome' => $request->nome,
+            'tipo' => $request->tipo,
+            'user_id' => auth()->id()
         ]);
 
         ExercicioTreino::where('treino_id', $treino->id)->delete(); // Remove todas as associações atuais

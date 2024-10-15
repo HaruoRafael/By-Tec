@@ -36,7 +36,7 @@ class ProfileController extends Controller
             $query->where('status', 'Ativo');
         }
 
-        $funcionarios = $query->orderBy('name')->get();
+        $funcionarios = $query->orderBy('name')->paginate(10);
 
         return view('funcionarios.index', compact('funcionarios'));
     }
