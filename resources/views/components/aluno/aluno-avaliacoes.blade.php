@@ -60,7 +60,7 @@
         }
     }
 
-    // Aplicar o evento de remoção a todos os botões de remoção
+    // 
     document.querySelectorAll('button[data-avaliacao-id]').forEach(function(button) {
         button.addEventListener('click', function() {
             var avaliacaoId = this.getAttribute('data-avaliacao-id');

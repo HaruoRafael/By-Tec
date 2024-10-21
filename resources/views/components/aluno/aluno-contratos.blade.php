@@ -1,6 +1,7 @@
 <div class="p-4 bg-[#2d2d2d] shadow-md rounded-md">
     <h3 class="text-lg font-semibold text-yellow-500">Histórico de Contratos</h3>
 
+    
     @php
     $contratos = $aluno->vendas()->orderBy('created_at', 'desc')->get();
     @endphp

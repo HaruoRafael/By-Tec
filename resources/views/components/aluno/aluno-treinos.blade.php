@@ -18,6 +18,7 @@
                 </tr>
             </thead>
             <tbody>
+                
                 @foreach($aluno->treinos as $treino)
                 <tr class="bg-[#2d2d2d]">
                     <td class="border px-4 py-2 text-yellow-500">{{ $treino->nome }}</td>

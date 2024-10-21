@@ -35,6 +35,7 @@
         </form>
 
     </div>
+    
     @endif
     @else
     <p class="text-yellow-500">O aluno não possui um plano ativo no momento.</p>

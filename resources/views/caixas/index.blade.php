@@ -22,7 +22,17 @@
 
                         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded ml-2">Pesquisar</button>
                     </form>
+                    @if (session('error'))
+                    <div class="bg-red-500 text-white p-4 rounded mb-4">
+                        {{ session('error') }}
+                    </div>
+                    @endif
 
+                    @if (session('success'))
+                    <div class="bg-green-500 text-white p-4 rounded mb-4">
+                        {{ session('success') }}
+                    </div>
+                    @endif
                     <!-- Exibe os caixas -->
                     <table class="min-w-full bg-[#2d2d2d]">
                         <thead>
