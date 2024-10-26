@@ -59,7 +59,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!-- Paginação -->
                         <div class="mt-6">
                             <nav role="navigation" aria-label="Pagination Navigation" class="inline-flex rounded-md shadow">
                                 {{ $exercicios->appends(request()->query())->links('pagination::tailwind') }}

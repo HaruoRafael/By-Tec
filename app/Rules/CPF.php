@@ -20,17 +20,14 @@ class CPF implements Rule
     {
         $cpf = preg_replace('/[^0-9]/', '', (string) $value);
 
-        // Verifica se o CPF possui 11 dígitos
         if (strlen($cpf) != 11) {
             return false;
         }
 
-        // Verifica se todos os dígitos são iguais
         if (preg_match('/(\d)\1{10}/', $cpf)) {
             return false;
         }
 
-        // Calcula o primeiro dígito verificador
         $sum = 0;
         for ($i = 0; $i < 9; $i++) {
             $sum += ($cpf[$i] * (10 - $i));
@@ -38,12 +35,10 @@ class CPF implements Rule
         $remainder = $sum % 11;
         $digit1 = ($remainder < 2) ? 0 : (11 - $remainder);
 
-        // Verifica o primeiro dígito verificador
         if ($cpf[9] != $digit1) {
             return false;
         }
 
-        // Calcula o segundo dígito verificador
         $sum = 0;
         for ($i = 0; $i < 10; $i++) {
             $sum += ($cpf[$i] * (11 - $i));
@@ -51,7 +46,6 @@ class CPF implements Rule
         $remainder = $sum % 11;
         $digit2 = ($remainder < 2) ? 0 : (11 - $remainder);
 
-        // Verifica o segundo dígito verificador
         if ($cpf[10] != $digit2) {
             return false;
         }

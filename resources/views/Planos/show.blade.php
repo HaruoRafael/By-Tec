@@ -44,7 +44,6 @@
                         </div>
                     </form>
 
-                    <!-- Botão de exclusão -->
                     <form action="{{ route('planos.destroy', $plano->id) }}" method="POST" class="mt-4">
                         @csrf
                         @method('DELETE')

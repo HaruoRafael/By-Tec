@@ -13,16 +13,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AlunoController extends Controller
 {
-    // Função para atualizar o status do aluno baseado nos planos ativos
     public function atualizarStatusAluno(Aluno $aluno)
     {
-        // Verifica se o aluno tem algum plano ativo
         $planoAtivo = $aluno->vendas()->where('status', 'Ativo')->exists();
 
         if ($planoAtivo) {
             $aluno->status = 'Ativo';
         } else {
-            // Se não houver plano ativo, o status será Inativo ou Cancelado
             $ultimoPlano = $aluno->vendas()->latest('data_expiracao')->first();
             if ($ultimoPlano && $ultimoPlano->status === 'Cancelado') {
                 $aluno->status = 'Inativo';
@@ -30,16 +27,12 @@ class AlunoController extends Controller
                 $aluno->status = 'Inativo';
             }
         }
-
-        // Salva o status atualizado
         $aluno->save();
     }
 
-    // Verificação de expiração de planos para todos os alunos
     public function verificarExpiracaoPlanos()
     {
         try {
-            // Buscar todas as vendas ativas cuja data de expiração já passou
             $vendasExpiradas = Venda::where('status', 'Ativo')
                 ->whereDate('data_expiracao', '<', Carbon::now())
                 ->get();
@@ -47,13 +40,9 @@ class AlunoController extends Controller
             if ($vendasExpiradas->isEmpty()) {
                 return;
             }
-
-            // Atualiza o status das vendas expiradas e alunos relacionados
             foreach ($vendasExpiradas as $venda) {
                 $venda->status = 'Finalizado';
                 $venda->save();
-
-                // Atualiza o status do aluno após finalizar a venda
                 $this->atualizarStatusAluno($venda->aluno);
             }
         } catch (\Exception $e) {
@@ -63,43 +52,31 @@ class AlunoController extends Controller
 
     public function index(Request $request)
     {
-        // Verificar planos expirados antes de listar os alunos
         $this->verificarExpiracaoPlanos();
 
         $query = Aluno::query();
 
-        // Filtro por nome (termo)
         if ($request->has('termo')) {
             $termo = strtolower($request->input('termo'));
             $query->where(DB::raw('LOWER(nome)'), 'LIKE', "%{$termo}%");
         }
 
-        // Filtro por CPF
         if ($request->has('cpf')) {
             $cpf = $request->input('cpf');
             $query->where('cpf', 'LIKE', "%{$cpf}%");
         }
 
-        // Filtro por status
         $status = $request->input('status', []);
         if (!empty($status)) {
             $query->whereIn('status', $status);
         }
 
-        // Excluir status "Removido" caso não esteja nos filtros
         if (!in_array('Removido', $status)) {
             $query->where('status', '!=', 'Removido');
         }
 
-        // Paginação de 10 alunos por página
         $alunos = $query->orderBy('nome')->paginate(10);
 
-        // Cálculo da idade
-        $alunos->each(function ($aluno) {
-            $aluno->idade = $aluno->data_nascimento ? Carbon::parse($aluno->data_nascimento)->age : 'N/A';
-        });
-
-        // Retornar a view com os alunos paginados
         return view('alunos.index', compact('alunos'));
     }
 
@@ -125,7 +102,6 @@ class AlunoController extends Controller
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
         ]);
 
-        // Criação do aluno
         $aluno = Aluno::create([
             'nome' => $request->input('nome'),
             'cpf' => $request->input('cpf'),
@@ -136,7 +112,6 @@ class AlunoController extends Controller
             'endereco' => $request->input('endereco'),
         ]);
 
-        // Atualiza o status do aluno ao criar
         $this->atualizarStatusAluno($aluno);
 
         return redirect()->route('alunos.index')->with('success', 'Aluno cadastrado com sucesso.');
@@ -144,7 +119,7 @@ class AlunoController extends Controller
 
     public function show(Aluno $aluno)
     {
-        $treinosDisponiveis = Treino::all(); // Recupera todos os treinos disponíveis
+        $treinosDisponiveis = Treino::all(); 
         return view('alunos.show', compact('aluno', 'treinosDisponiveis'));
     }
 

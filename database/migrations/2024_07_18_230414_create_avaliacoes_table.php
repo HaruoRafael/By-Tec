@@ -35,7 +35,7 @@ return new class extends Migration
             $table->float('porcentagem_agua');
             $table->float('taxa_metabolica_basal');
             $table->integer('idade_metabolica');
-            $table->foreignId('aluno_id')->constrained()->onDelete('cascade'); // Adicionando relação com aluno
+            $table->foreignId('aluno_id')->constrained()->onDelete('cascade'); 
             $table->timestamps();
         });
     }

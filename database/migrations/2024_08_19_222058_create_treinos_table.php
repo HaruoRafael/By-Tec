@@ -12,7 +12,7 @@ class CreateTreinosTable extends Migration
             $table->id();
             $table->string('nome');
             $table->enum('tipo', ['iniciante', 'intermediário', 'avançado']);
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Adiciona o ID do usuário que criou o treino
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
             $table->timestamps();
         });
     }

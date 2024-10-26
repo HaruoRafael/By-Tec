@@ -31,11 +31,7 @@ class Aluno extends Model
         return optional($this->data_nascimento)->age;
     }
 
-    public function status()
-    {
-        return $this->belongsTo(Status::class, 'status_id');
-    }
-
+ 
     public function avaliacoes()
     {   
         return $this->hasMany(Avaliacao::class);

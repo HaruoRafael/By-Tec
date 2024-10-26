@@ -64,7 +64,6 @@
                             </tbody>
                         </table>
 
-                        <!-- Paginação -->
                         <div class="mt-6">
                             <nav role="navigation" aria-label="Pagination Navigation" class="inline-flex rounded-md shadow">
                                 {{ $funcionarios->appends(request()->query())->links('pagination::tailwind') }}
@@ -79,7 +78,6 @@
         </div>
     </div>
 
-    <!-- Script para formatação de campos e validações -->
     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

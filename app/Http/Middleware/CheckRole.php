@@ -19,12 +19,10 @@ class CheckRole
     {
         $user = Auth::user();
 
-        // Verifica se o usuário está autenticado e se seu cargo está na lista permitida
         if ($user && in_array($user->cargo, $roles)) {
             return $next($request);
         }
 
-        // Redireciona para a página de acesso negado se o usuário não tiver permissão
         return redirect()->route('access.denied');
     }
 }

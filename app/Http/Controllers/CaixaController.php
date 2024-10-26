@@ -10,49 +10,36 @@ use Carbon\Carbon;
 
 class CaixaController extends Controller
 {
-    /**
-     * Exibe a lista de caixas (abertos e fechados).
-     */
+ 
     public function index(Request $request)
     {
-        // Recupera o valor do filtro de status da requisição (pode ser 'aberto' ou 'fechado')
         $status = $request->input('status');
 
-        // Inicia a query básica
         $query = Caixa::orderBy('data_abertura', 'desc');
 
-        // Se o status for informado, aplica o filtro na query
         if ($status) {
             $query->where('status', $status);
         }
 
-        // Executa a query e obtém os resultados
         $caixas = $query->get();
 
-        // Retorna a view com a lista de caixas filtrada
         return view('caixas.index', compact('caixas', 'status'));
     }
 
-    /**
-     * Exibe a página para abrir um novo caixa.
-     */
+   
     public function create()
     {
         return view('caixas.create');
     }
 
-    /**
-     * Abre um novo caixa.
-     */
+
     public function store(Request $request)
     {
-        // Verifica se já existe um caixa aberto
         $caixaAberto = Caixa::where('status', 'aberto')->exists();
         if ($caixaAberto) {
             return redirect()->route('caixas.index')->with('error', 'Já existe um caixa aberto.');
         }
 
-        // Abre um novo caixa
         Caixa::create([
             'user_id' => Auth::id(),
             'data_abertura' => Carbon::now(),
@@ -63,34 +50,24 @@ class CaixaController extends Controller
         return redirect()->route('caixas.index')->with('success', 'Caixa aberto com sucesso.');
     }
 
-    /**
-     * Mostra os detalhes de um caixa específico, incluindo vendas.
-     */
     public function show(Caixa $caixa)
     {
-        // Carrega todas as vendas relacionadas ao caixa
         $vendas = Venda::where('caixa_id', $caixa->id)->get();
 
-        // Calcula o saldo total com base nas vendas
         $totalVendas = $vendas->sum('valor');
 
-        // O saldo final será o saldo inicial + o total das vendas
         $saldoFinalCalculado = $caixa->saldo_inicial + $totalVendas;
 
         return view('caixas.show', compact('caixa', 'vendas', 'saldoFinalCalculado'));
     }
 
-    /**
-     * Fecha o caixa atual.
-     */
+
     public function fechar(Request $request, Caixa $caixa)
     {
-        // Verifica se o caixa está aberto
         if ($caixa->status !== 'aberto') {
             return redirect()->back()->with('error', 'Este caixa já foi fechado.');
         }
 
-        // Fecha o caixa e atualiza o saldo final
         $caixa->update([
             'data_fechamento' => Carbon::now(),
             'saldo_final' => $request->input('saldo_final'),

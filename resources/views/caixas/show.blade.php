@@ -40,7 +40,6 @@
                             </div>
                         </div>
 
-                        <!-- Cálculo do saldo final levando em consideração as vendas ativas -->
                         @php
                         $totalVendasAtivasOuFinalizadas = $vendas->whereIn('status', ['Ativo', 'Finalizado'])->sum('valor');
                         $saldoCalculado = $caixa->saldo_inicial + $totalVendasAtivasOuFinalizadas;
@@ -66,7 +65,6 @@
                                 @foreach($vendas as $venda)
                                 <tr>
                                     <td class="border px-4 py-2">
-                                        <!-- Link para detalhes da venda -->
                                         <a href="{{ route('vendas.show', $venda->id) }}" class="text-blue-500 hover:underline">
                                             {{ $venda->descricao }}
                                         </a>
@@ -76,7 +74,6 @@
                                     <td class="border px-4 py-2">{{ ucfirst($venda->forma_pagamento) }}</td>
                                     <td class="border px-4 py-2">
                                         @if($venda->status == 'Ativo')
-                                        <!-- Botão de Reembolso -->
                                         <form action="{{ route('vendas.reembolsar', $venda->id) }}" method="POST">
                                             @csrf
                                             <button type="submit" class="bg-yellow-500 text-black font-bold py-1 px-3 rounded hover:bg-yellow-600">Reembolsar</button>

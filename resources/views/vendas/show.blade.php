@@ -19,8 +19,6 @@
                     <p><strong>Data de Início:</strong> {{ \Carbon\Carbon::parse($venda->data_inicio)->format('d/m/Y') }}</p>
                     <p><strong>Data de Expiração:</strong> {{ \Carbon\Carbon::parse($venda->data_expiracao)->format('d/m/Y') }}</p>
                     <p><strong>Status:</strong> {{ ucfirst($venda->status) }}</p>
-
-                    <!-- Link para voltar ao perfil do aluno -->
                     <a href="{{ route('alunos.show', $venda->aluno_id) }}" class="text-blue-500 hover:underline">
                         Voltar para o perfil do aluno
                     </a>

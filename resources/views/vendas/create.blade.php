@@ -22,21 +22,18 @@
                         @csrf
                         <input type="hidden" name="aluno_id" value="{{ $aluno->id }}">
 
-                        <!-- Descrição e Data de Venda -->
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="descricao" class="block text-sm font-medium text-yellow-500">Descrição</label>
                                 <input type="text" id="descricao" name="descricao" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" required>
                             </div>
 
-                            <!-- Data de Início do Plano -->
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="data_inicio" class="block text-sm font-medium text-yellow-500">Data de Início do Plano</label>
                                 <input type="date" id="data_inicio" name="data_inicio" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" value="{{ date('Y-m-d') }}" required>
                             </div>
                         </div>
 
-                        <!-- Formas de Pagamento -->
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="forma_pagamento" class="block text-sm font-medium text-yellow-500">Forma de Pagamento</label>
@@ -48,14 +45,12 @@
                                 </select>
                             </div>
 
-                            <!-- Desconto -->
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="desconto" class="block text-sm font-medium text-yellow-500">Desconto (%)</label>
                                 <input type="number" id="desconto" name="desconto" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" placeholder="Digite o valor do desconto" min="0" max="100" value="0" oninput="calcularValorFinal()">
                             </div>
                         </div>
 
-                        <!-- Plano e Valor Final -->
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="plano" class="block text-sm font-medium text-yellow-500">Plano</label>
@@ -87,22 +82,16 @@
 
     <script>
         function calcularValorFinal() {
-            // Pegar o plano selecionado
             var planoSelect = document.getElementById('plano');
             var planoSelecionado = planoSelect.options[planoSelect.selectedIndex];
             var valorPlano = parseFloat(planoSelecionado.getAttribute('data-valor'));
 
-            // Pegar o desconto
             var desconto = parseFloat(document.getElementById('desconto').value) || 0;
 
-            // Calcular valor final com o desconto
             var valorFinal = valorPlano - (valorPlano * desconto / 100);
 
-            // Atualizar o campo de valor final
             document.getElementById('valor_final').value = valorFinal.toFixed(2);
         }
-
-        // Calcular o valor inicial ao carregar a página
         document.addEventListener('DOMContentLoaded', function() {
             calcularValorFinal();
         });

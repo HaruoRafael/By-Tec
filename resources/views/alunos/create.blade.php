@@ -89,7 +89,6 @@
 
 
 
-                    <!-- Inclui a biblioteca Cleave.js -->
                     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {
@@ -114,10 +113,10 @@
 
                             document.getElementById('nome').addEventListener('keypress', function(event) {
                                 const charCode = event.charCode;
-                                if (!(charCode >= 48 && charCode <= 57) && // Números (0-9)
-                                    !(charCode >= 65 && charCode <= 90) && // Letras maiúsculas (A-Z)
-                                    !(charCode >= 97 && charCode <= 122) && // Letras minúsculas (a-z)
-                                    charCode !== 32) { // Espaço
+                                if (!(charCode >= 48 && charCode <= 57) && 
+                                    !(charCode >= 65 && charCode <= 90) && 
+                                    !(charCode >= 97 && charCode <= 122) && 
+                                    charCode !== 32) { 
                                     event.preventDefault();
                                 }
                             });

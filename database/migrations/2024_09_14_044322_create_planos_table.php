@@ -12,8 +12,8 @@ class CreatePlanosTable extends Migration
             $table->id();
             $table->string('nome');
             $table->decimal('valor', 10, 2);
-            $table->integer('duracao'); // Ex: Duração em meses
-            $table->boolean('ativo')->default(true); // Campo para controlar se o plano está ativo
+            $table->integer('duracao'); 
+            $table->boolean('ativo')->default(true); 
             $table->timestamps();
         });
     }

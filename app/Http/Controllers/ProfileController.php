@@ -32,7 +32,6 @@ class ProfileController extends Controller
             $status = $request->input('status');
             $query->whereIn('status', $status);
         } else {
-            // Se nenhum status for selecionado, exibir apenas funcionários ativos
             $query->where('status', 'Ativo');
         }
 
@@ -80,20 +79,16 @@ class ProfileController extends Controller
     }
     public function remove(User $user): RedirectResponse
     {
-        // Atualiza o status do usuário para 'Desativado'
         $user->status = 'Desativado';
         $user->save();
 
-        // Redireciona de volta para a lista de funcionários com uma mensagem de sucesso
         return Redirect::route('funcionarios.index')->with('success', 'Funcionário desativado com sucesso.');
     }
     public function reativar(User $user): RedirectResponse
     {
-        // Atualiza o status do usuário para 'Ativo'
         $user->status = 'Ativo';
         $user->save();
 
-        // Redireciona de volta para a página de detalhes do funcionário com uma mensagem de sucesso
         return Redirect::route('funcionarios.show', $user->id)->with('success', 'Funcionário reativado com sucesso.');
     }
 }

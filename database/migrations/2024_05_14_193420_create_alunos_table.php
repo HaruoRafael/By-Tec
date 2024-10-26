@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('cpf')->unique();
             $table->string('rg')->nullable();
             $table->string('telefone')->nullable();
-            $table->string('sexo'); // Alterando para armazenar os valores completos
+            $table->string('sexo'); 
             $table->date('data_nascimento');
             $table->text('endereco')->nullable();
             $table->timestamps();

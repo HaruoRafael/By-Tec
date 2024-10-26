@@ -10,26 +10,21 @@ class PlanoController extends Controller
 {
     public function index(Request $request)
     {
-        // Inicia a consulta no modelo Plano
         $query = Plano::query();
 
-        // Filtro por nome (termo de pesquisa)
         if ($request->has('termo')) {
             $termo = strtolower($request->input('termo'));
             $query->where(DB::raw('LOWER(nome)'), 'LIKE', "%{$termo}%");
         }
 
         
-        // Filtro por duração
         if ($request->has('duracao')) {
             $duracao = $request->input('duracao');
             $query->where('duracao', '=', $duracao);
         }
 
-        // Filtro por status ativo/inativo
 
 
-        // Paginação de 10 planos por página
         $planos = $query->orderBy('nome')->paginate(10);
 
         return view('planos.index', compact('planos'));
@@ -43,7 +38,7 @@ class PlanoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nome' => 'required|string|max:255',
+            'nome' => 'required|string|max:25',
             'valor' => 'required|numeric|min:0',
             'duracao' => 'required|integer|min:1',
         ]);
@@ -61,7 +56,7 @@ class PlanoController extends Controller
     public function update(Request $request, Plano $plano)
     {
         $request->validate([
-            'nome' => 'required|string|max:255',
+            'nome' => 'required|string|max:25',
             'valor' => 'required|numeric|min:0',
             'duracao' => 'required|integer|min:1',
         ]);
@@ -74,7 +69,6 @@ class PlanoController extends Controller
     public function remove($id)
     {
         $plano = Plano::findOrFail($id);
-        // Aqui, em vez de "Removido", usamos 'ativo' como false
         $plano->ativo = false;
         $plano->save();
 
@@ -84,7 +78,6 @@ class PlanoController extends Controller
     public function reativar($id)
     {
         $plano = Plano::findOrFail($id);
-        // Atualizamos o status 'ativo' para true
         $plano->ativo = true;
         $plano->save();
 

@@ -48,19 +48,15 @@
         </div>
     </div>
 
-    <!-- Adicionando o JavaScript para formatação do valor -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const valorInput = document.getElementById('valor');
 
-            // Formata o valor do campo ao digitar
             valorInput.addEventListener('input', function(e) {
                 let value = e.target.value;
 
-                // Remove qualquer caractere que não seja número
                 value = value.replace(/\D/g, "");
 
-                // Insere vírgula para os dois últimos dígitos (centavos)
                 if (value.length > 2) {
                     value = value.slice(0, value.length - 2) + '.' + value.slice(value.length - 2);
                 }
@@ -68,7 +64,6 @@
                 e.target.value = value;
             });
 
-            // Define um valor padrão para o campo de valor ao carregar
             valorInput.value = '0.00';
         });
     </script>

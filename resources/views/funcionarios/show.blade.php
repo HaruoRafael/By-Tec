@@ -41,7 +41,6 @@
                             </div>
                         </div>
 
-                        <!-- Telefone e Sexo -->
                         <div class="flex flex-wrap -mx-2 mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                                 <label for="telefone" class="block text-sm font-medium text-yellow-500">Telefone</label>
@@ -63,7 +62,6 @@
                             </div>
                         </div>
 
-                        <!-- Data de Nascimento e Endereço -->
                         <div class="flex flex-wrap -mx-2 mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                                 <label for="data_nascimento" class="block text-sm font-medium text-yellow-500">Data de Nascimento</label>
@@ -81,7 +79,6 @@
                             </div>
                         </div>
 
-                        <!-- Cargo -->
                         <div class="mb-4">
                             <label for="cargo" class="block text-sm font-medium text-yellow-500">Cargo</label>
                             <select id="cargo" name="cargo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50 bg-white" readonly disabled>
@@ -102,7 +99,6 @@
                             @enderror
                         </div>
 
-                        <!-- Botões de Ação -->
                         <div class="flex justify-end space-x-2">
                             <button type="button" onclick="habilitarEdicao()" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600">Editar</button>
                             <button type="submit" id="btnSalvar" style="display: none;" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">Salvar</button>
@@ -110,7 +106,6 @@
                         </div>
                     </form>
 
-                    <!-- Seção de Atualização de Senha -->
                     <h2 class="text-2xl font-bold mt-8 mb-4">Atualizar Senha</h2>
                     <form action="{{ route('password.update') }}" method="POST">
                         @csrf
@@ -142,7 +137,6 @@
                         </div>
                     </form>
 
-                    <!-- Botões de Reativação/Remoção -->
                     @if($user->status === 'Desativado')
                     <form id="formReativarFuncionario" action="{{ route('funcionarios.reativar', $user->id) }}" method="POST" class="mt-10">
                         @csrf
@@ -156,7 +150,6 @@
                     </form>
                     @endif
 
-                    <!-- Modais de Confirmação -->
                     <div id="confirmacaoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
                         <div class="bg-black bg-opacity-50 absolute inset-0"></div>
                         <div class="bg-[#2d2d2d] p-6 rounded-md shadow-lg z-10">
@@ -179,7 +172,6 @@
                         </div>
                     </div>
 
-                    <!-- Scripts para exibir/ocultar modais e habilitar/desabilitar edição -->
                     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
                     <script>
                         document.addEventListener('DOMContentLoaded', function () {

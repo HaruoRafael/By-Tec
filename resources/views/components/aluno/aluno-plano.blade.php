@@ -13,7 +13,6 @@
     <p class="text-yellow-500">Data de Expiração: <strong>{{ $data_expiracao->format('d/m/Y') }}</strong></p>
     <p class="text-yellow-500">Valor: R$ {{ number_format($venda_atual->valor, 2, ',', '.') }}</p>
 
-    <!-- Verificação do status da venda -->
     @if($venda_atual->status === 'Ativo')
     <p class="text-yellow-500">Status: <span class="text-green-500">Ativo</span></p>
     @elseif($venda_atual->status === 'Finalizado')

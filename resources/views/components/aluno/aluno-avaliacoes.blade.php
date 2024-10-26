@@ -4,7 +4,6 @@
             {{ __('Avaliações') }}
         </h2>
 
-        <!-- Botão para Criar Avaliação -->
         <button id="criarAvaliacaoBtn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">
             Criar Avaliação
         </button>
@@ -40,19 +39,16 @@
     </div>
 </div>
 
-<!-- JavaScript separado -->
 <script>
-    // Função para abrir a página de criação de avaliação
     document.getElementById('criarAvaliacaoBtn').addEventListener('click', function() {
         window.location.href = "{{ route('avaliacao.create', $aluno->id) }}";
     });
 
-    // Função para remover avaliação
     function removerAvaliacao(id) {
         if (confirm('Tem certeza que deseja remover esta avaliação?')) {
             axios.delete(`/avaliacoes/${id}`)
                 .then(response => {
-                    location.reload(); // Recarrega a página após excluir
+                    location.reload(); 
                 })
                 .catch(error => {
                     console.error('Erro ao remover avaliação:', error);

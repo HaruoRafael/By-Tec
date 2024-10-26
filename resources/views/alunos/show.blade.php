@@ -24,16 +24,14 @@
 
          
 
-            <!-- Navegação das Abas -->
             <nav class="flex mb-4">
                 <button id="btnInfo" class="px-3 py-2 text-yellow-500 hover:text-yellow-400 focus:outline-none">Informações</button>
                 <button id="btnAvaliacoes" class="px-3 py-2 text-yellow-500 hover:text-yellow-400 focus:outline-none">Avaliações</button>
                 <button id="btnTreinos" class="px-3 py-2 text-yellow-500 hover:text-yellow-400 focus:outline-none">Treinos</button>
-                <button id="btnPlano" class="px-3 py-2 text-yellow-500 hover:text-yellow-400 focus:outline-none">Plano</button> <!-- Aba para o Plano -->
-                <button id="btnContratos" class="px-3 py-2 text-yellow-500 hover:text-yellow-400 focus:outline-none">Contratos</button> <!-- Aba para Contratos -->
+                <button id="btnPlano" class="px-3 py-2 text-yellow-500 hover:text-yellow-400 focus:outline-none">Plano</button>
+                <button id="btnContratos" class="px-3 py-2 text-yellow-500 hover:text-yellow-400 focus:outline-none">Contratos</button> 
             </nav>
 
-            <!-- Conteúdo das Abas -->
             <div id="infoAluno" class="mt-6">
                 <x-aluno.aluno-info :aluno="$aluno" />
             </div>
@@ -46,17 +44,16 @@
                 <x-aluno.aluno-treinos :aluno="$aluno" />
             </div>
 
-            <div id="planoAluno" class="mt-6 hidden"> <!-- Seção para a aba Plano -->
+            <div id="planoAluno" class="mt-6 hidden"> 
                 <x-aluno.aluno-plano :aluno="$aluno" />
             </div>
 
-            <div id="contratosAluno" class="mt-6 hidden"> <!-- Seção para a aba Contratos -->
+            <div id="contratosAluno" class="mt-6 hidden"> 
                 <x-aluno.aluno-contratos :aluno="$aluno" />
             </div>
         </div>
     </div>
-
-    <!-- Modal para adicionar treino -->
+  
     <div id="modalAdicionarTreino" class="fixed inset-0 flex items-center justify-center z-50 hidden">
         <div class="bg-black bg-opacity-50 absolute inset-0"></div>
         <div class="bg-[#2d2d2d] p-6 rounded-md shadow-lg z-10">
@@ -79,7 +76,7 @@
         </div>
     </div>
 
-    <!-- Aqui entra o JavaScript que controla a página -->
+    
     <script>
         function abrirModal() {
             document.getElementById('modalAdicionarTreino').classList.remove('hidden');
@@ -121,7 +118,7 @@
             if (confirm('Tem certeza que deseja remover esta avaliação?')) {
                 axios.delete(`/avaliacoes/${id}`)
                     .then(response => {
-                        location.reload(); // Recarrega a página após excluir
+                        location.reload(); 
                     })
                     .catch(error => {
                         console.error('Erro ao remover avaliação:', error);
@@ -133,7 +130,7 @@
             if (confirm('Tem certeza que deseja remover este treino?')) {
                 axios.delete(`/treinos/${id}`)
                     .then(response => {
-                        location.reload(); // Recarrega a página após excluir
+                        location.reload(); 
                     })
                     .catch(error => {
                         console.error('Erro ao remover treino:', error);
@@ -141,13 +138,13 @@
             }
         }
 
-        // Troca entre as abas
+        
         document.getElementById('btnInfo').addEventListener('click', function() {
             document.getElementById('infoAluno').classList.remove('hidden');
             document.getElementById('avaliacoesAluno').classList.add('hidden');
             document.getElementById('treinosAluno').classList.add('hidden');
             document.getElementById('planoAluno').classList.add('hidden');
-            document.getElementById('contratosAluno').classList.add('hidden'); // Esconde a aba contratos
+            document.getElementById('contratosAluno').classList.add('hidden'); 
         });
 
         document.getElementById('btnAvaliacoes').addEventListener('click', function() {
@@ -155,7 +152,7 @@
             document.getElementById('avaliacoesAluno').classList.remove('hidden');
             document.getElementById('treinosAluno').classList.add('hidden');
             document.getElementById('planoAluno').classList.add('hidden');
-            document.getElementById('contratosAluno').classList.add('hidden'); // Esconde a aba contratos
+            document.getElementById('contratosAluno').classList.add('hidden');
         });
 
         document.getElementById('btnTreinos').addEventListener('click', function() {
@@ -163,7 +160,7 @@
             document.getElementById('avaliacoesAluno').classList.add('hidden');
             document.getElementById('treinosAluno').classList.remove('hidden');
             document.getElementById('planoAluno').classList.add('hidden');
-            document.getElementById('contratosAluno').classList.add('hidden'); // Esconde a aba contratos
+            document.getElementById('contratosAluno').classList.add('hidden'); 
         });
 
         document.getElementById('btnPlano').addEventListener('click', function() {
@@ -171,18 +168,17 @@
             document.getElementById('avaliacoesAluno').classList.add('hidden');
             document.getElementById('treinosAluno').classList.add('hidden');
             document.getElementById('planoAluno').classList.remove('hidden');
-            document.getElementById('contratosAluno').classList.add('hidden'); // Esconde a aba contratos
+            document.getElementById('contratosAluno').classList.add('hidden'); 
         });
 
-        document.getElementById('btnContratos').addEventListener('click', function() { // Evento para a aba Contratos
+        document.getElementById('btnContratos').addEventListener('click', function() { 
             document.getElementById('infoAluno').classList.add('hidden');
             document.getElementById('avaliacoesAluno').classList.add('hidden');
             document.getElementById('treinosAluno').classList.add('hidden');
             document.getElementById('planoAluno').classList.add('hidden');
-            document.getElementById('contratosAluno').classList.remove('hidden'); // Exibe a aba contratos
+            document.getElementById('contratosAluno').classList.remove('hidden'); 
         });
 
-        // Inicialização dos campos com formatação
         document.addEventListener('DOMContentLoaded', function() {
             new Cleave('#cpf', {
                 delimiters: ['.', '.', '-'],

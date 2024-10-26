@@ -19,7 +19,6 @@ class TreinoController extends Controller
             $query->where(DB::raw('LOWER(nome)'), 'LIKE', "%{$termo}%");
         }
 
-        // Paginação de 10 treinos por página
         $treinos = $query->orderBy('nome')->paginate(10);
 
         return view('treinos.index', compact('treinos'));
@@ -49,7 +48,7 @@ class TreinoController extends Controller
             'tipo.required' => 'O tipo do treino é obrigatório.',
             'tipo.in' => 'O tipo do treino deve ser um dos seguintes: iniciante, intermediário, avançado.',
 
-            // Mensagens para o Dia 1
+            
             'dia1_exercicios.*.required' => 'O exercício do dia 1 é obrigatório.',
             'dia1_exercicios.*.exists' => 'O exercício selecionado para o dia 1 é inválido.',
             'dia1_series.*.required' => 'O número de séries para o dia 1 é obrigatório.',
@@ -59,7 +58,7 @@ class TreinoController extends Controller
             'dia1_repeticoes.*.integer' => 'O número de repetições para o dia 1 deve ser um número inteiro.',
             'dia1_repeticoes.*.min' => 'O número de repetições para o dia 1 deve ser pelo menos 1.',
 
-            // Mensagens para o Dia 2
+            
             'dia2_exercicios.*.required' => 'O exercício do dia 2 é obrigatório.',
             'dia2_exercicios.*.exists' => 'O exercício selecionado para o dia 2 é inválido.',
             'dia2_series.*.required' => 'O número de séries para o dia 2 é obrigatório.',
@@ -69,7 +68,7 @@ class TreinoController extends Controller
             'dia2_repeticoes.*.integer' => 'O número de repetições para o dia 2 deve ser um número inteiro.',
             'dia2_repeticoes.*.min' => 'O número de repetições para o dia 2 deve ser pelo menos 1.',
 
-            // Mensagens para o Dia 3
+   
             'dia3_exercicios.*.required' => 'O exercício do dia 3 é obrigatório.',
             'dia3_exercicios.*.exists' => 'O exercício selecionado para o dia 3 é inválido.',
             'dia3_series.*.required' => 'O número de séries para o dia 3 é obrigatório.',
@@ -102,8 +101,8 @@ class TreinoController extends Controller
 
     public function show(Treino $treino)
     {
-        $exercicios = Exercicio::all(); // Carregando todos os exercícios
-        $treino->load('exercicios'); // Carregando os exercícios relacionados ao treino
+        $exercicios = Exercicio::all(); 
+        $treino->load('exercicios'); 
         return view('treinos.show', compact('treino', 'exercicios'));
     }
 
@@ -132,7 +131,6 @@ class TreinoController extends Controller
             'tipo.required' => 'O tipo do treino é obrigatório.',
             'tipo.in' => 'O tipo do treino deve ser um dos seguintes: iniciante, intermediário, avançado.',
 
-            // Mensagens para o Dia 1
             'dia1_exercicios.*.required' => 'O exercício do dia 1 é obrigatório.',
             'dia1_exercicios.*.exists' => 'O exercício selecionado para o dia 1 é inválido.',
             'dia1_series.*.required' => 'O número de séries para o dia 1 é obrigatório.',
@@ -142,7 +140,6 @@ class TreinoController extends Controller
             'dia1_repeticoes.*.integer' => 'O número de repetições para o dia 1 deve ser um número inteiro.',
             'dia1_repeticoes.*.min' => 'O número de repetições para o dia 1 deve ser pelo menos 1.',
 
-            // Mensagens para o Dia 2
             'dia2_exercicios.*.required' => 'O exercício do dia 2 é obrigatório.',
             'dia2_exercicios.*.exists' => 'O exercício selecionado para o dia 2 é inválido.',
             'dia2_series.*.required' => 'O número de séries para o dia 2 é obrigatório.',
@@ -152,7 +149,6 @@ class TreinoController extends Controller
             'dia2_repeticoes.*.integer' => 'O número de repetições para o dia 2 deve ser um número inteiro.',
             'dia2_repeticoes.*.min' => 'O número de repetições para o dia 2 deve ser pelo menos 1.',
 
-            // Mensagens para o Dia 3
             'dia3_exercicios.*.required' => 'O exercício do dia 3 é obrigatório.',
             'dia3_exercicios.*.exists' => 'O exercício selecionado para o dia 3 é inválido.',
             'dia3_series.*.required' => 'O número de séries para o dia 3 é obrigatório.',
@@ -169,7 +165,7 @@ class TreinoController extends Controller
             'user_id' => auth()->id()
         ]);
 
-        ExercicioTreino::where('treino_id', $treino->id)->delete(); // Remove todas as associações atuais
+        ExercicioTreino::where('treino_id', $treino->id)->delete(); 
 
         foreach (['1', '2', '3'] as $dia) {
             for ($i = 0; $i < 6; $i++) {
@@ -194,7 +190,7 @@ class TreinoController extends Controller
     public function search(Request $request)
     {
         $termo = $request->input('query');
-        $treinos = Treino::where('nome', 'LIKE', "%{$termo}%")->pluck('nome'); // Retorna apenas os nomes dos treinos
+        $treinos = Treino::where('nome', 'LIKE', "%{$termo}%")->pluck('nome'); 
 
         return response()->json($treinos);
     }

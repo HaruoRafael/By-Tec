@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class ExercicioController extends Controller
 {
-    // Exibir a lista de exercícios
     public function index(Request $request)
     {
         $query = Exercicio::query();
@@ -33,13 +32,11 @@ class ExercicioController extends Controller
         return view('exercicios.index', compact('exercicios'));
     }
 
-    // Mostrar o formulário para criar um novo exercício
     public function create()
     {
         return view('exercicios.create');
     }
 
-    // Armazenar um novo exercício
     public function store(Request $request)
 {
     $request->validate([
@@ -64,19 +61,11 @@ class ExercicioController extends Controller
     return redirect()->route('exercicios.index')->with('success', 'Exercício criado com sucesso!');
 }
 
-    // Exibir um exercício específico
     public function show(Exercicio $exercicio)
     {
         return view('exercicios.show', compact('exercicio'));
     }
 
-    // Mostrar o formulário para editar um exercício
-    public function edit(Exercicio $exercicio)
-    {
-        return view('exercicios.edit', compact('exercicio'));
-    }
-
-    // Atualizar um exercício
     public function update(Request $request, Exercicio $exercicio)
 {
     $request->validate([
@@ -100,8 +89,6 @@ class ExercicioController extends Controller
 
     return redirect()->route('exercicios.show', $exercicio->id)->with('success', 'Exercício atualizado com sucesso!');
 }
-
-    // Excluir um exercício
     public function destroy(Exercicio $exercicio)
     {
         $exercicio->delete();

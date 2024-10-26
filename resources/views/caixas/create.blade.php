@@ -25,19 +25,15 @@
         </div>
     </div>
 
-    <!-- Adicionando o JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const saldoInicialInput = document.getElementById('saldo_inicial');
 
-            // Formata o número com vírgula ao digitar
             saldoInicialInput.addEventListener('input', function(e) {
                 let value = e.target.value;
 
-                // Remove qualquer caractere que não seja número
                 value = value.replace(/\D/g, "");
 
-                // Insere vírgula para os dois últimos dígitos (centavos)
                 if (value.length > 2) {
                     value = value.slice(0, value.length - 2) + '.' + value.slice(value.length - 2);
                 }
@@ -45,8 +41,7 @@
                 e.target.value = value;
             });
 
-            // Define um valor padrão para o campo de saldo inicial
-            saldoInicialInput.value = '0.00'; // Padrão ao carregar a página
+            saldoInicialInput.value = '0.00';
         });
     </script>
 </x-app-layout>

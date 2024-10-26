@@ -48,7 +48,7 @@ class AvaliacaoController extends Controller
         ]);
 
         $avaliacao = new Avaliacao($request->all());
-        $avaliacao->aluno_id = $alunoId; // Associa a avaliação ao aluno
+        $avaliacao->aluno_id = $alunoId; 
         $avaliacao->save();
 
         return redirect()->route('alunos.show', $alunoId)->with('success', 'Avaliação criada com sucesso!');
@@ -97,12 +97,10 @@ class AvaliacaoController extends Controller
             'idade.required' => 'O campo idade é obrigatório.',
             'peso.required' => 'O campo peso é obrigatório.',
             'porcentagem_gordura.required' => 'O campo porcentagem de gordura é obrigatório.',
-            // Adicione outras mensagens de validação conforme necessário
         ]);
 
         $avaliacao = Avaliacao::findOrFail($id);
 
-        // Atualiza os dados da avaliação
         $avaliacao->avaliador = $request->input('avaliador');
         $avaliacao->data = $request->input('data');
         $avaliacao->altura = $request->input('altura');
@@ -126,7 +124,6 @@ class AvaliacaoController extends Controller
         $avaliacao->taxa_metabolica_basal = $request->input('taxa_metabolica_basal');
         $avaliacao->idade_metabolica = $request->input('idade_metabolica');
 
-        // Salva as alterações no banco de dados
         $avaliacao->save();
 
         return redirect()->route('avaliacoes.show', $avaliacao->id)->with('success', 'Avaliação atualizada com sucesso.');
