@@ -6,7 +6,7 @@ use App\Models\Treino;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Aluno;
-use App\Models\Venda; // Importar o modelo Venda
+use App\Models\Venda; 
 use App\Rules\CPF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -154,10 +154,10 @@ class AlunoController extends Controller
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
         ]);
 
-        // Encontra o aluno
+    
         $aluno = Aluno::findOrFail($id);
 
-        // Atualiza as informações do aluno primeiro
+ 
         $aluno->update([
             'nome' => $request->input('nome'),
             'cpf' => $request->input('cpf'),
@@ -168,7 +168,7 @@ class AlunoController extends Controller
             'endereco' => $request->input('endereco'),
         ]);
 
-        // Atualiza o status do aluno após salvar as informações
+
         $this->atualizarStatusAluno($aluno);
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Perfil do aluno atualizado com sucesso.');
@@ -222,7 +222,7 @@ class AlunoController extends Controller
             'treino_id' => 'required|exists:treinos,id',
         ]);
 
-        // Associa o treino ao aluno
+        
         $aluno->treinos()->attach($request->input('treino_id'));
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Treino adicionado com sucesso.');
@@ -230,7 +230,7 @@ class AlunoController extends Controller
 
     public function removeTreino(Aluno $aluno, Treino $treino)
     {
-        // Remove a associação entre o aluno e o treino
+        
         $aluno->treinos()->detach($treino->id);
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Treino removido do perfil do aluno com sucesso.');

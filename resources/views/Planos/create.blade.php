@@ -63,8 +63,6 @@
 
                 e.target.value = value;
             });
-
-            valorInput.value = '0.00';
         });
     </script>
 </x-app-layout>

@@ -20,13 +20,28 @@ class ProfileUpdateRequest extends FormRequest
             'cpf' => ['required', 'string', new CPF, Rule::unique(User::class)->ignore($this->route('user')->id)],
             'rg' => ['nullable', 'string', 'max:12', Rule::unique(User::class)->ignore($this->route('user')->id)],
             'telefone' => ['nullable', 'string', 'max:15'],
-            'sexo' => ['nullable', 'string', 'in:masculino,feminino,outro'],
+            'sexo' => ['nullable', 'string', 'in:Masculino,Feminino,Outro'],
             'data_nascimento' => ['nullable', 'date'],
             'endereco' => ['nullable', 'string', 'max:255'],
             'cargo' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->route('user')->id)],
             'status' => ['nullable', 'boolean'],
         ];
+    }
+
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->route('user')->id == 1 && $this->has('cargo')) {
+                $validator->errors()->add('cargo', 'O usuário com ID 1 não pode alterar o cargo.');
+            }
+        });
     }
 
     /**

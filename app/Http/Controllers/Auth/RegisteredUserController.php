@@ -60,7 +60,12 @@ class RegisteredUserController extends Controller
             'password.min' => 'A senha deve ter pelo menos 8 caracteres.',
             'password.confirmed' => 'A confirmação da senha não confere.',
         ]);
-
+        $sexo = match ($request->sexo) {
+            'M' => 'Masculino',
+            'F' => 'Feminino',
+            'Outro' => 'Outro',
+        };
+        
         $user = User::create([
             'name' => $request->nome,
             'cpf' => $request->cpf,

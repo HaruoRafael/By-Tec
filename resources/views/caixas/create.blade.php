@@ -40,8 +40,6 @@
 
                 e.target.value = value;
             });
-
-            saldoInicialInput.value = '0.00';
         });
     </script>
 </x-app-layout>
