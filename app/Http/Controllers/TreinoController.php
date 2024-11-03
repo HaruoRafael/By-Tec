@@ -48,7 +48,7 @@ class TreinoController extends Controller
             'tipo.required' => 'O tipo do treino é obrigatório.',
             'tipo.in' => 'O tipo do treino deve ser um dos seguintes: iniciante, intermediário, avançado.',
 
-            
+
             'dia1_exercicios.*.required' => 'O exercício do dia 1 é obrigatório.',
             'dia1_exercicios.*.exists' => 'O exercício selecionado para o dia 1 é inválido.',
             'dia1_series.*.required' => 'O número de séries para o dia 1 é obrigatório.',
@@ -58,7 +58,7 @@ class TreinoController extends Controller
             'dia1_repeticoes.*.integer' => 'O número de repetições para o dia 1 deve ser um número inteiro.',
             'dia1_repeticoes.*.min' => 'O número de repetições para o dia 1 deve ser pelo menos 1.',
 
-            
+
             'dia2_exercicios.*.required' => 'O exercício do dia 2 é obrigatório.',
             'dia2_exercicios.*.exists' => 'O exercício selecionado para o dia 2 é inválido.',
             'dia2_series.*.required' => 'O número de séries para o dia 2 é obrigatório.',
@@ -68,7 +68,7 @@ class TreinoController extends Controller
             'dia2_repeticoes.*.integer' => 'O número de repetições para o dia 2 deve ser um número inteiro.',
             'dia2_repeticoes.*.min' => 'O número de repetições para o dia 2 deve ser pelo menos 1.',
 
-   
+
             'dia3_exercicios.*.required' => 'O exercício do dia 3 é obrigatório.',
             'dia3_exercicios.*.exists' => 'O exercício selecionado para o dia 3 é inválido.',
             'dia3_series.*.required' => 'O número de séries para o dia 3 é obrigatório.',
@@ -101,8 +101,8 @@ class TreinoController extends Controller
 
     public function show(Treino $treino)
     {
-        $exercicios = Exercicio::all(); 
-        $treino->load('exercicios'); 
+        $exercicios = Exercicio::all();
+        $treino->load('exercicios');
         return view('treinos.show', compact('treino', 'exercicios'));
     }
 
@@ -165,7 +165,7 @@ class TreinoController extends Controller
             'user_id' => auth()->id()
         ]);
 
-        ExercicioTreino::where('treino_id', $treino->id)->delete(); 
+        ExercicioTreino::where('treino_id', $treino->id)->delete();
 
         foreach (['1', '2', '3'] as $dia) {
             for ($i = 0; $i < 6; $i++) {
@@ -190,8 +190,14 @@ class TreinoController extends Controller
     public function search(Request $request)
     {
         $termo = $request->input('query');
-        $treinos = Treino::where('nome', 'LIKE', "%{$termo}%")->pluck('nome'); 
+        $treinos = Treino::where('nome', 'LIKE', "%{$termo}%")->pluck('nome');
 
         return response()->json($treinos);
+    }
+
+    public function imprimir($id)
+    {
+        $treino = Treino::with('exercicios')->findOrFail($id); // Carrega o treino com os exercícios
+        return view('treinos.imprimir', compact('treino')); // Retorna a view de impressão
     }
 }

@@ -16,9 +16,9 @@
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                                 <label for="nome" class="block text-sm font-medium text-yellow-500">Nome do Treino</label>
-                                <input type="text" name="nome" id="nome" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" value="{{ $treino->nome }}" required readonly disabled>
+                                <input type="text" name="nome" id="nome" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" value="{{ $treino->nome }}" required readonly>
                                 @error('nome')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
@@ -29,52 +29,55 @@
                                     <option value="avançado" {{ $treino->tipo == 'avançado' ? 'selected' : '' }}>Avançado</option>
                                 </select>
                                 @error('tipo')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
 
                         @foreach(['1', '2', '3'] as $dia)
-                            <h3 class="text-xl font-semibold mb-4">Dia {{ $dia }}</h3>
-                            <div class="form-group flex flex-wrap mb-4">
-                                @for ($i = 1; $i <= 6; $i++)
-                                    @php
-                                        $exercicioTreino = $treino->exercicios->get($i - 1); // Pegando o exercício atual
-                                    @endphp
-                                    <div class="w-full flex items-center space-x-4 mb-4">
-                                        <div class="w-full sm:w-1/2">
-                                            <label for="dia{{ $dia }}_exercicio{{ $i }}" class="block text-sm font-medium text-yellow-500">Exercício {{ $i }}*</label>
-                                            <select id="dia{{ $dia }}_exercicio{{ $i }}" name="dia{{ $dia }}_exercicios[]" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" disabled>
-                                                @foreach ($exercicios as $exercicio)
-                                                    <option value="{{ $exercicio->id }}" {{ $exercicioTreino && $exercicioTreino->id == $exercicio->id ? 'selected' : '' }}>
-                                                        {{ $exercicio->nome }} - {{ $exercicio->grupo_muscular }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @error('dia{{ $dia }}_exercicios.' . ($i - 1))
-                                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="w-1/4">
-                                            <label for="dia{{ $dia }}_series{{ $i }}" class="block text-sm font-medium text-yellow-500">Séries*</label>
-                                            <input type="number" id="dia{{ $dia }}_series{{ $i }}" name="dia{{ $dia }}_series[]" value="{{ $exercicioTreino ? $exercicioTreino->pivot->series : 1 }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" readonly disabled>
-                                            @error('dia{{ $dia }}_series.' . ($i - 1))
-                                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                        <div class="w-1/4">
-                                            <label for="dia{{ $dia }}_repeticoes{{ $i }}" class="block text-sm font-medium text-yellow-500">Repetições*</label>
-                                            <input type="number" id="dia{{ $dia }}_repeticoes{{ $i }}" name="dia{{ $dia }}_repeticoes[]" value="{{ $exercicioTreino ? $exercicioTreino->pivot->repeticoes : 1 }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" readonly disabled>
-                                            @error('dia{{ $dia }}_repeticoes.' . ($i - 1))
-                                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                                            @enderror
-                                        </div>
+                        <h3 class="text-xl font-semibold mb-4">Dia {{ $dia }}</h3>
+                        <div class="form-group flex flex-wrap mb-4">
+                            @for ($i = 1; $i <= 6; $i++)
+                                @php
+                                $exercicioTreino=$treino->exercicios->get(($dia - 1) * 6 + ($i - 1)); // Pegando o exercício atual para cada dia
+                                @endphp
+                                <div class="w-full flex items-center space-x-4 mb-4">
+                                    <div class="w-full sm:w-1/2">
+                                        <label for="dia{{ $dia }}_exercicio{{ $i }}" class="block text-sm font-medium text-yellow-500">Exercício {{ $i }}*</label>
+                                        <select id="dia{{ $dia }}_exercicio{{ $i }}" name="dia{{ $dia }}_exercicios[]" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" disabled>
+                                            @foreach ($exercicios as $exercicio)
+                                            <option value="{{ $exercicio->id }}" {{ $exercicioTreino && $exercicioTreino->id == $exercicio->id ? 'selected' : '' }}>
+                                                {{ $exercicio->nome }} - {{ $exercicio->grupo_muscular }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                        @error('dia{{ $dia }}_exercicios.' . ($i - 1))
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
                                     </div>
+                                    <div class="w-1/4">
+                                        <label for="dia{{ $dia }}_series{{ $i }}" class="block text-sm font-medium text-yellow-500">Séries*</label>
+                                        <input type="number" id="dia{{ $dia }}_series{{ $i }}" name="dia{{ $dia }}_series[]" value="{{ $exercicioTreino ? $exercicioTreino->pivot->series : 1 }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" readonly disabled>
+                                        @error('dia{{ $dia }}_series.' . ($i - 1))
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="w-1/4">
+                                        <label for="dia{{ $dia }}_repeticoes{{ $i }}" class="block text-sm font-medium text-yellow-500">Repetições*</label>
+                                        <input type="number" id="dia{{ $dia }}_repeticoes{{ $i }}" name="dia{{ $dia }}_repeticoes[]" value="{{ $exercicioTreino ? $exercicioTreino->pivot->repeticoes : 1 }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" readonly disabled>
+                                        @error('dia{{ $dia }}_repeticoes.' . ($i - 1))
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 @endfor
-                            </div>
+                        </div>
                         @endforeach
 
                         <div class="flex justify-end space-x-2">
+                            <a href="{{ route('treinos.imprimir', $treino->id) }}" target="_blank" class="bg-gray-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-600">
+                                Imprimir
+                            </a>
                             <button type="button" onclick="habilitarEdicao()" id="btnEditar" class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600">Editar</button>
                             <button type="submit" id="btnSalvar" style="display: none;" class="bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">Salvar</button>
                             <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">Cancelar</button>

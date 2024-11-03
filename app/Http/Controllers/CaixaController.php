@@ -10,23 +10,31 @@ use Carbon\Carbon;
 
 class CaixaController extends Controller
 {
- 
+
     public function index(Request $request)
     {
-        $status = $request->input('status');
+        $dataInicio = $request->input('data_inicio');
+        $dataFim = $request->input('data_fim');
 
         $query = Caixa::orderBy('data_abertura', 'desc');
 
-        if ($status) {
-            $query->where('status', $status);
+        if ($dataInicio && $dataFim) {
+            $query->whereBetween('data_abertura', [
+                Carbon::parse($dataInicio)->startOfDay(),
+                Carbon::parse($dataFim)->endOfDay(),
+            ]);
+        } elseif ($dataInicio) {
+            $query->where('data_abertura', '>=', Carbon::parse($dataInicio)->startOfDay());
+        } elseif ($dataFim) {
+            $query->where('data_abertura', '<=', Carbon::parse($dataFim)->endOfDay());
         }
 
         $caixas = $query->get();
 
-        return view('caixas.index', compact('caixas', 'status'));
+        return view('caixas.index', compact('caixas', 'dataInicio', 'dataFim'));
     }
 
-   
+
     public function create()
     {
         return view('caixas.create');
@@ -75,5 +83,12 @@ class CaixaController extends Controller
         ]);
 
         return redirect()->route('caixas.index')->with('success', 'Caixa fechado com sucesso.');
+    }
+
+    public function imprimir($id)
+    {
+        $caixa = Caixa::with('vendas')->findOrFail($id);
+        $vendas = $caixa->vendas; // Obter vendas relacionadas ao caixa
+        return view('caixas.imprimir', compact('caixa', 'vendas'));
     }
 }

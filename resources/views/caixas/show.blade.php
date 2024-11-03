@@ -58,6 +58,7 @@
                                     <th class="px-4 py-2">Valor</th>
                                     <th class="px-4 py-2">Data</th>
                                     <th class="px-4 py-2">Forma de Pagamento</th>
+                                    <th class="px-4 py-2">Status</th>
                                     <th class="px-4 py-2">Ações</th>
                                 </tr>
                             </thead>
@@ -72,6 +73,7 @@
                                     <td class="border px-4 py-2">R$ {{ number_format($venda->valor, 2, ',', '.') }}</td>
                                     <td class="border px-4 py-2">{{ \Carbon\Carbon::parse($venda->created_at)->format('d/m/Y H:i') }}</td>
                                     <td class="border px-4 py-2">{{ ucfirst($venda->forma_pagamento) }}</td>
+                                    <td class="border px-4 py-2">{{ $venda->status }}</td>
                                     <td class="border px-4 py-2">
                                         @if($venda->status == 'Ativo')
                                         <form action="{{ route('vendas.reembolsar', $venda->id) }}" method="POST">
@@ -88,12 +90,18 @@
                         </table>
                         @endif
 
-                        @if($caixa->status == 'aberto')
-                        <form action="{{ route('caixas.fechar', $caixa->id) }}" method="POST" class="mt-6">
-                            @csrf
-                            <button type="submit" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">Fechar Caixa</button>
-                        </form>
-                        @endif
+                        <div class="flex justify-end space-x-2 mt-4">
+                            <a href="{{ route('caixas.imprimir', $caixa->id) }}" target="_blank" class="bg-gray-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-600">
+                                Imprimir
+                            </a>
+                            @if($caixa->status == 'aberto')
+                            <form action="{{ route('caixas.fechar', $caixa->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">Fechar Caixa</button>
+                            </form>
+                            @endif
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -40,6 +40,7 @@
 
                 e.target.value = value;
             });
+            
         });
     </script>
 </x-app-layout>

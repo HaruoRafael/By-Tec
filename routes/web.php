@@ -56,11 +56,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/alunos/{aluno}/avaliacoes', [AvaliacaoController::class, 'store'])->name('avaliacao.store');
     Route::get('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'show'])->name('avaliacao.show');
     Route::get('/avaliacoes/{avaliacao}/edit', [AvaliacaoController::class, 'edit'])->name('avaliacao.edit');
+    Route::get('/avaliacoes/{id}/imprimir', [AvaliacaoController::class, 'imprimir'])->name('avaliacoes.imprimir');
     Route::put('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'update'])->name('avaliacao.update');
     Route::delete('/avaliacoes/{avaliacao}', [AvaliacaoController::class, 'destroy'])->name('avaliacao.destroy');
 
     // Rotas para treinos
     Route::resource('treinos', TreinoController::class);
+    Route::get('/treinos/{id}/imprimir', [TreinoController::class, 'imprimir'])->name('treinos.imprimir');
     Route::get('/treinos/search', [TreinoController::class, 'search'])->name('treinos.search');
 
     // Rotas para vendas (qualquer usuário autenticado pode acessar)
@@ -72,7 +74,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('caixas', CaixaController::class)->only(['index', 'create', 'show', 'store']);
         Route::post('/caixas/{caixa}/fechar', [CaixaController::class, 'fechar'])->name('caixas.fechar');
         Route::get('/caixas', [CaixaController::class, 'index'])->name('caixas.index');
-
+        Route::get('/caixas/{id}/imprimir', [CaixaController::class, 'imprimir'])->name('caixas.imprimir');
 
         Route::get('/vendas/create', [VendaController::class, 'create'])->name('vendas.create');
         Route::post('/vendas', [VendaController::class, 'store'])->name('vendas.store');

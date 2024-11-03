@@ -48,7 +48,7 @@ class AvaliacaoController extends Controller
         ]);
 
         $avaliacao = new Avaliacao($request->all());
-        $avaliacao->aluno_id = $alunoId; 
+        $avaliacao->aluno_id = $alunoId;
         $avaliacao->save();
 
         return redirect()->route('alunos.show', $alunoId)->with('success', 'Avaliação criada com sucesso!');
@@ -130,10 +130,16 @@ class AvaliacaoController extends Controller
     }
 
     public function destroy($id)
-{
-    $avaliacao = Avaliacao::findOrFail($id);
-    $avaliacao->delete();
+    {
+        $avaliacao = Avaliacao::findOrFail($id);
+        $avaliacao->delete();
 
-    return response()->json(['success' => 'Avaliação removida com sucesso.']);
-}
+        return response()->json(['success' => 'Avaliação removida com sucesso.']);
+    }
+
+    public function imprimir($id)
+    {
+        $avaliacao = Avaliacao::with('aluno')->findOrFail($id);
+        return view('avaliacao.imprimir', compact('avaliacao'));
+    }
 }

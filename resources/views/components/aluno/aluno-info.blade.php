@@ -5,11 +5,11 @@
                 <h2 class="text-2xl font-bold mb-4">Informações do Aluno</h2>
 
                 @if(session('success'))
-                    <div class="bg-green-500 text-white p-4 rounded mb-4">{{ session('success') }}</div>
+                <div class="bg-green-500 text-white p-4 rounded mb-4">{{ session('success') }}</div>
                 @endif
 
                 @if(session('warning'))
-                    <div class="bg-yellow-500 text-white p-4 rounded mb-4">{{ session('warning') }}</div>
+                <div class="bg-yellow-500 text-white p-4 rounded mb-4">{{ session('warning') }}</div>
                 @endif
 
                 <form id="formEditarAluno" action="{{ route('alunos.update', $aluno->id) }}" method="POST">
@@ -23,7 +23,7 @@
                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                 readonly disabled>
                             @error('nome')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="w-full sm:w-1/2 px-2">
@@ -32,7 +32,7 @@
                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                 maxlength="14" readonly disabled>
                             @error('cpf')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                 pattern="[0-9]*" inputmode="numeric" readonly disabled>
                             @error('rg')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="w-full sm:w-1/2 px-2">
@@ -54,7 +54,7 @@
                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                 pattern="[0-9]*" inputmode="numeric" readonly disabled>
                             @error('telefone')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -62,14 +62,14 @@
                     <div class="form-group flex flex-wrap mb-4">
                         <div class="w-full sm:w-1/2 px-2">
                             <label for="sexo" class="block text-sm font-medium text-yellow-500">Sexo</label>
-                            <select id="sexo" name="sexo"class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"disabled>
+                            <select id="sexo" name="sexo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" disabled>
                                 <option value="Masculino" {{ old('sexo', $aluno->sexo) == 'Masculino' ? 'selected' : '' }}>Masculino</option>
                                 <option value="Feminino" {{ old('sexo', $aluno->sexo) == 'Feminino' ? 'selected' : '' }}> Feminino</option>
                                 <option value="Outro" {{ old('sexo', $aluno->sexo) == 'Outro' ? 'selected' : '' }}>Outro
                                 </option>
                             </select>
                             @error('sexo')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="w-full sm:w-1/2 px-2">
@@ -80,7 +80,7 @@
                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                 readonly disabled>
                             @error('data_nascimento')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                                 class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
                                 readonly disabled>
                             @error('endereco')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
                     </div>
@@ -102,36 +102,36 @@
 
                     <div class="flex justify-end space-x-2">
                         @if(Auth::user()->cargo !== 'Professor')
-                            <button type="button" onclick="habilitarEdicao()"
-                                class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Editar</button>
-                            <button type="submit" id="btnSalvar" style="display: none;"
-                                class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">Salvar</button>
-                            <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()"
-                                class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">Cancelar</button>
+                        <button type="button" onclick="habilitarEdicao()"
+                            class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Editar</button>
+                        <button type="submit" id="btnSalvar" style="display: none;"
+                            class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">Salvar</button>
+                        <button type="button" id="btnCancelar" style="display: none;" onclick="cancelarEdicao()"
+                            class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700">Cancelar</button>
                         @endif
                     </div>
                 </form>
 
                 @if($aluno->status === 'Removido' && Auth::user()->cargo !== 'Professor')
-                    <form id="formReativarAluno" action="{{ route('alunos.reativar', $aluno->id) }}" method="POST"
-                        class="mt-10">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">
-                            Reativar Aluno
-                        </button>
-                    </form>
+                <form id="formReativarAluno" action="{{ route('alunos.reativar', $aluno->id) }}" method="POST"
+                    class="mt-10">
+                    @csrf
+                    @method('PATCH')
+                    <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700">
+                        Reativar Aluno
+                    </button>
+                </form>
                 @endif
 
                 @if($aluno->status !== 'Removido' && Auth::user()->cargo !== 'Professor')
-                    <form id="formRemoverAluno" action="{{ route('alunos.remove', $aluno->id) }}" method="POST"
-                        class="mt-10">
-                        @csrf
-                        @method('DELETE')
-                        <button type="button" id="btnRemover"
-                            class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
-                            onclick="mostrarConfirmacao()">Remover</button>
-                    </form>
+                <form id="formRemoverAluno" action="{{ route('alunos.remove', $aluno->id) }}" method="POST"
+                    class="mt-10">
+                    @csrf
+                    @method('DELETE')
+                    <button type="button" id="btnRemover"
+                        class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700"
+                        onclick="mostrarConfirmacao()">Remover</button>
+                </form>
                 @endif
 
                 <div id="confirmacaoModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
@@ -149,41 +149,82 @@
 
 
                 <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        new Cleave('#cpf', {
-                            delimiters: ['.', '.', '-'],
-                            blocks: [3, 3, 3, 2],
-                            numericOnly: true
-                        });
-
-                        document.getElementById('rg').addEventListener('keypress', function (event) {
-                            if (event.charCode < 48 || event.charCode > 57) {
-                                event.preventDefault();
-                            }
-                        });
-
-                        document.getElementById('telefone').addEventListener('keypress', function (event) {
-                            if ((event.charCode < 48 || event.charCode > 57) && event.charCode !== 32 && event.charCode !== 40 && event.charCode !== 41 && event.charCode !== 45 && event.charCode !== 43) {
-                                event.preventDefault();
-                            }
-                        });
-
-                        document.getElementById('data_nascimento').addEventListener('change', function () {
-                            var dataNascimento = new Date(this.value);
-                            var dataAtual = new Date();
-                            if (dataNascimento > dataAtual) {
-                                alert('A data de nascimento não pode ser no futuro.');
-                                this.value = '';
-                            }
-                        });
-
-                        var status = document.getElementById('status').value;
-                        if (status === 'Removido') {
-                            document.getElementById('btnRemover').disabled = true;
-                        }
+                    document.addEventListener('DOMContentLoaded', function() {
+                        aplicarMascaras();
+                        configurarValidacoes();
+                        verificarStatusAluno();
                         verificarErrosEhabilitarEdicao();
                     });
 
+                    /**
+                     * Aplica máscaras de formatação nos campos especificados
+                     */
+                    function aplicarMascaras() {
+                        // Máscara para o campo CPF
+                        if (document.getElementById('cpf')) {
+                            new Cleave('#cpf', {
+                                delimiters: ['.', '.', '-'],
+                                blocks: [3, 3, 3, 2],
+                                numericOnly: true
+                            });
+                        }
+                    }
+
+                    /**
+                     * Configura validações nos campos de RG, telefone e data de nascimento
+                     */
+                    function configurarValidacoes() {
+                        // Validação para o campo RG (somente números)
+                        var rgField = document.getElementById('rg');
+                        if (rgField) {
+                            rgField.addEventListener('keypress', function(event) {
+                                if (event.charCode < 48 || event.charCode > 57) {
+                                    event.preventDefault();
+                                }
+                            });
+                        }
+
+                        // Validação para o campo telefone (números e caracteres permitidos)
+                        var telefoneField = document.getElementById('telefone');
+                        if (telefoneField) {
+                            telefoneField.addEventListener('keypress', function(event) {
+                                const allowedChars = [32, 40, 41, 45, 43];
+                                if ((event.charCode < 48 || event.charCode > 57) && !allowedChars.includes(event.charCode)) {
+                                    event.preventDefault();
+                                }
+                            });
+                        }
+
+                        // Validação para o campo data de nascimento (não permite datas futuras)
+                        var dataNascimentoField = document.getElementById('data_nascimento');
+                        if (dataNascimentoField) {
+                            dataNascimentoField.addEventListener('change', function() {
+                                var dataNascimento = new Date(this.value);
+                                var dataAtual = new Date();
+                                if (dataNascimento > dataAtual) {
+                                    alert('A data de nascimento não pode ser no futuro.');
+                                    this.value = '';
+                                }
+                            });
+                        }
+                    }
+
+                    /**
+                     * Verifica o status do aluno e desabilita o botão de remoção se o aluno estiver "Removido"
+                     */
+                    function verificarStatusAluno() {
+                        var status = document.getElementById('status');
+                        if (status && status.value === 'Removido') {
+                            var btnRemover = document.getElementById('btnRemover');
+                            if (btnRemover) {
+                                btnRemover.disabled = true;
+                            }
+                        }
+                    }
+
+                    /**
+                     * Verifica se há mensagens de erro e habilita a edição se necessário
+                     */
                     function verificarErrosEhabilitarEdicao() {
                         var errorMessages = document.querySelectorAll('.error-message');
                         if (errorMessages.length > 0) {
@@ -191,35 +232,60 @@
                         }
                     }
 
-                    
                     var valoresOriginais = {};
 
+                    /**
+                     * Habilita o modo de edição dos campos
+                     */
                     function habilitarEdicao() {
                         var campos = document.querySelectorAll('input[type="text"], input[type="date"], select');
-                        campos.forEach(function (campo) {
+                        campos.forEach(function(campo) {
                             valoresOriginais[campo.id] = campo.value;
                             campo.removeAttribute('readonly');
                             campo.removeAttribute('disabled');
                         });
-                        document.getElementById('btnSalvar').style.display = 'block';
-                        document.getElementById('btnCancelar').style.display = 'inline-block';
+                        mostrarBotoesSalvarCancelar();
                     }
 
+                    /**
+                     * Cancela o modo de edição e restaura os valores originais dos campos
+                     */
                     function cancelarEdicao() {
                         var campos = document.querySelectorAll('input[type="text"], input[type="date"], select');
-                        campos.forEach(function (campo) {
+                        campos.forEach(function(campo) {
                             campo.value = valoresOriginais[campo.id] || '';
                             campo.setAttribute('readonly', true);
                             campo.setAttribute('disabled', true);
                         });
+                        esconderBotoesSalvarCancelar();
+                    }
+
+                    /**
+                     * Exibe os botões "Salvar" e "Cancelar"
+                     */
+                    function mostrarBotoesSalvarCancelar() {
+                        document.getElementById('btnSalvar').style.display = 'block';
+                        document.getElementById('btnCancelar').style.display = 'inline-block';
+                    }
+
+                    /**
+                     * Esconde os botões "Salvar" e "Cancelar"
+                     */
+                    function esconderBotoesSalvarCancelar() {
                         document.getElementById('btnSalvar').style.display = 'none';
                         document.getElementById('btnCancelar').style.display = 'none';
                     }
 
+                    /**
+                     * Exibe o modal de confirmação para remover o aluno
+                     */
                     function mostrarConfirmacao() {
                         document.getElementById('confirmacaoModal').classList.remove('hidden');
                     }
 
+                    /**
+                     * Esconde o modal de confirmação para remover o aluno
+                     */
                     function esconderConfirmacao() {
                         document.getElementById('confirmacaoModal').classList.add('hidden');
                     }

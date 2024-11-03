@@ -53,7 +53,7 @@
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="sexo" class="block text-sm font-medium text-yellow-500">Sexo</label>
                                 <select id="sexo" name="sexo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
-                                <option value="Masculino" {{ old('sexo') == 'Masculino' ? 'selected' : '' }}>Masculino</option>
+                                    <option value="Masculino" {{ old('sexo') == 'Masculino' ? 'selected' : '' }}>Masculino</option>
                                     <option value="Feminino" {{ old('sexo') == 'Feminino' ? 'selected' : '' }}>Feminino</option>
                                     <option value="Outro" {{ old('sexo') == 'Outro' ? 'selected' : '' }}>Outro</option>
                                 </select>
@@ -113,12 +113,17 @@
 
                             document.getElementById('nome').addEventListener('keypress', function(event) {
                                 const charCode = event.charCode;
-                                if (!(charCode >= 48 && charCode <= 57) && 
-                                    !(charCode >= 65 && charCode <= 90) && 
-                                    !(charCode >= 97 && charCode <= 122) && 
-                                    charCode !== 32) { 
+                                if (!(charCode >= 48 && charCode <= 57) &&
+                                    !(charCode >= 65 && charCode <= 90) &&
+                                    !(charCode >= 97 && charCode <= 122) &&
+                                    charCode !== 32) {
                                     event.preventDefault();
                                 }
+                            });
+
+                            document.getElementById('nome').addEventListener('input', function(event) {
+                                let value = event.target.value;
+                                event.target.value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
                             });
                         });
                     </script>

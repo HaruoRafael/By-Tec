@@ -12,15 +12,25 @@
                     <h2 class="text-2xl font-bold mb-4">Lista de Caixas</h2>
 
                     <form action="{{ route('caixas.index') }}" method="GET" class="mb-4">
-                        <label for="status" class="mr-2">Filtrar por Status:</label>
-                        <select name="status" id="status" class="border p-3 rounded-md bg-[#2d2d2d] text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                            <option value="" class="text-gray-500">Todos</option>
-                            <option value="aberto" {{ request('status') == 'aberto' ? 'selected' : '' }}>Aberto</option>
-                            <option value="fechado" {{ request('status') == 'fechado' ? 'selected' : '' }}>Fechado</option>
-                        </select>
+                        <label for="data_inicio" class="mr-2">Data de Início:</label>
+                        <input
+                            type="date"
+                            name="data_inicio"
+                            id="data_inicio"
+                            value="{{ request('data_inicio') }}"
+                            class="border p-3 rounded-md bg-[#2d2d2d] text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+
+                        <label for="data_fim" class="ml-4 mr-2">Data de Fim:</label>
+                        <input
+                            type="date"
+                            name="data_fim"
+                            id="data_fim"
+                            value="{{ request('data_fim') }}"
+                            class="border p-3 rounded-md bg-[#2d2d2d] text-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-500">
 
                         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded ml-2">Pesquisar</button>
                     </form>
+
                     @if (session('error'))
                     <div class="bg-red-500 text-white p-4 rounded mb-4">
                         {{ session('error') }}

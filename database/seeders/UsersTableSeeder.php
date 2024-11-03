@@ -34,20 +34,20 @@ class UsersTableSeeder extends Seeder
                 'cargo' => 'Professor',
                 'email' => 'professor@example.com',
                 'password' => Hash::make('password'),
-                'status' => 'Ativo', // Adicionando o campo status
+                'status' => 'Ativo', 
             ],
             [
                 'name' => 'Recepcionista Example',
                 'cpf' => '34567890123',
                 'rg' => '3456789',
                 'telefone' => '1122334455',
-                'sexo' => 'F',
+                'sexo' => 'Feminino',
                 'data_nascimento' => '1992-09-20',
                 'endereco' => 'Rua Outro Exemplo, 789',
                 'cargo' => 'Recepcionista',
                 'email' => 'recepcionista@example.com',
                 'password' => Hash::make('password'),
-                'status' => 'Ativo', // Adicionando o campo status
+                'status' => 'Ativo', 
             ],
         ]);
     }

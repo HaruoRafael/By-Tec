@@ -79,6 +79,7 @@
                             </div>
                         </div>
 
+                        @if($user->id !== 1)
                         <div class="mb-4">
                             <label for="cargo" class="block text-sm font-medium text-yellow-500">Cargo</label>
                             <select id="cargo" name="cargo" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50 bg-white" readonly disabled>
@@ -90,12 +91,13 @@
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
+                        @endif
 
                         <div class="mb-4">
                             <label for="email" class="block text-sm font-medium text-yellow-500">Email</label>
                             <input type="email" id="email" name="email" value="{{ $user->email }}" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50 bg-white" required readonly disabled>
                             @error('email')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
@@ -174,29 +176,29 @@
 
                     <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
                     <script>
-                        document.addEventListener('DOMContentLoaded', function () {
+                        document.addEventListener('DOMContentLoaded', function() {
                             new Cleave('#cpf', {
                                 delimiters: ['.', '.', '-'],
                                 blocks: [3, 3, 3, 2],
                                 numericOnly: true
                             });
 
-                            document.getElementById('rg').addEventListener('keypress', function (event) {
+                            document.getElementById('rg').addEventListener('keypress', function(event) {
                                 if (event.charCode < 48 || event.charCode > 57) {
                                     event.preventDefault();
                                 }
                             });
 
-                            document.getElementById('telefone').addEventListener('keypress', function (event) {
+                            document.getElementById('telefone').addEventListener('keypress', function(event) {
                                 const allowedChars = [32, 40, 41, 45, 43];
                                 if ((event.charCode < 48 || event.charCode > 57) && !allowedChars.includes(event.charCode)) {
                                     event.preventDefault();
                                 }
                             });
 
-                            document.getElementById('name').addEventListener('keypress', function (event) {
+                            document.getElementById('name').addEventListener('keypress', function(event) {
                                 const charCode = event.charCode;
-                                if (!(charCode >= 48 && charCode <= 57) &&  
+                                if (!(charCode >= 48 && charCode <= 57) &&
                                     !(charCode >= 65 && charCode <= 90) &&
                                     !(charCode >= 97 && charCode <= 122) &&
                                     charCode !== 32) {
@@ -204,11 +206,11 @@
                                 }
                             });
 
-                            document.getElementById('btnSalvar').addEventListener('click', function () {
+                            document.getElementById('btnSalvar').addEventListener('click', function() {
                                 document.querySelector('form').submit();
                             });
 
-                            document.getElementById('btnCancelar').addEventListener('click', function () {
+                            document.getElementById('btnCancelar').addEventListener('click', function() {
                                 cancelarEdicao();
                             });
 

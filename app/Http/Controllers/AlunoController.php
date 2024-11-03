@@ -6,7 +6,7 @@ use App\Models\Treino;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Aluno;
-use App\Models\Venda; 
+use App\Models\Venda;
 use App\Rules\CPF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -101,6 +101,9 @@ class AlunoController extends Controller
             'sexo.required' => 'O campo sexo é obrigatório.',
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
         ]);
+        if (Aluno::where('cpf', $request->input('cpf'))->exists()) {
+            return redirect()->back()->withErrors(['cpf' => 'Já existe uma conta com esse CPF.'])->withInput();
+        }
 
         $aluno = Aluno::create([
             'nome' => $request->input('nome'),
@@ -119,7 +122,7 @@ class AlunoController extends Controller
 
     public function show(Aluno $aluno)
     {
-        $treinosDisponiveis = Treino::all(); 
+        $treinosDisponiveis = Treino::all();
         return view('alunos.show', compact('aluno', 'treinosDisponiveis'));
     }
 
@@ -154,10 +157,12 @@ class AlunoController extends Controller
             'data_nascimento.required' => 'O campo data de nascimento é obrigatório.',
         ]);
 
-    
+        if (Aluno::where('cpf', $request->input('cpf'))->where('id', '!=', $id)->exists()) {
+            return redirect()->back()->withErrors(['cpf' => 'Já existe uma conta com esse CPF.'])->withInput();
+        }
+
         $aluno = Aluno::findOrFail($id);
 
- 
         $aluno->update([
             'nome' => $request->input('nome'),
             'cpf' => $request->input('cpf'),
@@ -168,12 +173,10 @@ class AlunoController extends Controller
             'endereco' => $request->input('endereco'),
         ]);
 
-
         $this->atualizarStatusAluno($aluno);
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Perfil do aluno atualizado com sucesso.');
     }
-
     public function destroy($id)
     {
         if (Auth::user()->cargo === 'Professor') {
@@ -222,7 +225,7 @@ class AlunoController extends Controller
             'treino_id' => 'required|exists:treinos,id',
         ]);
 
-        
+
         $aluno->treinos()->attach($request->input('treino_id'));
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Treino adicionado com sucesso.');
@@ -230,7 +233,7 @@ class AlunoController extends Controller
 
     public function removeTreino(Aluno $aluno, Treino $treino)
     {
-        
+
         $aluno->treinos()->detach($treino->id);
 
         return redirect()->route('alunos.show', $aluno->id)->with('success', 'Treino removido do perfil do aluno com sucesso.');

@@ -1,5 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
+    <script src="https://cdn.jsdelivr.net/npm/cleave.js@1.6.0/dist/cleave.min.js"></script>
+
         <h2 class="font-semibold text-xl text-yellow-500 dark:text-yellow-500 leading-tight">
             {{ __('Perfil do Aluno: ') }} {{ $aluno->nome }}
             <p>Status do Aluno: <strong>{{ $aluno->status }}</strong></p>
@@ -179,12 +181,6 @@
             document.getElementById('contratosAluno').classList.remove('hidden'); 
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            new Cleave('#cpf', {
-                delimiters: ['.', '.', '-'],
-                blocks: [3, 3, 3, 2],
-                numericOnly: true
-            });
-        });
+        
     </script>
 </x-app-layout>

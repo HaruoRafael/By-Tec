@@ -17,14 +17,14 @@
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2 mb-4 sm:mb-0">
                                 <label for="nome" class="block text-sm font-medium text-yellow-500">Nome*</label>
-                                <input type="text" name="nome" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" required>
+                                <input type="text" id="nome" name="nome" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" required>
                                 @error('nome')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="grupo_muscular" class="block text-sm font-medium text-yellow-500">Grupo Muscular*</label>
-                                <input type="text" name="grupo_muscular" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" required>
+                                <input type="text" id="grupo_muscular" name="grupo_muscular" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" required>
                                 @error('grupo_muscular')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
@@ -59,6 +59,21 @@
                             </button>
                         </div>
                     </form>
+
+                    <script>
+                        function removeAcentos(element) {
+                            let value = element.value;
+                            element.value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z\s]/g, '');
+                        }
+
+                        document.getElementById('nome').addEventListener('input', function() {
+                            removeAcentos(this);
+                        });
+
+                        document.getElementById('grupo_muscular').addEventListener('input', function() {
+                            removeAcentos(this);
+                        });
+                    </script>
                 </div>
             </div>
         </div>
