@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
             'cpf' => ['required', 'string', 'max:14', 'unique:users', new CPF],
             'rg' => ['nullable', 'string', 'max:20'],
             'telefone' => ['nullable', 'string', 'max:20'],
-            'sexo' => ['required', 'string', 'in:M,F,Outro'],
+            'sexo' => ['required', 'string', 'in:Masculino,Feminino,Outro'],
             'data_nascimento' => ['required', 'date'],
             'endereco' => ['nullable', 'string', 'max:255'],
             'cargo' => ['required', 'string', 'in:Professor,Recepcionista,Administrador'],
@@ -61,8 +61,8 @@ class RegisteredUserController extends Controller
             'password.confirmed' => 'A confirmação da senha não confere.',
         ]);
         $sexo = match ($request->sexo) {
-            'M' => 'Masculino',
-            'F' => 'Feminino',
+            'Masculino' => 'Masculino',
+            'Feminino' => 'Feminino',
             'Outro' => 'Outro',
         };
         

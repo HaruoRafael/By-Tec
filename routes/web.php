@@ -12,10 +12,15 @@ use App\Http\Controllers\VendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckRole;
 use App\Http\Controllers\DashboardController;
-// Página inicial
 Route::get('/', function () {
     return redirect ('/login');
 });
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password', [\App\Http\Controllers\Auth\PasswordResetLinkController::class, 'store'])->middleware('guest')->name('password.email');
 
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
