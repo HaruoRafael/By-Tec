@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Validation\ValidationException;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,13 +23,23 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->authenticate();
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        $request->session()->regenerate();
+        // Tenta autenticar o usuário
+        if (!Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
+            // Se a autenticação falhar, lança uma exceção com a mensagem personalizada
+            throw ValidationException::withMessages([
+                'email' => [__('A senha ou o email estão errados')], 
+            ]);
+        }
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Se a autenticação for bem-sucedida, redirecione para o local desejado
+        return redirect()->intended('dashboard');
     }
 
     /**
