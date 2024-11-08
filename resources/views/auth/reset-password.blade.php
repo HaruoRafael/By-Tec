@@ -5,10 +5,10 @@
         <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <!-- Email Address -->
-        <div>
+        <!-- Email Address (Hidden) -->
+        <div class="hidden">
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" readonly />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autocomplete="username" readonly />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 

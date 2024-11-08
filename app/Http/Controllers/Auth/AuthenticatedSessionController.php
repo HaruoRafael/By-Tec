@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -38,7 +37,18 @@ class AuthenticatedSessionController extends Controller
             ]);
         }
 
-        // Se a autenticação for bem-sucedida, redirecione para o local desejado
+        // Verifica o status do usuário autenticado
+        $user = Auth::user();
+        if ($user->status === 'Desativado') {
+            Auth::logout(); // Desloga o usuário desativado
+
+            // Lança uma exceção com uma mensagem informando que a conta foi desativada
+            throw ValidationException::withMessages([
+                'email' => ['Sua conta foi desativada. Por favor, contate o administrador.'],
+            ]);
+        }
+
+        // Se a autenticação for bem-sucedida e o usuário estiver ativo, redirecione para o local desejado
         return redirect()->intended('dashboard');
     }
 

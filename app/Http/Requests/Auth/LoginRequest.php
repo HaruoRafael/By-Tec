@@ -49,9 +49,9 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        // Verifica se o usuário está desativado
+        // Verificação do status do usuário
         $user = Auth::user();
-        if ($user->status === 'Desativado') {
+        if ($user->status === 'Desativado') { // Verifique se o valor no banco é realmente 'Desativado'
             Auth::logout(); // Desloga o usuário
 
             throw ValidationException::withMessages([
@@ -59,6 +59,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        // Limpeza da taxa de tentativas
         RateLimiter::clear($this->throttleKey());
     }
 
@@ -90,6 +91,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }
