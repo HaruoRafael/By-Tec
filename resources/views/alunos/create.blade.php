@@ -112,18 +112,14 @@
                             });
 
                             document.getElementById('nome').addEventListener('keypress', function(event) {
-                                const charCode = event.charCode;
-                                if (!(charCode >= 48 && charCode <= 57) &&
-                                    !(charCode >= 65 && charCode <= 90) &&
-                                    !(charCode >= 97 && charCode <= 122) &&
-                                    charCode !== 32) {
+                                const charCode = event.charCode || event.keyCode;
+                                const char = String.fromCharCode(charCode);
+
+                                const allowed = /^[a-zA-ZÀ-ÿ\s]+$/;
+
+                                if (!allowed.test(char)) {
                                     event.preventDefault();
                                 }
-                            });
-
-                            document.getElementById('nome').addEventListener('input', function(event) {
-                                let value = event.target.value;
-                                event.target.value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
                             });
                         });
                     </script>

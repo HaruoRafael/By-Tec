@@ -117,11 +117,11 @@
     </div>
 
     <script>
-        var valoresOriginais = {};
+        let valoresOriginais = {};
 
         function habilitarEdicao() {
-            var campos = document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], select, textarea');
-            campos.forEach(function(campo) {
+            const campos = document.querySelectorAll('input, select, textarea');
+            campos.forEach(campo => {
                 valoresOriginais[campo.name] = campo.value;
                 campo.removeAttribute('readonly');
                 campo.removeAttribute('disabled');
@@ -131,8 +131,8 @@
         }
 
         function cancelarEdicao() {
-            var campos = document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], select, textarea');
-            campos.forEach(function(campo) {
+            const campos = document.querySelectorAll('input, select, textarea');
+            campos.forEach(campo => {
                 campo.value = valoresOriginais[campo.name] || '';
                 campo.setAttribute('readonly', true);
                 campo.setAttribute('disabled', true);

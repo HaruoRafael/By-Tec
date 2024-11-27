@@ -24,7 +24,7 @@
 
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2">
-                                <label for="descricao" class="block text-sm font-medium text-yellow-500">Descrição</label>
+                                <label for="descricao" class="block text-sm font-medium text-yellow-500">Descrição*</label>
                                 <input type="text" id="descricao" name="descricao" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" required>
                             </div>
 
@@ -53,7 +53,7 @@
 
                         <div class="form-group flex flex-wrap mb-4">
                             <div class="w-full sm:w-1/2 px-2">
-                                <label for="plano" class="block text-sm font-medium text-yellow-500">Plano</label>
+                                <label for="plano" class="block text-sm font-medium text-yellow-500">Plano*</label>
                                 <select id="plano" name="plano_id" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-[#646cff] focus:ring-[#646cff] focus:ring-opacity-50" required onchange="calcularValorFinal()">
                                     @foreach($planos as $plano)
                                     <option value="{{ $plano->id }}" data-valor="{{ $plano->valor }}">{{ $plano->nome }} - R${{ number_format($plano->valor, 2, ',', '.') }}</option>

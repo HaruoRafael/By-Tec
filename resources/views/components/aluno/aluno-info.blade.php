@@ -288,7 +288,17 @@
                      */
                     function esconderConfirmacao() {
                         document.getElementById('confirmacaoModal').classList.add('hidden');
-                    }
+                    }~
+                    document.getElementById('nome').addEventListener('keypress', function(event) {
+                        const charCode = event.charCode || event.keyCode;
+                        const char = String.fromCharCode(charCode);
+
+                        const allowed = /^[a-zA-ZÀ-ÿ\s]+$/;
+
+                        if (!allowed.test(char)) {
+                            event.preventDefault();
+                        }
+                    });
                 </script>
             </div>
         </div>

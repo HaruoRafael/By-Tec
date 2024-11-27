@@ -12,24 +12,35 @@ class PlanoController extends Controller
     {
         $query = Plano::query();
 
-        if ($request->has('termo')) {
+        // Pesquisa por nome (com suporte a acentos)
+        if ($request->filled('termo')) { // Verifica se o termo não é vazio ou null
             $termo = strtolower($request->input('termo'));
-            $query->where(DB::raw('LOWER(nome)'), 'LIKE', "%{$termo}%");
+            $query->whereRaw("unaccent(LOWER(nome)) LIKE unaccent(?)", ["%{$termo}%"]);
         }
 
-        
-        if ($request->has('duracao')) {
+        // Filtro por valor máximo
+        if ($request->filled('valor')) {
+            $valor = $request->input('valor');
+            if (is_numeric($valor)) {
+                $query->where('valor', '<=', floatval($valor));
+            } else {
+                return redirect()->back()->withErrors(['valor' => 'O valor deve ser numérico.']);
+            }
+        }
+        // Filtro por duração
+        if ($request->filled('duracao')) { // Verifica se a duração não é vazia ou null
             $duracao = $request->input('duracao');
-            $query->where('duracao', '=', $duracao);
+            if (is_numeric($duracao)) { // Verifica se é numérico antes de aplicar o filtro
+                $query->where('duracao', '=', intval($duracao)); // Converte para inteiro
+            } else {
+                return redirect()->back()->withErrors(['duracao' => 'A duração deve ser um número válido.']);
+            }
         }
-
-
 
         $planos = $query->orderBy('nome')->paginate(10);
 
         return view('planos.index', compact('planos'));
     }
-
     public function create()
     {
         return view('planos.create');

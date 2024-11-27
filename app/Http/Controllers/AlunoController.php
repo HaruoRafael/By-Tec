@@ -53,30 +53,30 @@ class AlunoController extends Controller
     public function index(Request $request)
     {
         $this->verificarExpiracaoPlanos();
-
+    
         $query = Aluno::query();
-
+    
         if ($request->has('termo')) {
             $termo = strtolower($request->input('termo'));
-            $query->where(DB::raw('LOWER(nome)'), 'LIKE', "%{$termo}%");
+            $query->whereRaw("unaccent(LOWER(nome)) LIKE unaccent(?)", ["%{$termo}%"]);
         }
-
+    
         if ($request->has('cpf')) {
             $cpf = $request->input('cpf');
             $query->where('cpf', 'LIKE', "%{$cpf}%");
         }
-
+    
         $status = $request->input('status', []);
         if (!empty($status)) {
             $query->whereIn('status', $status);
         }
-
+    
         if (!in_array('Removido', $status)) {
             $query->where('status', '!=', 'Removido');
         }
-
+    
         $alunos = $query->orderBy('nome')->paginate(10);
-
+    
         return view('alunos.index', compact('alunos'));
     }
 

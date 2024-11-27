@@ -35,12 +35,12 @@ class NewPasswordController extends Controller
             'password' => [
                 'required',
                 'confirmed',
-                'min:8', // Validação para mínimo de 8 caracteres
+                'min:8', 
                 Rules\Password::defaults(),
             ],
         ], [
-            'password.min' => 'A senha deve ter pelo menos 8 caracteres.', // Mensagem personalizada
-            'password.confirmed' => 'As senhas não coincidem.', // Mensagem para confirmação
+            'password.min' => 'A senha deve ter pelo menos 8 caracteres.', 
+            'password.confirmed' => 'As senhas não coincidem.', 
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -58,10 +58,9 @@ class NewPasswordController extends Controller
             }
         );
 
-        // Se a senha foi redefinida com sucesso
         return $status == Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', 'Sua senha foi redefinida com sucesso!') // Mensagem personalizada
+            ? redirect()->route('login')->with('status', 'Sua senha foi redefinida com sucesso!') 
             : back()->withInput($request->only('email'))
-            ->withErrors(['email' => __('Este token de redefinição de senha é inválido.')]); // Mensagem personalizada
+            ->withErrors(['email' => __('Este token de redefinição de senha é inválido.')]); 
     }
 }

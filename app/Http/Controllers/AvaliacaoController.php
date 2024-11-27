@@ -25,27 +25,63 @@ class AvaliacaoController extends Controller
         $request->validate([
             'avaliador' => 'required|string|max:255',
             'data' => 'required|date',
-            'altura' => 'required|numeric',
-            'idade' => 'required|integer',
-            'peso' => 'required|numeric',
-            'porcentagem_gordura' => 'required|numeric',
-            'braco_direito_gordura' => 'required|numeric',
-            'braco_esquerdo_gordura' => 'required|numeric',
-            'perna_direita_gordura' => 'required|numeric',
-            'perna_esquerda_gordura' => 'required|numeric',
-            'tronco_gordura' => 'required|numeric',
-            'massa_muscular' => 'required|numeric',
-            'braco_direito_muscular' => 'required|numeric',
-            'braco_esquerdo_muscular' => 'required|numeric',
-            'perna_direita_muscular' => 'required|numeric',
-            'perna_esquerda_muscular' => 'required|numeric',
-            'tronco_muscular' => 'required|numeric',
-            'massa_ossea' => 'required|numeric',
-            'gordura_visceral' => 'required|numeric',
-            'porcentagem_agua' => 'required|numeric',
-            'taxa_metabolica_basal' => 'required|numeric',
-            'idade_metabolica' => 'required|integer',
+            'altura' => 'required|numeric|between:0,3',
+            'idade' => 'required|integer|min:1|max:120',
+            'peso' => 'required|numeric|min:1|max:300',
+            'porcentagem_gordura' => 'required|numeric|between:0,100',
+            'braco_direito_gordura' => 'required|numeric|between:0,100',
+            'braco_esquerdo_gordura' => 'required|numeric|between:0,100',
+            'perna_direita_gordura' => 'required|numeric|between:0,100',
+            'perna_esquerda_gordura' => 'required|numeric|between:0,100',
+            'tronco_gordura' => 'required|numeric|between:0,100',
+            'massa_muscular' => 'required|numeric|min:1|max:200',
+            'braco_direito_muscular' => 'required|numeric|min:1|max:100',
+            'braco_esquerdo_muscular' => 'required|numeric|min:1|max:100',
+            'perna_direita_muscular' => 'required|numeric|min:1|max:100',
+            'perna_esquerda_muscular' => 'required|numeric|min:1|max:100',
+            'tronco_muscular' => 'required|numeric|min:1|max:200',
+            'massa_ossea' => 'required|numeric|min:1|max:100',
+            'gordura_visceral' => 'required|numeric|min:1|max:30',
+            'porcentagem_agua' => 'required|numeric|between:0,100',
+            'taxa_metabolica_basal' => 'required|numeric|min:500|max:5000',
+            'idade_metabolica' => 'required|integer|min:1|max:120',
+        ], [
+            'required' => 'O campo :attribute é obrigatório.',
+            'numeric' => 'O campo :attribute deve ser um número válido.',
+            'integer' => 'O campo :attribute deve ser um número inteiro.',
+            'between' => 'O campo :attribute deve estar entre :min e :max.',
+            'min' => 'O campo :attribute deve ser pelo menos :min.',
+            'max' => 'O campo :attribute não pode ser maior que :max.',
         ]);
+
+        $data = $request->all();
+
+        $camposNumericos = [
+            'altura',
+            'peso',
+            'porcentagem_gordura',
+            'braco_direito_gordura',
+            'braco_esquerdo_gordura',
+            'perna_direita_gordura',
+            'perna_esquerda_gordura',
+            'tronco_gordura',
+            'massa_muscular',
+            'braco_direito_muscular',
+            'braco_esquerdo_muscular',
+            'perna_direita_muscular',
+            'perna_esquerda_muscular',
+            'tronco_muscular',
+            'massa_ossea',
+            'gordura_visceral',
+            'porcentagem_agua',
+            'taxa_metabolica_basal'
+        ];
+
+        foreach ($camposNumericos as $campo) {
+            if (isset($data[$campo])) {
+                $data[$campo] = number_format((float) $data[$campo], 2, '.', '');
+            }
+        }
 
         $avaliacao = new Avaliacao($request->all());
         $avaliacao->aluno_id = $alunoId;
@@ -70,61 +106,52 @@ class AvaliacaoController extends Controller
         $request->validate([
             'avaliador' => 'required|string|max:255',
             'data' => 'required|date',
-            'altura' => 'required|numeric',
-            'idade' => 'required|integer',
-            'peso' => 'required|numeric',
-            'porcentagem_gordura' => 'required|numeric',
-            'braco_direito_gordura' => 'required|numeric',
-            'braco_esquerdo_gordura' => 'required|numeric',
-            'perna_direita_gordura' => 'required|numeric',
-            'perna_esquerda_gordura' => 'required|numeric',
-            'tronco_gordura' => 'required|numeric',
-            'massa_muscular' => 'required|numeric',
-            'braco_direito_muscular' => 'required|numeric',
-            'braco_esquerdo_muscular' => 'required|numeric',
-            'perna_direita_muscular' => 'required|numeric',
-            'perna_esquerda_muscular' => 'required|numeric',
-            'tronco_muscular' => 'required|numeric',
-            'massa_ossea' => 'required|numeric',
-            'gordura_visceral' => 'required|numeric',
-            'porcentagem_agua' => 'required|numeric',
-            'taxa_metabolica_basal' => 'required|numeric',
-            'idade_metabolica' => 'required|integer',
+            'altura' => 'required|numeric|between:0,3',
+            'idade' => 'required|integer|min:1|max:120',
+            'peso' => 'required|numeric|min:1|max:300',
+            'porcentagem_gordura' => 'required|numeric|between:0,100',
+            'braco_direito_gordura' => 'required|numeric|between:0,100',
+            'braco_esquerdo_gordura' => 'required|numeric|between:0,100',
+            'perna_direita_gordura' => 'required|numeric|between:0,100',
+            'perna_esquerda_gordura' => 'required|numeric|between:0,100',
+            'tronco_gordura' => 'required|numeric|between:0,100',
+            'massa_muscular' => 'required|numeric|min:1|max:200',
+            'braco_direito_muscular' => 'required|numeric|min:1|max:100',
+            'braco_esquerdo_muscular' => 'required|numeric|min:1|max:100',
+            'perna_direita_muscular' => 'required|numeric|min:1|max:100',
+            'perna_esquerda_muscular' => 'required|numeric|min:1|max:100',
+            'tronco_muscular' => 'required|numeric|min:1|max:200',
+            'massa_ossea' => 'required|numeric|min:1|max:100',
+            'gordura_visceral' => 'required|numeric|min:1|max:30',
+            'porcentagem_agua' => 'required|numeric|between:0,100',
+            'taxa_metabolica_basal' => 'required|numeric|min:500|max:5000',
+            'idade_metabolica' => 'required|integer|min:1|max:120',
         ], [
-            'avaliador.required' => 'O campo avaliador é obrigatório.',
-            'data.required' => 'O campo data é obrigatório.',
-            'altura.required' => 'O campo altura é obrigatório.',
-            'idade.required' => 'O campo idade é obrigatório.',
-            'peso.required' => 'O campo peso é obrigatório.',
-            'porcentagem_gordura.required' => 'O campo porcentagem de gordura é obrigatório.',
+            'required' => 'O campo :attribute é obrigatório.',
+            'numeric' => 'O campo :attribute deve ser um número válido.',
+            'integer' => 'O campo :attribute deve ser um número inteiro.',
+            'between' => 'O campo :attribute deve estar entre :min e :max.',
+            'min' => 'O campo :attribute deve ser pelo menos :min.',
+            'max' => 'O campo :attribute não pode ser maior que :max.',
         ]);
 
         $avaliacao = Avaliacao::findOrFail($id);
+        $data = $request->all();
 
-        $avaliacao->avaliador = $request->input('avaliador');
-        $avaliacao->data = $request->input('data');
-        $avaliacao->altura = $request->input('altura');
-        $avaliacao->idade = $request->input('idade');
-        $avaliacao->peso = $request->input('peso');
-        $avaliacao->porcentagem_gordura = $request->input('porcentagem_gordura');
-        $avaliacao->braco_direito_gordura = $request->input('braco_direito_gordura');
-        $avaliacao->braco_esquerdo_gordura = $request->input('braco_esquerdo_gordura');
-        $avaliacao->perna_direita_gordura = $request->input('perna_direita_gordura');
-        $avaliacao->perna_esquerda_gordura = $request->input('perna_esquerda_gordura');
-        $avaliacao->tronco_gordura = $request->input('tronco_gordura');
-        $avaliacao->massa_muscular = $request->input('massa_muscular');
-        $avaliacao->braco_direito_muscular = $request->input('braco_direito_muscular');
-        $avaliacao->braco_esquerdo_muscular = $request->input('braco_esquerdo_muscular');
-        $avaliacao->perna_direita_muscular = $request->input('perna_direita_muscular');
-        $avaliacao->perna_esquerda_muscular = $request->input('perna_esquerda_muscular');
-        $avaliacao->tronco_muscular = $request->input('tronco_muscular');
-        $avaliacao->massa_ossea = $request->input('massa_ossea');
-        $avaliacao->gordura_visceral = $request->input('gordura_visceral');
-        $avaliacao->porcentagem_agua = $request->input('porcentagem_agua');
-        $avaliacao->taxa_metabolica_basal = $request->input('taxa_metabolica_basal');
-        $avaliacao->idade_metabolica = $request->input('idade_metabolica');
+        $camposNumericos = [
+            'altura', 'peso', 'porcentagem_gordura', 'braco_direito_gordura', 'braco_esquerdo_gordura',
+            'perna_direita_gordura', 'perna_esquerda_gordura', 'tronco_gordura', 'massa_muscular',
+            'braco_direito_muscular', 'braco_esquerdo_muscular', 'perna_direita_muscular', 'perna_esquerda_muscular',
+            'tronco_muscular', 'massa_ossea', 'gordura_visceral', 'porcentagem_agua', 'taxa_metabolica_basal'
+        ];
+    
+        foreach ($camposNumericos as $campo) {
+            if (isset($data[$campo])) {
+                $data[$campo] = number_format((float) $data[$campo], 2, '.', '');
+            }
+        }
+        $avaliacao->update($data);
 
-        $avaliacao->save();
 
         return redirect()->route('avaliacoes.show', $avaliacao->id)->with('success', 'Avaliação atualizada com sucesso.');
     }

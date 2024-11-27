@@ -43,7 +43,7 @@
                                 @enderror
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
-                                <label for="observacoes" class="block text-sm font-medium text-yellow-500">Observações*</label>
+                                <label for="observacoes" class="block text-sm font-medium text-yellow-500">Observações</label>
                                 <textarea name="observacoes" rows="4" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 p-3 resize-none" placeholder="Insira qualquer observação relevante aqui..."></textarea>
                                 @error('observacoes')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -61,17 +61,18 @@
                     </form>
 
                     <script>
-                        function removeAcentos(element) {
+                        function removeCaracteresIndesejados(element) {
                             let value = element.value;
-                            element.value = value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z\s]/g, '');
+                            // Permitir letras, números, espaços e acentos
+                            element.value = value.replace(/[^a-zA-ZÀ-ÿ0-9\s]/g, '');
                         }
 
                         document.getElementById('nome').addEventListener('input', function() {
-                            removeAcentos(this);
+                            removeCaracteresIndesejados(this);
                         });
 
                         document.getElementById('grupo_muscular').addEventListener('input', function() {
-                            removeAcentos(this);
+                            removeCaracteresIndesejados(this);
                         });
                     </script>
                 </div>

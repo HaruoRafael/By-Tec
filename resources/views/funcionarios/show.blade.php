@@ -196,12 +196,13 @@
                                 }
                             });
 
-                            document.getElementById('name').addEventListener('keypress', function(event) {
-                                const charCode = event.charCode;
-                                if (!(charCode >= 48 && charCode <= 57) &&
-                                    !(charCode >= 65 && charCode <= 90) &&
-                                    !(charCode >= 97 && charCode <= 122) &&
-                                    charCode !== 32) {
+                            document.getElementById('nome').addEventListener('keypress', function(event) {
+                                const charCode = event.charCode || event.keyCode;
+                                const char = String.fromCharCode(charCode);
+
+                                const allowed = /^[a-zA-ZÀ-ÿ\s]+$/;
+
+                                if (!allowed.test(char)) {
                                     event.preventDefault();
                                 }
                             });

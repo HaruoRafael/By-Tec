@@ -20,8 +20,9 @@ class ProfileController extends Controller
 
         if ($request->has('termo')) {
             $termo = strtolower($request->input('termo'));
-            $query->where(DB::raw('LOWER(name)'), 'LIKE', "%{$termo}%");
+            $query->whereRaw("unaccent(LOWER(name)) LIKE unaccent(?)", ["%{$termo}%"]);
         }
+
 
         if ($request->has('cpf')) {
             $cpf = $request->input('cpf');
