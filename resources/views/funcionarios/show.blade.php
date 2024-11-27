@@ -144,7 +144,7 @@
                         @csrf
                         <button type="button" id="btnReativar" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700" onclick="mostrarConfirmacaoReativacao()">Reativar</button>
                     </form>
-                    @else
+                    @elseif($user->id !== 1)
                     <form id="formRemoverFuncionario" action="{{ route('funcionarios.remove', $user->id) }}" method="POST" class="mt-10">
                         @csrf
                         @method('DELETE')

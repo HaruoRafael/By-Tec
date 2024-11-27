@@ -46,7 +46,7 @@
                             </div>
                             <div class="w-full sm:w-1/2 px-2">
                                 <label for="observacoes" class="block text-sm font-medium text-yellow-500">Observações</label>
-                                <textarea name="observacoes" rows="4" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 p-3 resize-none" placeholder="Insira qualquer observação relevante aqui..."></textarea>
+                                <textarea name="observacoes" id="observacoes" rows="4" class="mt-1 block w-full text-black rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 p-3 resize-none" readonly disabled>{{ $exercicio->observacoes }}</textarea>
                                 @error('observacoes')
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                                 @enderror
